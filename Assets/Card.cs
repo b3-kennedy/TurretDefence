@@ -3,9 +3,13 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
+using System.Collections.Generic;
+
 public class Card : NetworkBehaviour
 {
     public RarityAndSpawnChance.Rarity rarity;
+
+    public int debuffCount = 1;
 
     public string titleString;
 
@@ -13,26 +17,38 @@ public class Card : NetworkBehaviour
     [HideInInspector] public TextMeshProUGUI buff;
     [HideInInspector] public TextMeshProUGUI debuffText;
 
-    Buff buffScript;
-    public Debuff debuffScript;
-
-    float debuffAmount;
+    List<Buff> buffScripts = new List<Buff>();
+    List<Debuff> debuffScripts = new List<Debuff>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        buffScript = GetComponent<Buff>();
-
         title = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         buff = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
         debuffText = transform.GetChild(5).GetComponent<TextMeshProUGUI>();
 
-        title.text = buffScript.buffName;
-
         
-        buffScript.rarity = rarity;
 
-        if(rarity != RarityAndSpawnChance.Rarity.DIVINE)
+        // Generate Buffs
+        buffScripts.AddRange(GetComponents<Buff>());
+        foreach (Buff buff in buffScripts)
+        {
+            buff.rarity = rarity;
+        }
+
+        debuffScripts.AddRange(GetComponents<Debuff>());
+        foreach (Debuff debuff in debuffScripts)
+        {
+            debuff.rarity = rarity;
+        }
+
+
+         title.text = buffScripts[0].buffName;
+
+        // Generate Debuffs
+
+        int numDebuffs = Random.Range(0, debuffCount); // Add 1-2 debuffs
+        for (int i = 0; i < numDebuffs; i++)
         {
             int randomNum = Random.Range(0, UpgradeManager.Instance.debuffs.Count);
 
@@ -45,82 +61,96 @@ public class Card : NetworkBehaviour
             if (addedDebuff is Debuff debuff)
             {
                 debuff.rarity = rarity;
-                debuffScript = debuff;
-                debuffScript.debuffName = debuffAndName.debuffName;
-                debuffScript.debuffValues = debuffValues;
-                debuffScript.Setup();
-                debuffAmount = debuffScript.debuffAmount;
-
+                debuff.debuffName = debuffAndName.debuffName;
+                debuff.debuffValues = debuffValues;
+                debuff.Setup();
+                debuffScripts.Add(debuff);
             }
-
-
-
-
-
-            
         }
+        
 
         GetComponent<Button>().onClick.AddListener(ApplyEffects);
+        UpdateText();
     }
 
     public void UpdateText()
     {
-        if(buffScript.buffAmount < 1)
+        // Update Buff Text
+        string buffText = "";
+        foreach (var buffScript in buffScripts)
         {
-            buff.text = "+ " + (buffScript.buffAmount * 100).ToString("F1") + "% " + buffScript.buffName;
+            if (buffScript.buffAmount < 1 && buffScript.buffAmount >= 0)
+            {
+                buffText += "+ " + (buffScript.buffAmount * 100).ToString("F1") + "% " + buffScript.buffName + "\n";
+            }
+            else if(buffScript.buffAmount >= 1)
+            {
+                buffText += "+ " + (buffScript.buffAmount).ToString("F1") + " " + buffScript.buffName + "\n";
+            }
+            else if(buffScript.buffAmount < 0)
+            {
+                buffText += "- " + (buffScript.buffAmount*-1).ToString("F1") + " " + buffScript.buffName + "\n";
+            }
+            else if(buffScript.buffAmount == 0)
+            {
+                buffText += "+ " + buffScript.buffName + "\n";
+            }
         }
-        else
-        {
-            buff.text = "+ " + (buffScript.buffAmount).ToString("F1") + " " + buffScript.buffName;
-        }
+        buff.text = buffText.TrimEnd();
 
-        if(debuffScript.debuffAmount < 1)
+        // Update Debuff Text
+        string deText = "";
+        foreach (var debuffScript in debuffScripts)
         {
-            debuffText.text = "- " + (debuffScript.debuffAmount * 100).ToString("F1") + "% " + debuffScript.debuffName;
-        }
-        else
-        {
-            debuffText.text = "- " + (debuffScript.debuffAmount).ToString("F1") + " " + debuffScript.debuffName;
+            if (debuffScript.debuffAmount < 1)
+            {
+                deText += "- " + (debuffScript.debuffAmount * 100).ToString("F1") + "% " + debuffScript.debuffName + "\n";
+            }
+            else
+            {
+                deText += "- " + (debuffScript.debuffAmount).ToString("F1") + " " + debuffScript.debuffName + "\n";
+            }
+            debuffText.text = deText.TrimEnd();
         }
         
     }
 
     public void ApplyEffects()
     {
-
         if (EnemySpawnManager.Instance.localPlayer.GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId) return;
 
-        var buffComp = EnemySpawnManager.Instance.localPlayer.AddComponent(buffScript.GetType());
-
-        if(buffComp is Buff buff) 
+        // Apply all Buffs
+        foreach (var buffScript in buffScripts)
         {
-            buff.buffAmount = buffScript.buffAmount;
+            var buffComp = EnemySpawnManager.Instance.localPlayer.AddComponent(buffScript.GetType());
+            if (buffComp is Buff buff)
+            {
+                buff.buffAmount = buffScript.buffAmount;
+            }
         }
 
-
-        if(debuffScript != null)
+        // Apply all Debuffs
+        foreach (var debuffScript in debuffScripts)
         {
             int index = 0;
             foreach (var debuff in UpgradeManager.Instance.debuffs)
             {
                 if (debuff.debuff.GetType() == debuffScript.GetType())
                 {
-                    UpgradeManager.Instance.ApplyDebuffServerRpc(NetworkManager.Singleton.LocalClientId, index, debuffAmount);
+                    UpgradeManager.Instance.ApplyDebuffServerRpc(NetworkManager.Singleton.LocalClientId, index, debuffScript.debuffAmount);
                 }
                 index++;
             }
         }
 
-
-        
-
         UpgradeManager.Instance.HideInterface();
-
     }
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+

@@ -7,6 +7,14 @@ public class AmmoCountBuff : Buff
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+        Apply();
+
+
+    }
+
+    public override void Apply()
+    {
         if (GetComponent<TurretController>())
         {
             GetComponent<TurretController>().maxAmmoCount += (int)buffAmount;
@@ -34,9 +42,6 @@ public class AmmoCountBuff : Buff
                 GetComponent<Card>().UpdateText();
             }
         }
-
-
-
     }
 }
 

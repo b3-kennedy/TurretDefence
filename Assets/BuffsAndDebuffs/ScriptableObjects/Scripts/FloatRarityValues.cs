@@ -14,4 +14,10 @@ public class FloatRarityValues : ScriptableObject
 
     public float minLegendaryValue;
     public float maxLegendaryValue;
+
+    public float minDivineValue;
+    public float maxDivineValue;
+
+    public float minDemonicValue;
+    public float maxDemonicValue;
 }

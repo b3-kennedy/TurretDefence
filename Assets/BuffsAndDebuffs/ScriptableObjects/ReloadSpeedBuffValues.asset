@@ -20,3 +20,7 @@ MonoBehaviour:
   maxEpicValue: 0.15
   minLegendaryValue: 0.15
   maxLegendaryValue: 0.2
+  minDivineValue: 0
+  maxDivineValue: 0
+  minDemonicValue: 0.5
+  maxDemonicValue: 0.9

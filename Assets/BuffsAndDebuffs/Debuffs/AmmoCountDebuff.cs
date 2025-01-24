@@ -20,21 +20,26 @@ public class AmmoCountDebuff : Debuff
             values = val;
         }
 
-        switch (rarity)
+        if (canRandomlyAssignValue)
         {
-            case RarityAndSpawnChance.Rarity.COMMON:
-                debuffAmount = Random.Range(values.minCommonValue, values.maxCommonValue);
-                break;
-            case RarityAndSpawnChance.Rarity.RARE:
-                debuffAmount = Random.Range(values.minRareValue, values.maxRareValue);
-                break;
-            case RarityAndSpawnChance.Rarity.EPIC:
-                debuffAmount = Random.Range(values.minEpicValue, values.maxEpicValue);
-                break;
-            case RarityAndSpawnChance.Rarity.LEGENDARY:
-                debuffAmount = Random.Range(values.minLegendaryValue, values.maxLegendaryValue);
-                break;
+            switch (rarity)
+            {
+                case RarityAndSpawnChance.Rarity.COMMON:
+                    debuffAmount = Random.Range(values.minCommonValue, values.maxCommonValue);
+                    break;
+                case RarityAndSpawnChance.Rarity.RARE:
+                    debuffAmount = Random.Range(values.minRareValue, values.maxRareValue);
+                    break;
+                case RarityAndSpawnChance.Rarity.EPIC:
+                    debuffAmount = Random.Range(values.minEpicValue, values.maxEpicValue);
+                    break;
+                case RarityAndSpawnChance.Rarity.LEGENDARY:
+                    debuffAmount = Random.Range(values.minLegendaryValue, values.maxLegendaryValue);
+                    break;
+            }
         }
+
+
         base.Setup();
     }
 

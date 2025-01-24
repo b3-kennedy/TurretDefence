@@ -885,7 +885,7 @@ MonoBehaviour:
   m_ProtocolType: 0
   m_UseWebSockets: 0
   m_UseEncryption: 0
-  m_MaxPacketQueueSize: 256
+  m_MaxPacketQueueSize: 512
   m_MaxPayloadSize: 6144
   m_HeartbeatTimeoutMS: 500
   m_ConnectTimeoutMS: 1000
@@ -1691,8 +1691,9 @@ MonoBehaviour:
     - {fileID: 506163310617122084, guid: 2ad4b1a57be21724b91763b5a3c8d1a8, type: 3}
     - {fileID: 506163310617122084, guid: e7a612dfc78194842b32c6b7d066c4ef, type: 3}
     - {fileID: 506163310617122084, guid: d6fcad475100a6944a707c7ff40b2333, type: 3}
+    - {fileID: 2120816840640836426, guid: 82d6398d8bb043740b01dd51d8dcb168, type: 3}
   - rarity: 1
-    spawnChance: 30
+    spawnChance: 37
     cards:
     - {fileID: 8522023696672716559, guid: 6e1ab84b6153d1d458fa72262730e9f2, type: 3}
     - {fileID: 8522023696672716559, guid: b51be40bf9eb3324f8d85dc1be5a4689, type: 3}
@@ -1700,13 +1701,15 @@ MonoBehaviour:
     - {fileID: 8522023696672716559, guid: 797e440465d3f854fbc492bedbc0c0f4, type: 3}
     - {fileID: 8522023696672716559, guid: d788dc5e73ca2934d9d3534cd1780081, type: 3}
   - rarity: 2
-    spawnChance: 17
+    spawnChance: 10
     cards:
     - {fileID: 1288794768723064984, guid: 5ef1a802ca39f3848aee2de37a6af9b4, type: 3}
     - {fileID: 1288794768723064984, guid: 50f1592a0431f6641a8d9be4278c0a22, type: 3}
     - {fileID: 1288794768723064984, guid: 84867f37770f2174c82a7bc9317af750, type: 3}
     - {fileID: 1288794768723064984, guid: 81034ecb7eaf4d5459ec34e1fa17cfac, type: 3}
     - {fileID: 1288794768723064984, guid: 3d693696813331649a998cd08d36f8ea, type: 3}
+    - {fileID: 1288794768723064984, guid: 893b37990c11b5f4080fc2c7b90ca12a, type: 3}
+    - {fileID: 1288794768723064984, guid: f91f5ff5bc992764fbe5f1ef4d084b3d, type: 3}
   - rarity: 3
     spawnChance: 2
     cards:
@@ -1715,18 +1718,18 @@ MonoBehaviour:
     - {fileID: 2120816840640836426, guid: aac61bfd26d0e8a4b9253f4fcc9f5329, type: 3}
     - {fileID: 2120816840640836426, guid: 2fad2357ab972bd41a62bae19c9ffed6, type: 3}
     - {fileID: 2120816840640836426, guid: fb752b73016eff845b54ffca93af580d, type: 3}
+    - {fileID: 2120816840640836426, guid: e4969dca4e7f6c547bc6606e55121b46, type: 3}
+    - {fileID: 2120816840640836426, guid: 7b2918d2689601b4b9beef00a40a1af8, type: 3}
   - rarity: 4
     spawnChance: 0.5
     cards:
     - {fileID: 2120816840640836426, guid: 53a62a86dd4fb9542bc9945a9edc2495, type: 3}
+    - {fileID: 2120816840640836426, guid: 8e285d4a21c332849bf40f9cd3fe1a95, type: 3}
   - rarity: 5
     spawnChance: 0.5
     cards:
-    - {fileID: 2120816840640836426, guid: b3ff67e8a0e79714f9594b18a2e52090, type: 3}
-    - {fileID: 2120816840640836426, guid: 0268f1eb10c3fd64a935a521b2f9e49b, type: 3}
-    - {fileID: 2120816840640836426, guid: aac61bfd26d0e8a4b9253f4fcc9f5329, type: 3}
-    - {fileID: 2120816840640836426, guid: 2fad2357ab972bd41a62bae19c9ffed6, type: 3}
-    - {fileID: 2120816840640836426, guid: fb752b73016eff845b54ffca93af580d, type: 3}
+    - {fileID: 2120816840640836426, guid: b3e059b2702a7234dbddb3e14421ed96, type: 3}
+    - {fileID: 2120816840640836426, guid: b6ece0853952dd84f90826d9d7dcc0b9, type: 3}
   upgradeUi: {fileID: 0}
   cardParent: {fileID: 0}
   debuffs:

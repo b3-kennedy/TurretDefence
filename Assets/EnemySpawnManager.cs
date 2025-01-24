@@ -42,7 +42,8 @@ public class EnemySpawnManager : NetworkBehaviour
     {
         waveCount = 1;
         Physics2D.IgnoreLayerCollision(3, 3);
-        Physics.IgnoreLayerCollision(7, 6);
+        Physics2D.IgnoreLayerCollision(7, 6);
+        Physics2D.IgnoreLayerCollision(7, 7);
     }
 
     Vector2 GetSpawnPoint()

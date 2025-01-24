@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d2149b16e0104547bcea600a8bcad23, type: 3}
   m_Name: ReloadSpeedDebuffValues
   m_EditorClassIdentifier: 
-  minCommonValue: 0.01
-  maxCommonValue: 0.05
+  minCommonValue: 0.075
+  maxCommonValue: 0.1
   minRareValue: 0.05
-  maxRareValue: 0.1
-  minEpicValue: 0.1
-  maxEpicValue: 0.15
-  minLegendaryValue: 0.15
-  maxLegendaryValue: 0.2
+  maxRareValue: 0.075
+  minEpicValue: 0.025
+  maxEpicValue: 0.05
+  minLegendaryValue: 0.025
+  maxLegendaryValue: 0.005

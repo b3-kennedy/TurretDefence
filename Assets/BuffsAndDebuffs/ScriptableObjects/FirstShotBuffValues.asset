@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d2149b16e0104547bcea600a8bcad23, type: 3}
+  m_Name: FirstShotBuffValues
+  m_EditorClassIdentifier: 
+  minCommonValue: 0
+  maxCommonValue: 0
+  minRareValue: 0
+  maxRareValue: 0
+  minEpicValue: 1
+  maxEpicValue: 1.5
+  minLegendaryValue: 1.5
+  maxLegendaryValue: 2
+  minDivineValue: 0
+  maxDivineValue: 0
+  minDemonicValue: 0
+  maxDemonicValue: 0

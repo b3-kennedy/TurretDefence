@@ -82,8 +82,6 @@ public class UpgradeManager : NetworkBehaviour
                 
                 if (num < cumulativeChance)
                 {
-                    Debug.Log(num);
-                    Debug.Log(cumulativeChance);
                     int cardIndex = Random.Range(0, rarityAndSpawnChances[j].cards.Count);
                     Instantiate(rarityAndSpawnChances[j].cards[cardIndex], cardParent);
 

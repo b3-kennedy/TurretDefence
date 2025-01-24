@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9003771918349503585}
   - component: {fileID: 1542063143415128177}
   - component: {fileID: 5007116306396681863}
+  - component: {fileID: -2423177926464376571}
   - component: {fileID: 5010923928470183840}
   m_Layer: 5
   m_Name: FireRateCommonCard
@@ -124,12 +125,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
+  debuffCount: 1
   titleString: 
   title: {fileID: 8433145809934507316}
   buff: {fileID: 1978343722381164305}
   debuffText: {fileID: 0}
-  buffScript: {fileID: 5007116306396681863}
-  debuffScript: {fileID: 0}
 --- !u!114 &5007116306396681863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,8 +145,26 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   buffAmount: 0
-  buffName: FIRE RATE
+  buffName: Fire Rate
   values: {fileID: 11400000, guid: ee475d489f774b340a58924f2985f514, type: 2}
+  canRandomlyAssignValue: 1
+--- !u!114 &-2423177926464376571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506163310617122084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3e7d69a0dd1c844bb1ced36a67e551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  rarity: 0
+  buffAmount: 0
+  buffName: Ammo Count
+  values: {fileID: 11400000, guid: 8e8e08ed1d4f4324d98567ca8bf54e5d, type: 2}
 --- !u!114 &5010923928470183840
 MonoBehaviour:
   m_ObjectHideFlags: 0

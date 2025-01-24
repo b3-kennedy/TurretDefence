@@ -26,6 +26,10 @@ public class DealDamage : NetworkBehaviour
     {
         if (other.transform.GetComponent<EnemyHealth>())
         {
+            if (GetComponent<CheckAOE>())
+            {
+                GetComponent<CheckAOE>().DealDamageAOE();
+            }
             var id = GetComponent<NetworkObject>().NetworkObjectId;
             other.transform.GetComponent<EnemyHealth>().TakeDamageServerRpc(damage);
             gameObject.SetActive(false);

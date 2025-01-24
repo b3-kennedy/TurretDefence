@@ -532,11 +532,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 4
+  debuffCount: 0
   titleString: 
   title: {fileID: 3860435237278359086}
   buff: {fileID: 26962057346582891}
   debuffText: {fileID: 0}
-  debuffScript: {fileID: 0}
 --- !u!114 &-2492388119224053492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
+  canRandomlyAssignValue: 1
   buffAmount: 0
   buffName: CLEANSE ALL DEBUFFS
 --- !u!114 &3176493477934714333

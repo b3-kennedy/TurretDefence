@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Netcode;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 
 
@@ -20,11 +21,13 @@ public class TurretController : NetworkBehaviour
     public float damage;
     public float shootForce;
     public float fireRate;
-    public Transform shootPoint;
+    public Transform shootPointParent;
     float fireCooldown = 0;
 
     public InputAction look;
     public InputAction fire;
+
+    public UnityEvent reloaded;
 
     bool isReloading;
 
@@ -33,6 +36,13 @@ public class TurretController : NetworkBehaviour
     public GameObject reloadingText;
 
     public List<GameObject> projectiles = new List<GameObject>();
+
+    public int shootPointCount = 1;
+
+    bool isFirstShot = true;
+
+    [HideInInspector]
+    public float firstShotMultiplier = 1f;
 
 
     private void Awake()
@@ -83,6 +93,21 @@ public class TurretController : NetworkBehaviour
         ammoCount = maxAmmoCount;
     }
 
+    [ServerRpc]
+    public void ChangeProjectileServerRpc(ulong clientId, int index)
+    {
+        ChangeProjectileClientRpc(clientId, index);
+    }
+
+    [ClientRpc]
+    void ChangeProjectileClientRpc(ulong clientId, int index)
+    {
+        if(NetworkManager.Singleton.LocalClientId != clientId)
+        {
+            projectile = projectiles[index];
+        }
+    }
+
     void Update()
     {
         if (!IsOwner) return;
@@ -90,6 +115,12 @@ public class TurretController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             projectile = projectiles[1];
+            ChangeProjectileServerRpc(NetworkManager.Singleton.LocalClientId, 1);
+        }
+
+        if(maxAmmoCount < 0)
+        {
+            maxAmmoCount = 1;
         }
 
         fireCooldown -= Time.deltaTime;
@@ -172,7 +203,48 @@ public class TurretController : NetworkBehaviour
     public void ResetAmmo()
     {
         ammoCount = maxAmmoCount;
+        isFirstShot = true;
+        reloaded.Invoke();
+        
 
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ReloadedByAllyServerRpc(ulong clientId)
+    {
+        ulong netObjId = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.NetworkObjectId;
+        ReloadedByAllyClientRpc(clientId, netObjId);
+    }
+
+    [ClientRpc]
+    void ReloadedByAllyClientRpc(ulong clientId, ulong netObjId)
+    {
+        if(NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(netObjId, out var playerObject))
+        {
+            playerObject.GetComponent<TurretController>().ammoCount = maxAmmoCount;
+            playerObject.GetComponent<TurretController>().isFirstShot = true;
+            Debug.Log(clientId + " reload by ally");
+        }
+        
+        
+
+    }
+
+    [ServerRpc]
+    public void UpdateShootPointCountServerRpc(ulong clientId)
+    {
+        ulong playerObjId = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.NetworkObjectId;
+        UpdateShootPointCountClientRpc(clientId, playerObjId);
+    }
+
+    [ClientRpc]
+    void UpdateShootPointCountClientRpc(ulong clientId, ulong netObjectId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(netObjectId, out var playerObject))
+        {
+            playerObject.GetComponent<TurretController>().shootPointCount = 3;
+        }
     }
 
     void Shoot()
@@ -180,18 +252,43 @@ public class TurretController : NetworkBehaviour
         //instantiate local bullet
         if (IsServer)
         {
-            GameObject bullet = Instantiate(projectile, shootPoint.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody2D>().AddForce(transform.right * shootForce, ForceMode2D.Impulse);
-            bullet.GetComponent<NetworkObject>().Spawn();
-            bullet.GetComponent<DealDamage>().damage = damage;
+            for (int i = 0; i < shootPointCount; i++)
+            {
+                GameObject bullet = Instantiate(projectile, shootPointParent.GetChild(i).position, Quaternion.identity);
+                bullet.GetComponent<Rigidbody2D>().AddForce(shootPointParent.GetChild(i).right * shootForce, ForceMode2D.Impulse);
+                bullet.GetComponent<NetworkObject>().Spawn();
+                if (isFirstShot)
+                {
+                    bullet.GetComponent<DealDamage>().damage = damage * firstShotMultiplier;
+                    isFirstShot = false;
+                }
+                else
+                {
+                    bullet.GetComponent<DealDamage>().damage = damage;
+                }
+                
+            }
+
         }
         else
         {
-           
-            GameObject bullet = Instantiate(projectile, shootPoint.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody2D>().AddForce(transform.right * shootForce, ForceMode2D.Impulse);
-            bullet.GetComponent<DealDamage>().damage = damage;
-            CreateBulletServerRpc(OwnerClientId);
+
+            for (int i = 0; i < shootPointCount; i++)
+            {
+                GameObject bullet = Instantiate(projectile, shootPointParent.GetChild(i).position, Quaternion.identity);
+                bullet.GetComponent<Rigidbody2D>().AddForce(shootPointParent.GetChild(i).right * shootForce, ForceMode2D.Impulse);
+                bullet.GetComponent<DealDamage>().damage = damage;
+                if (isFirstShot)
+                {
+                    bullet.GetComponent<DealDamage>().damage = damage * firstShotMultiplier;
+                    isFirstShot = false;
+                }
+                else
+                {
+                    bullet.GetComponent<DealDamage>().damage = damage;
+                }
+                CreateBulletServerRpc(OwnerClientId);
+            }
         }
 
         
@@ -212,8 +309,12 @@ public class TurretController : NetworkBehaviour
         {
             if (NetworkManager.Singleton.LocalClientId != clientId)
             {
-                GameObject bullet = Instantiate(projectile, playerObj.GetComponent<TurretController>().shootPoint.position, Quaternion.identity);
-                bullet.GetComponent<Rigidbody2D>().AddForce(playerObj.transform.right * shootForce, ForceMode2D.Impulse);
+                for (int i = 0; i < shootPointCount; i++)
+                {
+                    GameObject bullet = Instantiate(projectile, playerObj.GetComponent<TurretController>().shootPointParent.GetChild(i).position, Quaternion.identity);
+                    bullet.GetComponent<Rigidbody2D>().AddForce(playerObj.GetComponent<TurretController>().shootPointParent.GetChild(i).right * shootForce, ForceMode2D.Impulse);
+                }
+
             }
         }
 
@@ -237,7 +338,7 @@ public class TurretController : NetworkBehaviour
 
         if (pointerPosition != Vector3.zero)
         {
-            Vector3 direction = pointerPosition - transform.position;
+            Vector3 direction = (pointerPosition - transform.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             Quaternion targetRotation = Quaternion.Euler(0f, 0f, angle);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);

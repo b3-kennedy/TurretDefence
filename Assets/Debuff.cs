@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Debuff : NetworkBehaviour
 {
+    public bool canRandomlyAssignValue = true;
     [HideInInspector] public ScriptableObject debuffValues;
     [HideInInspector] public RarityAndSpawnChance.Rarity rarity;
     public float debuffAmount;

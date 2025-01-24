@@ -18,5 +18,5 @@ MonoBehaviour:
   maxRareValue: 2
   minEpicValue: 1
   maxEpicValue: 2
-  minLegendaryValue: 2
-  maxLegendaryValue: 2
+  minLegendaryValue: 1
+  maxLegendaryValue: 1

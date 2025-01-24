@@ -16,8 +16,9 @@ GameObject:
   - component: {fileID: 2709456193847601214}
   - component: {fileID: -1657338320133006782}
   - component: {fileID: 6028458449475297365}
+  - component: {fileID: 1135690369758455190}
   m_Layer: 7
-  m_Name: Bullet 1
+  m_Name: AOEBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -248,3 +249,16 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 0
   AutoSetKinematicOnDespawn: 0
+--- !u!114 &1135690369758455190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009271286417289279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d00988d8a7a1b49b525211e90adcd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 2.5
