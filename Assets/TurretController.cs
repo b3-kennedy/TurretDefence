@@ -28,6 +28,8 @@ public class TurretController : NetworkBehaviour
     public InputAction fire;
 
     public UnityEvent reloaded;
+    public UnityEvent shot;
+    public UnityEvent stoppedShooting;
 
     bool isReloading;
 
@@ -43,6 +45,12 @@ public class TurretController : NetworkBehaviour
 
     [HideInInspector]
     public float firstShotMultiplier = 1f;
+
+    bool stoppedFiring = false;
+
+    public Buff testBuff;
+
+    public bool canShoot = true;
 
 
     private void Awake()
@@ -112,10 +120,10 @@ public class TurretController : NetworkBehaviour
     {
         if (!IsOwner) return;
 
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            projectile = projectiles[1];
-            ChangeProjectileServerRpc(NetworkManager.Singleton.LocalClientId, 1);
+            gameObject.AddComponent(testBuff.GetType());
         }
 
         if(maxAmmoCount < 0)
@@ -132,11 +140,19 @@ public class TurretController : NetworkBehaviour
             isReloading = true;
         }
 
-
-        if (fire.IsPressed() && fireCooldown <= 0 && !isReloading)
+        if (!fire.IsPressed() && !stoppedFiring)
         {
+            stoppedShooting.Invoke();
+            stoppedFiring = true;
+        }
+
+
+        if (fire.IsPressed() && fireCooldown <= 0 && !isReloading && canShoot)
+        {
+            stoppedFiring = false;
             Shoot();
             ammoCount--;
+            shot.Invoke();
             fireCooldown = fireRate;
         }
 

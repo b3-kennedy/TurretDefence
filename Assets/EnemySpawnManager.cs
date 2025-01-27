@@ -7,6 +7,7 @@ public class EnemySpawnManager : NetworkBehaviour
 {
 
     public static EnemySpawnManager Instance;
+    public GameObject startPanel;
 
     public GameObject localPlayer;
 
@@ -32,6 +33,8 @@ public class EnemySpawnManager : NetworkBehaviour
     float timer;
 
     public bool canSpawn;
+
+    public NetworkVariable<bool> isPaused = new NetworkVariable<bool>(true);
 
     private void Awake()
     {
@@ -64,6 +67,7 @@ public class EnemySpawnManager : NetworkBehaviour
     [ClientRpc]
     void ShowUpgradeInterfaceClientRpc()
     {
+        localPlayer.GetComponent<TurretController>().canShoot = false;
         UpgradeManager.Instance.ShowInterface();
     }
 
@@ -76,11 +80,32 @@ public class EnemySpawnManager : NetworkBehaviour
     [ClientRpc]
     void HideUpgradeInterfaceClientRpc()
     {
+        
         UpgradeManager.Instance.HideInterface();
+    }
+
+    public void StartGame()
+    {
+        startPanel.SetActive(false);
+        isPaused.Value = false;
+        StartGameForClientServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void StartGameForClientServerRpc()
+    {
+        StartGameForClientRpc();
+    }
+
+    [ClientRpc]
+    void StartGameForClientRpc()
+    {
+        startPanel.SetActive(false);
     }
 
     private void Update()
     {
+        if (isPaused.Value) return;
 
         if (waveTimerText.gameObject.activeSelf)
         {
@@ -92,6 +117,12 @@ public class EnemySpawnManager : NetworkBehaviour
 
         if (canSpawn)
         {
+
+            if (!localPlayer.GetComponent<TurretController>().canShoot)
+            {
+                localPlayer.GetComponent<TurretController>().canShoot = true;
+            }
+
             if (UpgradeManager.Instance.GetInterface().activeSelf)
             {
                 HideUpgradeInterfaceServerRpc();
@@ -123,6 +154,7 @@ public class EnemySpawnManager : NetworkBehaviour
                 HideWaveTimerServerRpc();
                 canSpawn = true;
                 endOfWaveTimer = 0;
+                spawnInterval = 10f / perWaveEnemyGaph.Evaluate(waveCount);
             }
         }
     }

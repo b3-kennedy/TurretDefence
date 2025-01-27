@@ -640,11 +640,23 @@ MonoBehaviour:
       m_Action: Fire
       m_Flags: 0
     m_Flags: 0
+  reloaded:
+    m_PersistentCalls:
+      m_Calls: []
+  shot:
+    m_PersistentCalls:
+      m_Calls: []
+  stoppedShooting:
+    m_PersistentCalls:
+      m_Calls: []
   reloadingText: {fileID: 1043859811780354420}
   projectiles:
   - {fileID: 1009271286417289279, guid: 77ea98001463d774181c229c08af9329, type: 3}
   - {fileID: 1009271286417289279, guid: 4db1ae5dc21bdd44493c029887bbe674, type: 3}
   shootPointCount: 1
+  firstShotMultiplier: 1
+  testBuff: {fileID: -3241496347702287477, guid: 861e38ff8ecc6bd4db00cea8b8bd6c89, type: 3}
+  canShoot: 1
 --- !u!114 &9038173693035698023
 MonoBehaviour:
   m_ObjectHideFlags: 0

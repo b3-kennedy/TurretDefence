@@ -47,9 +47,13 @@ public class Card : NetworkBehaviour
 
         // Generate Debuffs
 
-        int numDebuffs = Random.Range(0, debuffCount); // Add 1-2 debuffs
+        
+
+        int numDebuffs = Random.Range(0, debuffCount+1);
+        Debug.Log(numDebuffs);
         for (int i = 0; i < numDebuffs; i++)
         {
+            
             int randomNum = Random.Range(0, UpgradeManager.Instance.debuffs.Count);
 
             var debuffAndName = UpgradeManager.Instance.debuffs[randomNum];
@@ -58,8 +62,11 @@ public class Card : NetworkBehaviour
 
             var addedDebuff = gameObject.AddComponent(debuffToAdd.GetType());
 
+            
+
             if (addedDebuff is Debuff debuff)
             {
+                
                 debuff.rarity = rarity;
                 debuff.debuffName = debuffAndName.debuffName;
                 debuff.debuffValues = debuffValues;
@@ -89,7 +96,7 @@ public class Card : NetworkBehaviour
             }
             else if(buffScript.buffAmount < 0)
             {
-                buffText += "- " + (buffScript.buffAmount*-1).ToString("F1") + " " + buffScript.buffName + "\n";
+                buffText += "- " + ((buffScript.buffAmount*-1) * 100).ToString("F1") + " " + buffScript.buffName + "\n";
             }
             else if(buffScript.buffAmount == 0)
             {

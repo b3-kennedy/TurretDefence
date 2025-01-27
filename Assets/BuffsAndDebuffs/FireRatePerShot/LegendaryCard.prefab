@@ -422,8 +422,8 @@ GameObject:
   - component: {fileID: 8021163121307125785}
   - component: {fileID: 6623552911454320032}
   - component: {fileID: 3176493477934714333}
-  - component: {fileID: 7990484885554707852}
-  - component: {fileID: 231920147972655228}
+  - component: {fileID: 8516781130402624975}
+  - component: {fileID: 3715301270348518409}
   m_Layer: 5
   m_Name: LegendaryCard
   m_TagString: Untagged
@@ -506,7 +506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3310890252
+  GlobalObjectIdHash: 458706885
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -582,7 +582,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7990484885554707852
+--- !u!114 &8516781130402624975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -591,15 +591,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2120816840640836426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d38ffc16da0d10e4aa7d3c6cf780b8d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 372882cba4166804495d91d66950323b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 0
-  buffAmount: 0
-  buffName: Triple Shot
---- !u!114 &231920147972655228
+  buffAmount: 0.1
+  buffName: Fire Rate Per Shot
+--- !u!114 &3715301270348518409
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -608,13 +608,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2120816840640836426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 177572f4926c2db44b1be37c0039ea64, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e71d323c33479a4992da26dacb20d0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 0
-  buffAmount: -0.66
+  buffAmount: -0.5
   buffName: Fire Rate
   values: {fileID: 0}
 --- !u!1 &4673155954637054945

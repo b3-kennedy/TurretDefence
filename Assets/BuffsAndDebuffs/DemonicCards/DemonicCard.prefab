@@ -616,7 +616,7 @@ MonoBehaviour:
   canRandomlyAssignValue: 1
   debuffValues: {fileID: 0}
   rarity: 0
-  debuffAmount: 0.9
+  debuffAmount: 0.5
   debuffName: Damage
   values: {fileID: 11400000, guid: 264d5b52577e7eb42846cfef77867908, type: 2}
 --- !u!1 &4673155954637054945
