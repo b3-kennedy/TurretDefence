@@ -3,6 +3,21 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 
+
+[System.Serializable]
+public class EnemyAndSpawnChance
+{
+    public GameObject enemy;
+    public float spawnChance;
+}
+
+[System.Serializable]
+public class Wave
+{
+    public float total;
+    public List<EnemyAndSpawnChance> enemies;
+}
+
 public class EnemySpawnManager : NetworkBehaviour
 {
 
@@ -36,6 +51,8 @@ public class EnemySpawnManager : NetworkBehaviour
 
     public NetworkVariable<bool> isPaused = new NetworkVariable<bool>(true);
 
+    public List<Wave> waves;
+
     private void Awake()
     {
         Instance = this;
@@ -47,6 +64,11 @@ public class EnemySpawnManager : NetworkBehaviour
         Physics2D.IgnoreLayerCollision(3, 3);
         Physics2D.IgnoreLayerCollision(7, 6);
         Physics2D.IgnoreLayerCollision(7, 7);
+
+        for (int i = 0; i < waves.Count; i++)
+        {
+            waves[i].total = perWaveEnemyGaph.Evaluate(i);
+        }
     }
 
     Vector2 GetSpawnPoint()
@@ -103,6 +125,24 @@ public class EnemySpawnManager : NetworkBehaviour
         startPanel.SetActive(false);
     }
 
+
+    GameObject GetEnemyToSpawn()
+    {
+        float num = Random.Range(0, 100f);
+
+        float cumulativeChance = 0;
+        for (int i = 0; i < waves[waveCount].enemies.Count; i++)
+        {
+            cumulativeChance += waves[waveCount].enemies[i].spawnChance;
+
+            if (num < cumulativeChance)
+            {
+                return waves[waveCount].enemies[i].enemy;
+            }
+        }
+        return enemyPrefab;
+    }
+
     private void Update()
     {
         if (isPaused.Value) return;
@@ -135,7 +175,7 @@ public class EnemySpawnManager : NetworkBehaviour
                 if (timer >= spawnInterval)
                 {
                     Vector2 spawnPos = GetSpawnPoint();
-                    GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+                    GameObject enemy = Instantiate(GetEnemyToSpawn(), spawnPos, Quaternion.identity);
                     enemy.GetComponent<NetworkObject>().Spawn();
                     spawnedEnemiesList.Add(enemy);
                     spawnedEnemiesCount++;

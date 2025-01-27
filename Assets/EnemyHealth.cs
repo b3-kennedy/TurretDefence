@@ -13,7 +13,15 @@ public class EnemyHealth : NetworkBehaviour
         {
             health.Value = maxHealth;
         }
+
         
+        
+    }
+
+    public void UpdateScale()
+    {
+        float value = maxHealth / 100f;
+        transform.localScale = new Vector3(value, value, 1);
     }
 
     [ServerRpc(RequireOwnership = false)]

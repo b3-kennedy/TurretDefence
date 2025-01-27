@@ -17,6 +17,9 @@ public class NetworkUIManager : NetworkBehaviour
     public GameObject panel;
     public TMP_InputField inputField;
     public TextMeshProUGUI playersJoinedText;
+    public TextMeshProUGUI joinCodeText;
+
+    public bool startWithRelay = false;
 
     void Start()
     {
@@ -51,6 +54,8 @@ public class NetworkUIManager : NetworkBehaviour
             joinButton.SetActive(false);
             startButton.SetActive(true);
             playersJoinedText.gameObject.SetActive(true);
+            joinCodeText.gameObject.SetActive(true);
+            joinCodeText.text = joinCode;
 
             EnemySpawnManager.Instance.waveNumberText.gameObject.SetActive(true);
         }
@@ -87,14 +92,39 @@ public class NetworkUIManager : NetworkBehaviour
 
     public void Host()
     {
-        StartHostWithRelay();
+        if (startWithRelay)
+        {
+            StartHostWithRelay();
+        }
+        else
+        {
+            NetworkManager.Singleton.StartHost();
+            hostButton.SetActive(false);
+            joinButton.SetActive(false);
+            startButton.SetActive(true);
+            playersJoinedText.gameObject.SetActive(true);
+            EnemySpawnManager.Instance.waveNumberText.gameObject.SetActive(true);
+        }
+        
 
     }
 
     public void Join()
     {
-        string input = inputField.text.ToUpper();
-        JoinRelay(input);
+        if (startWithRelay)
+        {
+            string input = inputField.text.ToUpper();
+            JoinRelay(input);
+        }
+        else
+        {
+            NetworkManager.Singleton.StartClient();
+            hostButton.SetActive(false);
+            joinButton.SetActive(false);
+            playersJoinedText.gameObject.SetActive(true);
+            EnemySpawnManager.Instance.waveNumberText.gameObject.SetActive(true);
+        }
+
 
     }
 
