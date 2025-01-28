@@ -20,8 +20,14 @@ public class EnemyController : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+
         if (other.collider.CompareTag("Wall"))
         {
+            if (IsServer)
+            {
+                other.gameObject.GetComponent<WallHealth>().TakeDamageServerRpc(GetComponent<EnemyHealth>().maxHealth);
+            }
+            
             gameObject.SetActive(false);
             EnemySpawnManager.Instance.IsWaveOver();
         }

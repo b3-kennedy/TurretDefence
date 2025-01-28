@@ -22,6 +22,11 @@ public class EnemySpawnManager : NetworkBehaviour
 {
 
     public static EnemySpawnManager Instance;
+
+    public GameObject wall;
+
+    public GameObject gameOverUI;
+
     public GameObject startPanel;
 
     public GameObject localPlayer;
@@ -53,6 +58,7 @@ public class EnemySpawnManager : NetworkBehaviour
 
     public List<Wave> waves;
 
+    public bool isGameOver = false;
     private void Awake()
     {
         Instance = this;
@@ -64,6 +70,7 @@ public class EnemySpawnManager : NetworkBehaviour
         Physics2D.IgnoreLayerCollision(3, 3);
         Physics2D.IgnoreLayerCollision(7, 6);
         Physics2D.IgnoreLayerCollision(7, 7);
+        Physics2D.IgnoreLayerCollision(3, 8);
 
         for (int i = 0; i < waves.Count; i++)
         {
@@ -96,6 +103,7 @@ public class EnemySpawnManager : NetworkBehaviour
     [ServerRpc]
     void HideUpgradeInterfaceServerRpc()
     {
+        
         HideUpgradeInterfaceClientRpc();
     }
 
@@ -104,6 +112,7 @@ public class EnemySpawnManager : NetworkBehaviour
     {
         
         UpgradeManager.Instance.HideInterface();
+        
     }
 
     public void StartGame()
@@ -147,7 +156,7 @@ public class EnemySpawnManager : NetworkBehaviour
     {
         if (isPaused.Value) return;
 
-        if (waveTimerText.gameObject.activeSelf)
+        if (waveTimerText.gameObject.activeSelf && !isGameOver)
         {
             endOfWaveTimer += Time.deltaTime;
             waveTimerText.text = (endOfWaveTime - endOfWaveTimer).ToString("F1") + " SECONDS UNTIL";
@@ -157,11 +166,6 @@ public class EnemySpawnManager : NetworkBehaviour
 
         if (canSpawn)
         {
-
-            if (!localPlayer.GetComponent<TurretController>().canShoot)
-            {
-                localPlayer.GetComponent<TurretController>().canShoot = true;
-            }
 
             if (UpgradeManager.Instance.GetInterface().activeSelf)
             {
@@ -177,6 +181,10 @@ public class EnemySpawnManager : NetworkBehaviour
                     Vector2 spawnPos = GetSpawnPoint();
                     GameObject enemy = Instantiate(GetEnemyToSpawn(), spawnPos, Quaternion.identity);
                     enemy.GetComponent<NetworkObject>().Spawn();
+                    if (enemy.GetComponent<RangedEnemyController>())
+                    {
+                        enemy.GetComponent<RangedEnemyController>().wall = wall;
+                    }
                     spawnedEnemiesList.Add(enemy);
                     spawnedEnemiesCount++;
                     timer = 0;
@@ -264,5 +272,21 @@ public class EnemySpawnManager : NetworkBehaviour
         waveCount++;
         waveNumberText.gameObject.SetActive(true);
         waveNumberText.text = "WAVE " + waveCount.ToString();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void GameOverServerRpc()
+    {
+        canSpawn = false;
+        ShowGameOverUIClientRpc();
+    }
+
+    [ClientRpc]
+    void ShowGameOverUIClientRpc()
+    {
+        isGameOver = true;
+        waveNumberText.gameObject.SetActive(false);
+        waveTimerText.gameObject.SetActive(false);
+        gameOverUI.SetActive(true);
     }
 }

@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class Heal : MonoBehaviour
+public class Heal : NetworkBehaviour
 {
 
     public float healAmount;
@@ -17,24 +18,14 @@ public class Heal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsServer) return;
+
         timer += Time.deltaTime;
         if(timer >= healInterval)
         {
-            Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, healRadius);
-
-            foreach(Collider2D c in enemies)
-            {
-                if(c != null)
-                {
-                    if (!c.GetComponent<Heal>())
-                    {
-                        c.GetComponent<EnemyHealth>().maxHealth += healAmount;
-                        c.GetComponent<EnemyHealth>().health.Value += healAmount;
-                        c.GetComponent<EnemyHealth>().UpdateScale();
-                    }
-                }
-
-            }
+            GetComponent<EnemyHealth>().maxHealth += healAmount;
+            GetComponent<EnemyHealth>().health.Value += healAmount;
+            GetComponent<EnemyHealth>().UpdateScale();
             timer = 0;
         }
     }

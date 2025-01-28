@@ -103,6 +103,7 @@ public class UpgradeManager : NetworkBehaviour
         {
             Destroy(cardParent.GetChild(i).gameObject);
         }
+        EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().canShoot = true;
     }
 
 }

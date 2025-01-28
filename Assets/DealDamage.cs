@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DealDamage : NetworkBehaviour
@@ -16,12 +17,6 @@ public class DealDamage : NetworkBehaviour
 
     }
 
-    IEnumerator DestroyAfterTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-        DestroyOnServerRpc(GetComponent<NetworkObject>().NetworkObjectId);
-    }
-
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.transform.GetComponent<EnemyHealth>())
@@ -32,13 +27,29 @@ public class DealDamage : NetworkBehaviour
             }
             var id = GetComponent<NetworkObject>().NetworkObjectId;
             other.transform.GetComponent<EnemyHealth>().TakeDamageServerRpc(damage);
-            gameObject.SetActive(false);
+
+            if (GetComponent<NetworkObject>().IsSpawned)
+            {
+                if (IsServer)
+                {
+                    Destroy(gameObject);
+                }
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
+
+            
+            
             
 
             
 
         }
     }
+
 
     [ServerRpc(RequireOwnership = false)]
     void DestroyOnServerRpc(ulong objId)
