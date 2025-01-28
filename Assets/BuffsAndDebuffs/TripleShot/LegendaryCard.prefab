@@ -423,7 +423,6 @@ GameObject:
   - component: {fileID: 6623552911454320032}
   - component: {fileID: 3176493477934714333}
   - component: {fileID: 7990484885554707852}
-  - component: {fileID: 231920147972655228}
   m_Layer: 5
   m_Name: LegendaryCard
   m_TagString: Untagged
@@ -599,24 +598,6 @@ MonoBehaviour:
   canRandomlyAssignValue: 0
   buffAmount: 0
   buffName: Triple Shot
---- !u!114 &231920147972655228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2120816840640836426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 177572f4926c2db44b1be37c0039ea64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  rarity: 0
-  canRandomlyAssignValue: 0
-  buffAmount: -0.66
-  buffName: Fire Rate
-  values: {fileID: 0}
 --- !u!1 &4673155954637054945
 GameObject:
   m_ObjectHideFlags: 0

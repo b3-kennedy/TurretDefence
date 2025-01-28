@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class ExplosiveProjectileBuff : Buff
+public class ShotgunRoundBuff : Buff
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -9,12 +9,11 @@ public class ExplosiveProjectileBuff : Buff
         if (GetComponent<TurretController>())
         {
             GetComponent<TurretController>().shootForce = 10f;
-            GetComponent<TurretController>().ChangeProjectileServerRpc(GetComponent<TurretController>().GetComponent<NetworkObject>().NetworkObjectId, 1);
+            GetComponent<TurretController>().ChangeProjectileServerRpc(GetComponent<TurretController>().GetComponent<NetworkObject>().NetworkObjectId, 2);
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Apply()
     {
         
     }

@@ -71,6 +71,8 @@ public class EnemySpawnManager : NetworkBehaviour
         Physics2D.IgnoreLayerCollision(7, 6);
         Physics2D.IgnoreLayerCollision(7, 7);
         Physics2D.IgnoreLayerCollision(3, 8);
+        Physics2D.IgnoreLayerCollision(3, 9);
+        Physics2D.IgnoreLayerCollision(8, 9);
 
         for (int i = 0; i < waves.Count; i++)
         {

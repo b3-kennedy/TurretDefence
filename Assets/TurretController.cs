@@ -270,7 +270,7 @@ public class TurretController : NetworkBehaviour
         {
             for (int i = 0; i < shootPointCount; i++)
             {
-                GameObject bullet = Instantiate(projectile, shootPointParent.GetChild(i).position, Quaternion.identity);
+                GameObject bullet = Instantiate(projectile, shootPointParent.GetChild(i).position, shootPointParent.GetChild(i).rotation);
                 bullet.GetComponent<Rigidbody2D>().AddForce(shootPointParent.GetChild(i).right * shootForce, ForceMode2D.Impulse);
                 bullet.GetComponent<NetworkObject>().Spawn();
                 if (isFirstShot)
