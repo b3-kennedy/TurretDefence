@@ -47,7 +47,10 @@ public class GameOverManager : NetworkBehaviour
     [ClientRpc]
     void ResetClientRpc()
     {
-        wall.GetComponent<WallHealth>().wallHealth.Value = 5000f;
+        wall.GetComponent<WallHealth>().wallHealth.Value = wall.GetComponent<WallHealth>().maxHealth;
+        wall.GetComponent<WallHealth>().UpdateHealthBarClientRpc();
+
+
 
         EnemySpawnManager.Instance.waveTimerText.gameObject.SetActive(false);
 

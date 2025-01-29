@@ -20,6 +20,7 @@ public class Wave
 
 public class EnemySpawnManager : NetworkBehaviour
 {
+    public GameObject defendWallText;
 
     public static EnemySpawnManager Instance;
 
@@ -29,7 +30,7 @@ public class EnemySpawnManager : NetworkBehaviour
 
     public GameObject startPanel;
 
-    public GameObject localPlayer;
+    [HideInInspector] public GameObject localPlayer;
 
     public float endOfWaveTime;
     float endOfWaveTimer;
@@ -100,6 +101,10 @@ public class EnemySpawnManager : NetworkBehaviour
     {
         localPlayer.GetComponent<TurretController>().canShoot = false;
         UpgradeManager.Instance.ShowInterface();
+        Cursor.visible = true;
+
+        //reload on wave end
+        localPlayer.GetComponent<TurretController>().ResetAmmo();
     }
 
     [ServerRpc]
@@ -114,7 +119,8 @@ public class EnemySpawnManager : NetworkBehaviour
     {
         
         UpgradeManager.Instance.HideInterface();
-        
+        Cursor.visible = true;
+
     }
 
     public void StartGame()
@@ -133,7 +139,11 @@ public class EnemySpawnManager : NetworkBehaviour
     [ClientRpc]
     void StartGameForClientRpc()
     {
+        defendWallText.SetActive(true);
+        Destroy(defendWallText, 3f);
         startPanel.SetActive(false);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
 

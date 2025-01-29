@@ -49,7 +49,7 @@ public class Card : NetworkBehaviour
 
         
 
-        int numDebuffs = Random.Range(0, debuffCount+1);
+        int numDebuffs = Random.Range(1, debuffCount+1);
         Debug.Log(numDebuffs);
         for (int i = 0; i < numDebuffs; i++)
         {

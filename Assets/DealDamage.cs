@@ -14,6 +14,17 @@ public class DealDamage : NetworkBehaviour
     {
 
         //StartCoroutine(DestroyAfterTime(5f));
+        if (GetComponent<NetworkObject>().IsSpawned)
+        {
+            if (IsServer)
+            {
+                Destroy(gameObject, 5f);
+            }
+        }
+        else
+        {
+            Destroy(gameObject, 5f);
+        }
 
     }
 

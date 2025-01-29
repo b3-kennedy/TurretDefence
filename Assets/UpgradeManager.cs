@@ -98,6 +98,7 @@ public class UpgradeManager : NetworkBehaviour
 
     public void HideInterface()
     {
+        Cursor.visible = true;
         upgradeUi.SetActive(false);
         for (int i = 0;i < cardParent.childCount; i++)
         {

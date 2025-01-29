@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using Unity.Netcode;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using TMPro;
 
 
 
@@ -52,6 +53,13 @@ public class TurretController : NetworkBehaviour
 
     public bool canShoot = true;
 
+    public GameObject ammoTextPrefab;
+    GameObject ammoText;
+
+    public LineRenderer lr;
+    public LayerMask layer;
+
+    float currentAngle;
 
     private void Awake()
     {
@@ -75,11 +83,24 @@ public class TurretController : NetworkBehaviour
 
         if (OwnerClientId == 0)
         {
-            transform.position = new Vector3(-8f, 2.4f, 0f);
+            transform.position = new Vector3(-8f, 1.54f, 0f);
+            if (IsOwner)
+            {
+                ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, 0.9f, 0f), Quaternion.identity);
+                ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
+            }
+
+
         }
         else if (OwnerClientId == 1)
         {
             transform.position = new Vector3(-8f, -2.4f, 0f);
+            if (IsOwner)
+            {
+                ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, -3.15f, 0f), Quaternion.identity);
+                ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
+            }
+
         }
     }
 
@@ -118,6 +139,21 @@ public class TurretController : NetworkBehaviour
 
     void Update()
     {
+
+        RaycastHit2D hit = Physics2D.Raycast(shootPointParent.GetChild(0).position, shootPointParent.GetChild(0).right,100f,layer);
+        Vector3 startPos = new Vector3(transform.position.x, transform.position.y, 1f);
+        if (hit)
+        {
+            Vector3 hitPos = new Vector3(hit.point.x, hit.point.y, 1f);
+            lr.SetPosition(0, startPos);
+            lr.SetPosition(1, hitPos);
+        }
+        else 
+        {
+            lr.SetPosition(0, startPos);
+            lr.SetPosition(1, shootPointParent.GetChild(0).right * 100);
+        }
+
         if (!IsOwner) return;
 
 
@@ -129,6 +165,11 @@ public class TurretController : NetworkBehaviour
         if(maxAmmoCount < 0)
         {
             maxAmmoCount = 1;
+        }
+
+        if(ammoCount > maxAmmoCount)
+        {
+            ammoCount = maxAmmoCount;
         }
 
         fireCooldown -= Time.deltaTime;
@@ -152,6 +193,7 @@ public class TurretController : NetworkBehaviour
             stoppedFiring = false;
             Shoot();
             ammoCount--;
+            ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
             shot.Invoke();
             fireCooldown = fireRate;
         }
@@ -219,6 +261,7 @@ public class TurretController : NetworkBehaviour
     public void ResetAmmo()
     {
         ammoCount = maxAmmoCount;
+        ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
         isFirstShot = true;
         reloaded.Invoke();
         
@@ -355,7 +398,8 @@ public class TurretController : NetworkBehaviour
         if (pointerPosition != Vector3.zero)
         {
             Vector3 direction = (pointerPosition - transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Vector3 fixedPointerPosition = transform.position + direction * 5;
+            float angle = Mathf.Atan2(fixedPointerPosition.y - transform.position.y, fixedPointerPosition.x - transform.position.x) * Mathf.Rad2Deg;
             Quaternion targetRotation = Quaternion.Euler(0f, 0f, angle);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
