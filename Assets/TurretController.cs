@@ -36,7 +36,8 @@ public class TurretController : NetworkBehaviour
 
     float reloadTimer;
 
-    public GameObject reloadingText;
+    public GameObject reloadingTextPrefab;
+    GameObject reloadingText;
 
     public List<GameObject> projectiles = new List<GameObject>();
 
@@ -71,9 +72,6 @@ public class TurretController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-
-        
-
         if (IsOwner)
         {
             EnemySpawnManager.Instance.localPlayer = gameObject;
@@ -88,6 +86,8 @@ public class TurretController : NetworkBehaviour
             {
                 ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, 0.9f, 0f), Quaternion.identity);
                 ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
+
+                reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 0.8f, 0f), Quaternion.identity);
             }
 
 
@@ -99,6 +99,8 @@ public class TurretController : NetworkBehaviour
             {
                 ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, -3.15f, 0f), Quaternion.identity);
                 ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
+
+                reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 0.8f, 0f), Quaternion.identity);
             }
 
         }
@@ -334,7 +336,7 @@ public class TurretController : NetworkBehaviour
 
             for (int i = 0; i < shootPointCount; i++)
             {
-                GameObject bullet = Instantiate(projectile, shootPointParent.GetChild(i).position, Quaternion.identity);
+                GameObject bullet = Instantiate(projectile, shootPointParent.GetChild(i).position, shootPointParent.GetChild(i).rotation);
                 bullet.GetComponent<Rigidbody2D>().AddForce(shootPointParent.GetChild(i).right * shootForce, ForceMode2D.Impulse);
                 bullet.GetComponent<DealDamage>().damage = damage;
                 if (isFirstShot)
@@ -370,7 +372,7 @@ public class TurretController : NetworkBehaviour
             {
                 for (int i = 0; i < shootPointCount; i++)
                 {
-                    GameObject bullet = Instantiate(projectile, playerObj.GetComponent<TurretController>().shootPointParent.GetChild(i).position, Quaternion.identity);
+                    GameObject bullet = Instantiate(projectile, playerObj.GetComponent<TurretController>().shootPointParent.GetChild(i).position, playerObj.GetComponent<TurretController>().shootPointParent.GetChild(i).rotation);
                     bullet.GetComponent<Rigidbody2D>().AddForce(playerObj.GetComponent<TurretController>().shootPointParent.GetChild(i).right * shootForce, ForceMode2D.Impulse);
                 }
 
