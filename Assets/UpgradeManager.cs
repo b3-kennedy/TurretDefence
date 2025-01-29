@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine.Rendering;
+using System.Linq;
 
 [System.Serializable]
 public class RarityAndSpawnChance
@@ -35,6 +36,8 @@ public class UpgradeManager : NetworkBehaviour
 
     public List<DebuffAndName> debuffs;
 
+    public List<Buff> buffs = new List<Buff>();
+
 
     private void Awake()
     {
@@ -44,7 +47,7 @@ public class UpgradeManager : NetworkBehaviour
 
     private void Start()
     {
-        
+
     }
 
     [ServerRpc(RequireOwnership = false)]

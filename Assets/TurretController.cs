@@ -28,9 +28,9 @@ public class TurretController : NetworkBehaviour
     public InputAction look;
     public InputAction fire;
 
-    public UnityEvent reloaded;
-    public UnityEvent shot;
-    public UnityEvent stoppedShooting;
+    [HideInInspector] public UnityEvent reloaded;
+    [HideInInspector] public UnityEvent shot;
+    [HideInInspector] public UnityEvent stoppedShooting;
 
     bool isReloading;
 
@@ -59,8 +59,6 @@ public class TurretController : NetworkBehaviour
 
     public LineRenderer lr;
     public LayerMask layer;
-
-    float currentAngle;
 
     private void Awake()
     {
