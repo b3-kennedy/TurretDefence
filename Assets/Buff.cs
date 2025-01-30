@@ -12,6 +12,6 @@ public class Buff : NetworkBehaviour
 
     public virtual void Apply()
     {
-
+        
     }
 }

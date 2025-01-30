@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 
-public class BuffAndDebuffManager : MonoBehaviour
+public class BuffAndDebuffManager : NetworkBehaviour
 {
 
     public List<Buff> buffs = new List<Buff>();
@@ -33,6 +34,11 @@ public class BuffAndDebuffManager : MonoBehaviour
     public Transform buffsParent;
     public GameObject textPrefab;
 
+    public TextMeshProUGUI contentTitle;
+    public GameObject button;
+
+    public bool showBuff;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -58,9 +64,12 @@ public class BuffAndDebuffManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (!IsOwner) return;
+
+        if (Input.GetKeyDown(KeyCode.Tab) && !panel.activeSelf)
         {
             panel.SetActive(true);
+            tc.canShoot = false;
 
             CalculateStats();
 
@@ -74,15 +83,32 @@ public class BuffAndDebuffManager : MonoBehaviour
             buffs.Clear();
             debuffs.Clear();
 
-            for (int i = 0; i < buffsParent.childCount; i++)
-            {
-                Destroy(buffsParent.GetChild(i).gameObject);
-            }
-
             buffs.AddRange(GetComponents<Buff>());
 
             debuffs.AddRange(GetComponents<Debuff>());
 
+            ShowBuffsOrDebuffs();
+
+        }
+        else if (Input.GetKeyDown(KeyCode.Tab) && panel.activeSelf)
+        {
+            tc.canShoot = true;
+            panel.SetActive(false);
+        }
+    }
+
+    void ShowBuffsOrDebuffs()
+    {
+
+        for (int i = 0; i < buffsParent.childCount; i++)
+        {
+            Destroy(buffsParent.GetChild(i).gameObject);
+        }
+
+        if (showBuff)
+        {
+            contentTitle.text = "Buffs";
+            button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Show Debuffs";
             foreach (Buff buff in buffs)
             {
                 GameObject textObject = Instantiate(textPrefab, buffsParent);
@@ -90,11 +116,25 @@ public class BuffAndDebuffManager : MonoBehaviour
 
                 text.text = buff.buffName + " x" + buff.count.ToString();
             }
-
         }
-        else if (Input.GetKeyUp(KeyCode.Tab))
+        else
         {
-            panel.SetActive(false);
+            contentTitle.text = "Debuffs";
+            button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Show Buffs";
+            foreach (Debuff debuff in debuffs)
+            {
+                GameObject textObject = Instantiate(textPrefab, buffsParent);
+                TextMeshProUGUI text = textObject.GetComponent<TextMeshProUGUI>();
+
+                text.text = debuff.debuffName + " x" + debuff.count.ToString();
+            }
         }
+    }
+
+    public void SwitchModes()
+    {
+        showBuff = !showBuff;
+        Debug.Log("hello");
+        ShowBuffsOrDebuffs();
     }
 }
