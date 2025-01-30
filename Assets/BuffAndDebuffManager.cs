@@ -23,14 +23,6 @@ public class BuffAndDebuffManager : MonoBehaviour
 
             buffs.AddRange(GetComponents<Buff>());
 
-            foreach (var buff in buffs) 
-            {
-                if(buff.buffAmount < 0)
-                {
-                    buffs.Remove(buff);
-                }
-            }
-
             debuffs.AddRange(GetComponents<Debuff>());
         }
     }

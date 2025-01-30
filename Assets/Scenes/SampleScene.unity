@@ -3802,7 +3802,6 @@ MonoBehaviour:
     - {fileID: 506163310617122084, guid: 2ad4b1a57be21724b91763b5a3c8d1a8, type: 3}
     - {fileID: 506163310617122084, guid: e7a612dfc78194842b32c6b7d066c4ef, type: 3}
     - {fileID: 506163310617122084, guid: d6fcad475100a6944a707c7ff40b2333, type: 3}
-    - {fileID: 2120816840640836426, guid: b836553cd8dcecd438a52e5072baa34c, type: 3}
   - rarity: 1
     spawnChance: 37
     cards:
@@ -3863,6 +3862,7 @@ MonoBehaviour:
   - debuff: {fileID: 7604282678896428095, guid: c554a4d130b4d3c438676fc7e1f08ca7, type: 3}
     debuffName: Fire Rate
     values: {fileID: 11400000, guid: 39fb46d83bafbb84abe28c0d3dfd12c8, type: 2}
+  buffs: []
 --- !u!4 &1961321639
 Transform:
   m_ObjectHideFlags: 0

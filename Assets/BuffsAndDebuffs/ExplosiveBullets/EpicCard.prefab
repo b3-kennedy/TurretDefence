@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3672684497595269575}
   - component: {fileID: 5389896539242807570}
   - component: {fileID: 7293712647993194593}
-  - component: {fileID: -7080773314643515287}
+  - component: {fileID: -6037189829335362548}
   m_Layer: 5
   m_Name: EpicCard
   m_TagString: Untagged
@@ -188,9 +188,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
+  canRandomlyAssignValue: 1
   buffAmount: 0
   buffName: Explosive Projectile
---- !u!114 &-7080773314643515287
+--- !u!114 &-6037189829335362548
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,15 +200,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1288794768723064984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e71d323c33479a4992da26dacb20d0e, type: 3}
+  m_Script: {fileID: 11500000, guid: eecfdc133a6cfa742b0e3bb9f6b982c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  rarity: 0
-  buffAmount: -0.5
-  buffName: Fire Rate
-  values: {fileID: 11400000, guid: ee475d489f774b340a58924f2985f514, type: 2}
   canRandomlyAssignValue: 0
+  applyToSelf: 1
+  debuffValues: {fileID: 0}
+  rarity: 0
+  debuffAmount: 0.5
+  debuffName: Fire Rate
+  values: {fileID: 0}
 --- !u!1 &3268009969829226741
 GameObject:
   m_ObjectHideFlags: 0

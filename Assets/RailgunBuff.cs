@@ -8,6 +8,7 @@ public class RailgunBuff : Buff
     {
         if (GetComponent<TurretController>())
         {
+            UpgradeManager.Instance.rarityAndSpawnChances[3].cards.Remove(gameObject);
             GetComponent<TurretController>().ChangeProjectileServerRpc(GetComponent<TurretController>().GetComponent<NetworkObject>().NetworkObjectId, 3);
             GetComponent<TurretController>().shootForce = 50f;
         }

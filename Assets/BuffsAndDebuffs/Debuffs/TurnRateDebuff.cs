@@ -9,6 +9,11 @@ public class TurnRateDebuff : Debuff
     void Start()
     {
 
+        Apply();
+    }
+
+    public override void Apply()
+    {
         if (GetComponent<TurretController>())
         {
             GetComponent<TurretController>().rotationSpeed *= (1f + debuffAmount);

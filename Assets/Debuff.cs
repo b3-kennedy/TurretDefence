@@ -4,6 +4,7 @@ using UnityEngine;
 public class Debuff : NetworkBehaviour
 {
     public bool canRandomlyAssignValue = true;
+    public bool applyToSelf;
     [HideInInspector] public ScriptableObject debuffValues;
     [HideInInspector] public RarityAndSpawnChance.Rarity rarity;
     public float debuffAmount;
@@ -16,4 +17,6 @@ public class Debuff : NetworkBehaviour
             GetComponent<Card>().UpdateText();
         }
     }
+
+    public virtual void Apply() { }
 }

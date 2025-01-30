@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 6623552911454320032}
   - component: {fileID: 3176493477934714333}
   - component: {fileID: 661985294318031813}
-  - component: {fileID: -8137281961408550320}
+  - component: {fileID: 5627226692396322485}
   m_Layer: 5
   m_Name: LegendaryCard
   m_TagString: Untagged
@@ -599,7 +599,7 @@ MonoBehaviour:
   canRandomlyAssignValue: 0
   buffAmount: 0
   buffName: Shotgun Round
---- !u!114 &-8137281961408550320
+--- !u!114 &5627226692396322485
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -608,15 +608,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2120816840640836426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 177572f4926c2db44b1be37c0039ea64, type: 3}
+  m_Script: {fileID: 11500000, guid: 0352707f9689eb4419fc4a3289ef3a5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  rarity: 0
   canRandomlyAssignValue: 0
-  buffAmount: 1
-  buffName: Damage
-  values: {fileID: 0}
+  applyToSelf: 1
+  debuffValues: {fileID: 0}
+  rarity: 0
+  debuffAmount: 0.5
+  debuffName: Damage
+  values: {fileID: 11400000, guid: 264d5b52577e7eb42846cfef77867908, type: 2}
 --- !u!1 &4673155954637054945
 GameObject:
   m_ObjectHideFlags: 0

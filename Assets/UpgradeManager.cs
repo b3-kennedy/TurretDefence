@@ -61,13 +61,66 @@ public class UpgradeManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton.LocalClientId != clientId)
         {
-            var debuffComp = EnemySpawnManager.Instance.localPlayer.AddComponent(debuffs[index].debuff.GetType());
-
-            if (debuffComp is Debuff debuff)
+            var debuff = debuffs[index].debuff.GetType();
+            if (EnemySpawnManager.Instance.localPlayer.GetComponent(debuff))
             {
-                debuff.debuffAmount = debuffAmount;
+                var comp = EnemySpawnManager.Instance.localPlayer.GetComponent(debuff);
+                if(comp is Debuff debuffType)
+                {
+                    if (debuffAmount < 0)
+                    {
+                        debuffType.debuffAmount *= (1f - debuffAmount);
+                        debuffType.Apply();
+                    }
+                    else
+                    {
+                        EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount -= (int)debuffAmount;
+                        EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().ammoCount = EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount;
+                        debuffType.debuffAmount += debuffAmount;
+                    }
+                }
             }
+            else
+            {
+                var debuffComp = EnemySpawnManager.Instance.localPlayer.AddComponent(debuffs[index].debuff.GetType());
+
+                if (debuffComp is Debuff debuffType)
+                {
+                    debuffType.debuffAmount = debuffAmount;
+                }
+            }
+
         }
+
+        //var buff = buffScript.GetType();
+        //if (EnemySpawnManager.Instance.localPlayer.GetComponent(buff))
+        //{
+        //    var comp = EnemySpawnManager.Instance.localPlayer.GetComponent(buff);
+        //    if (comp is Buff buffType)
+        //    {
+        //        if (buffScript.buffAmount < 0)
+        //        {
+        //            buffType.buffAmount *= (1f - buffScript.buffAmount);
+        //            buffType.Apply();
+        //        }
+        //        else
+        //        {
+        //            EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount += (int)buffScript.buffAmount;
+        //            EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().ammoCount = EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount;
+        //            buffType.buffAmount += buffScript.buffAmount;
+        //        }
+
+
+        //    }
+        //}
+        //else
+        //{
+        //    var buffComp = EnemySpawnManager.Instance.localPlayer.AddComponent(buffScript.GetType());
+        //    if (buffComp is Buff buffType)
+        //    {
+        //        buffType.buffAmount = buffScript.buffAmount;
+        //    }
+        //}
 
     }
 

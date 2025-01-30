@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 6623552911454320032}
   - component: {fileID: 3176493477934714333}
   - component: {fileID: 8516781130402624975}
-  - component: {fileID: 3715301270348518409}
+  - component: {fileID: -4178102080692093698}
   m_Layer: 5
   m_Name: LegendaryCard
   m_TagString: Untagged
@@ -599,7 +599,7 @@ MonoBehaviour:
   canRandomlyAssignValue: 0
   buffAmount: 0.1
   buffName: Fire Rate Per Shot
---- !u!114 &3715301270348518409
+--- !u!114 &-4178102080692093698
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -608,14 +608,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2120816840640836426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e71d323c33479a4992da26dacb20d0e, type: 3}
+  m_Script: {fileID: 11500000, guid: eecfdc133a6cfa742b0e3bb9f6b982c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  rarity: 0
   canRandomlyAssignValue: 0
-  buffAmount: -0.5
-  buffName: Fire Rate
+  applyToSelf: 1
+  debuffValues: {fileID: 0}
+  rarity: 0
+  debuffAmount: 0.5
+  debuffName: Fire Rate
   values: {fileID: 0}
 --- !u!1 &4673155954637054945
 GameObject:

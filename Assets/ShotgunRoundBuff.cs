@@ -8,6 +8,7 @@ public class ShotgunRoundBuff : Buff
     {
         if (GetComponent<TurretController>())
         {
+            UpgradeManager.Instance.rarityAndSpawnChances[3].cards.Remove(gameObject);
             GetComponent<TurretController>().shootForce = 10f;
             GetComponent<TurretController>().ChangeProjectileServerRpc(GetComponent<TurretController>().GetComponent<NetworkObject>().NetworkObjectId, 2);
         }

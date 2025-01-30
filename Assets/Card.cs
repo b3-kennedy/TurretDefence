@@ -90,34 +90,64 @@ public class Card : NetworkBehaviour
             {
                 buffText += "+ " + (buffScript.buffAmount * 100).ToString("F1") + "% " + buffScript.buffName + "\n";
             }
-            else if(buffScript.buffAmount >= 1)
+            else if (buffScript.buffAmount >= 1)
             {
                 buffText += "+ " + (buffScript.buffAmount).ToString("F1") + " " + buffScript.buffName + "\n";
             }
-            else if(buffScript.buffAmount < 0)
+            else if (buffScript.buffAmount < 0)
             {
-                buffText += "- " + ((buffScript.buffAmount*-1) * 100).ToString("F1") + " " + buffScript.buffName + "\n";
+                buffText += "- " + ((buffScript.buffAmount * -1) * 100).ToString("F1") + " " + buffScript.buffName + "\n";
             }
-            else if(buffScript.buffAmount == 0)
+            else if (buffScript.buffAmount == 0)
             {
                 buffText += "+ " + buffScript.buffName + "\n";
             }
         }
+
+        //debuffs applied to self appear in top section of card
+        foreach (var debuff in debuffScripts)
+        {
+            if (debuff.applyToSelf)
+            {
+                if (debuff.debuffAmount < 1 && debuff.debuffAmount >= 0)
+                {
+                    buffText += "- " + (debuff.debuffAmount * 100).ToString("F1") + "% " + debuff.debuffName + "\n";
+                }
+                else if (debuff.debuffAmount >= 1)
+                {
+                    buffText += "- " + (debuff.debuffAmount).ToString("F1") + " " + debuff.debuffName + "\n";
+                }
+                else if (debuff.debuffAmount < 0)
+                {
+                    buffText += "- " + ((debuff.debuffAmount * -1) * 100).ToString("F1") + " " + debuff.debuffName + "\n";
+                }
+                else if (debuff.debuffAmount == 0)
+                {
+                    buffText += "- " + debuff.debuffName + "\n";
+                }
+            }
+        }
+
         buff.text = buffText.TrimEnd();
 
         // Update Debuff Text
         string deText = "";
         foreach (var debuffScript in debuffScripts)
         {
-            if (debuffScript.debuffAmount < 1)
+            if (!debuffScript.applyToSelf)
             {
-                deText += "- " + (debuffScript.debuffAmount * 100).ToString("F1") + "% " + debuffScript.debuffName + "\n";
+                if (debuffScript.debuffAmount < 1)
+                {
+                    deText += "- " + (debuffScript.debuffAmount * 100).ToString("F1") + "% " + debuffScript.debuffName + "\n";
+                }
+                else
+                {
+                    deText += "- " + (debuffScript.debuffAmount).ToString("F1") + " " + debuffScript.debuffName + "\n";
+                }
+                debuffText.text = deText.TrimEnd();
             }
-            else
-            {
-                deText += "- " + (debuffScript.debuffAmount).ToString("F1") + " " + debuffScript.debuffName + "\n";
-            }
-            debuffText.text = deText.TrimEnd();
+
+
         }
         
     }
@@ -129,11 +159,38 @@ public class Card : NetworkBehaviour
         // Apply all Buffs
         foreach (var buffScript in buffScripts)
         {
-            var buffComp = EnemySpawnManager.Instance.localPlayer.AddComponent(buffScript.GetType());
-            if (buffComp is Buff buff)
+            
+            var buff = buffScript.GetType();
+            if (EnemySpawnManager.Instance.localPlayer.GetComponent(buff))
             {
-                buff.buffAmount = buffScript.buffAmount;
+                var comp = EnemySpawnManager.Instance.localPlayer.GetComponent(buff);
+                if(comp is Buff buffType)
+                {
+                    if(buffScript.buffAmount < 0)
+                    {
+                        buffType.buffAmount *= (1f - buffScript.buffAmount);
+                        buffType.Apply();
+                    }
+                    else
+                    {
+                        EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount += (int)buffScript.buffAmount;
+                        EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().ammoCount = EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount;
+                        buffType.buffAmount += buffScript.buffAmount;
+                    }
+                    
+                    
+                }
             }
+            else
+            {
+                var buffComp = EnemySpawnManager.Instance.localPlayer.AddComponent(buffScript.GetType());
+                if (buffComp is Buff buffType)
+                {
+                    buffType.buffAmount = buffScript.buffAmount;
+                }
+            }
+
+
         }
 
         // Apply all Debuffs

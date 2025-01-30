@@ -84,9 +84,8 @@ public class TurretController : NetworkBehaviour
             {
                 ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, 0.9f, 0f), Quaternion.identity);
                 ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
-
-                reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 0.8f, 0f), Quaternion.identity);
             }
+            reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 0.8f, 0f), Quaternion.identity);
 
 
         }
@@ -98,8 +97,10 @@ public class TurretController : NetworkBehaviour
                 ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, -3.15f, 0f), Quaternion.identity);
                 ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
 
-                reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 0.8f, 0f), Quaternion.identity);
             }
+
+            reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 0.8f, 0f), Quaternion.identity);
+       
 
         }
     }

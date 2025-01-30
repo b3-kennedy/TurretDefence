@@ -10,6 +10,11 @@ public class FireRateDebuff : Debuff
     void Start()
     {
 
+
+    }
+
+    public override void Apply()
+    {
         if (GetComponent<TurretController>())
         {
             GetComponent<TurretController>().fireRate *= (1f + debuffAmount);

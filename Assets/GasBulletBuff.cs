@@ -8,7 +8,9 @@ public class GasBulletBuff : Buff
     {
         if (GetComponent<TurretController>())
         {
+            UpgradeManager.Instance.rarityAndSpawnChances[3].cards.Remove(gameObject);
             GetComponent<TurretController>().ChangeProjectileServerRpc(GetComponent<TurretController>().GetComponent<NetworkObject>().NetworkObjectId, 4);
+            GetComponent<TurretController>().shootForce = 5f;
         }
     }
 }
