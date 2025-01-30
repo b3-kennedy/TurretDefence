@@ -168,12 +168,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 2
+  debuffCount: 1
   titleString: FIRE RATE
   title: {fileID: 2153786465132591985}
   buff: {fileID: 1374325883404748175}
   debuffText: {fileID: 0}
-  buffScript: {fileID: 330408284243182268}
-  debuffScript: {fileID: 0}
 --- !u!114 &330408284243182268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,8 +187,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
+  canRandomlyAssignValue: 1
   buffAmount: 0
-  buffName: FIRE RATE
+  buffName: Fire Rate
+  count: 0
   values: {fileID: 11400000, guid: ee475d489f774b340a58924f2985f514, type: 2}
 --- !u!1 &3268009969829226741
 GameObject:

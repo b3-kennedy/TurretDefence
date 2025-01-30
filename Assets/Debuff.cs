@@ -9,6 +9,7 @@ public class Debuff : NetworkBehaviour
     [HideInInspector] public RarityAndSpawnChance.Rarity rarity;
     public float debuffAmount;
     public string debuffName;
+    [HideInInspector] public int count;
 
     public virtual void Setup() 
     {

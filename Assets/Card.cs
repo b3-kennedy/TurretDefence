@@ -50,7 +50,6 @@ public class Card : NetworkBehaviour
         
 
         int numDebuffs = Random.Range(1, debuffCount+1);
-        Debug.Log(numDebuffs);
         for (int i = 0; i < numDebuffs; i++)
         {
             
@@ -166,9 +165,11 @@ public class Card : NetworkBehaviour
                 var comp = EnemySpawnManager.Instance.localPlayer.GetComponent(buff);
                 if(comp is Buff buffType)
                 {
-                    if(buffScript.buffAmount < 0)
+                    if(buffScript.buffAmount < 1)
                     {
                         buffType.buffAmount *= (1f - buffScript.buffAmount);
+                        buffType.count++;
+                        
                         buffType.Apply();
                     }
                     else
@@ -176,6 +177,7 @@ public class Card : NetworkBehaviour
                         EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount += (int)buffScript.buffAmount;
                         EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().ammoCount = EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount;
                         buffType.buffAmount += buffScript.buffAmount;
+                        buffType.count++;
                     }
                     
                     
@@ -187,7 +189,10 @@ public class Card : NetworkBehaviour
                 if (buffComp is Buff buffType)
                 {
                     buffType.buffAmount = buffScript.buffAmount;
+                    buffType.count++;
+                    buffType.buffName = buffScript.buffName;
                 }
+                
             }
 
 
@@ -196,15 +201,58 @@ public class Card : NetworkBehaviour
         // Apply all Debuffs
         foreach (var debuffScript in debuffScripts)
         {
-            int index = 0;
-            foreach (var debuff in UpgradeManager.Instance.debuffs)
+            if (debuffScript.applyToSelf)
             {
-                if (debuff.debuff.GetType() == debuffScript.GetType())
+                var debuff = debuffScript.GetType();
+                if (EnemySpawnManager.Instance.localPlayer.GetComponent(debuff))
                 {
-                    UpgradeManager.Instance.ApplyDebuffServerRpc(NetworkManager.Singleton.LocalClientId, index, debuffScript.debuffAmount);
+                    var comp = EnemySpawnManager.Instance.localPlayer.GetComponent(debuff);
+                    if (comp is Buff buffType)
+                    {
+                        if (debuffScript.debuffAmount < 1)
+                        {
+                            buffType.buffAmount *= (1f - debuffScript.debuffAmount);
+                            buffType.count++;
+
+                            buffType.Apply();
+                        }
+                        else
+                        {
+                            EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount += (int)debuffScript.debuffAmount;
+                            EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().ammoCount = EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount;
+                            buffType.buffAmount += debuffScript.debuffAmount;
+                            buffType.count++;
+                        }
+
+
+                    }
                 }
-                index++;
+                else
+                {
+                    var debuffComp = EnemySpawnManager.Instance.localPlayer.AddComponent(debuffScript.GetType());
+                    if (debuffComp is Debuff debuffType)
+                    {
+                        debuffType.debuffAmount = debuffScript.debuffAmount;
+                        debuffType.count++;
+                        debuffType.debuffName = debuffScript.debuffName;
+                    }
+
+                }
             }
+            else
+            {
+                int index = 0;
+                foreach (var debuff in UpgradeManager.Instance.debuffs)
+                {
+                    if (debuff.debuff.GetType() == debuffScript.GetType())
+                    {
+                        UpgradeManager.Instance.ApplyDebuffServerRpc(NetworkManager.Singleton.LocalClientId, index, debuffScript.debuffAmount);
+                    }
+                    index++;
+                }
+            }
+
+
         }
 
         UpgradeManager.Instance.HideInterface();

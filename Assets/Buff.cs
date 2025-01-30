@@ -8,6 +8,7 @@ public class Buff : NetworkBehaviour
     public bool canRandomlyAssignValue = true;
     public float buffAmount;
     public string buffName = "Fire Rate";
+    [HideInInspector] public int count;
 
     public virtual void Apply()
     {

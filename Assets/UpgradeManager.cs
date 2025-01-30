@@ -67,16 +67,18 @@ public class UpgradeManager : NetworkBehaviour
                 var comp = EnemySpawnManager.Instance.localPlayer.GetComponent(debuff);
                 if(comp is Debuff debuffType)
                 {
-                    if (debuffAmount < 0)
+                    if (debuffAmount < 1)
                     {
                         debuffType.debuffAmount *= (1f - debuffAmount);
                         debuffType.Apply();
+                        debuffType.count++;
                     }
                     else
                     {
                         EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount -= (int)debuffAmount;
                         EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().ammoCount = EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount;
                         debuffType.debuffAmount += debuffAmount;
+                        debuffType.count++;
                     }
                 }
             }
@@ -87,6 +89,8 @@ public class UpgradeManager : NetworkBehaviour
                 if (debuffComp is Debuff debuffType)
                 {
                     debuffType.debuffAmount = debuffAmount;
+                    debuffType.count++;
+                    debuffType.debuffName = debuffs[index].debuff.debuffName;
                 }
             }
 

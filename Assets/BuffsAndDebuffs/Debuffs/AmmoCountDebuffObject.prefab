@@ -71,14 +71,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  canRandomlyAssignValue: 1
+  applyToSelf: 0
+  debuffValues: {fileID: 0}
   rarity: 0
   debuffAmount: 0
-  debuffName: AMMO COUNT
-  commonMinDebuff: 1
-  commonMaxDebuff: 3
-  rareMinDebuff: 1
-  rareMaxDebuff: 2
-  epicMinDebuff: 1
-  epicMaxDebuff: 1
-  legendaryMinDebuff: 1
-  legendaryMaxDebuff: 1
+  debuffName: Ammo Count
+  count: 0
+  values: {fileID: 0}

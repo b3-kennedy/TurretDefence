@@ -71,14 +71,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  canRandomlyAssignValue: 1
+  applyToSelf: 0
+  debuffValues: {fileID: 0}
   rarity: 0
   debuffAmount: 0
-  debuffName: RELOAD SPEED
-  commonMinDebuff: 0.01
-  commonMaxDebuff: 0.2
-  rareMinDebuff: 0.01
-  rareMaxDebuff: 0.15
-  epicMinDebuff: 0.01
-  epicMaxDebuff: 0.1
-  legendaryMinDebuff: 0.01
-  legendaryMaxDebuff: 0.05
+  debuffName: Reload Speed
+  count: 0
+  values: {fileID: 0}

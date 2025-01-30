@@ -189,7 +189,8 @@ MonoBehaviour:
   rarity: 0
   canRandomlyAssignValue: 1
   buffAmount: 0
-  buffName: First Shot Damage Multiplier
+  buffName: First Shot Damage
+  count: 0
   values: {fileID: 11400000, guid: 409a3d07ec1aa8645992d31401107658, type: 2}
 --- !u!1 &3268009969829226741
 GameObject:
@@ -691,12 +692,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
+  m_fontSize: 44.75
   m_fontSizeBase: 48
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 48
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
