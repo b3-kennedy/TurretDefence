@@ -1082,7 +1082,7 @@ MonoBehaviour:
   shootPointCount: 1
   firstShotMultiplier: 1
   testBuff: {fileID: -2509529618388554418, guid: 861e38ff8ecc6bd4db00cea8b8bd6c89, type: 3}
-  canShoot: 1
+  canShoot: 0
   ammoTextPrefab: {fileID: 1253385227020901284, guid: 285f476c6558b8747921b5bd51eaec89, type: 3}
   lr: {fileID: 472586162464655601}
   layer:
@@ -1166,6 +1166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bbb20501c10d4d4aae00f446fe7f8d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   buffs: []
   debuffs: []
   damagePercent: 0

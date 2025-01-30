@@ -192,7 +192,8 @@ public class Card : NetworkBehaviour
                     buffType.count++;
                     buffType.buffName = buffScript.buffName;
                 }
-                
+
+
             }
 
 

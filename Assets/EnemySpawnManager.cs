@@ -128,6 +128,7 @@ public class EnemySpawnManager : NetworkBehaviour
         startPanel.SetActive(false);
         isPaused.Value = false;
         StartGameForClientServerRpc();
+       
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -144,6 +145,7 @@ public class EnemySpawnManager : NetworkBehaviour
         startPanel.SetActive(false);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
+        localPlayer.GetComponent<TurretController>().canShoot = true;
     }
 
 
