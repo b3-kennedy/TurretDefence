@@ -7,7 +7,7 @@ public class DealDamage : NetworkBehaviour
 {
 
 
-
+    [HideInInspector] public TurretController player;
     public float damage;
 
     private void Start()
@@ -28,11 +28,32 @@ public class DealDamage : NetworkBehaviour
 
     }
 
+    void ApplyEffect(GameObject other)
+    {
+        if (player.GetComponent<BurnEffect>())
+        {
+            var playerBurn = player.GetComponent<BurnEffect>();
+            if (!other.GetComponent<BurnEffect>())
+            {
+                var burn = other.AddComponent<BurnEffect>();
+                burn.damage = playerBurn.damage;
+                burn.duration = playerBurn.duration;
+                burn.interval = playerBurn.interval;
+            }
+            else
+            {
+                other.GetComponent<BurnEffect>().duration = playerBurn.duration;
+            }
+
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.GetComponent<ShieldHealth>())
         {
             other.transform.GetComponent<ShieldHealth>().TakeDamageServerRpc(damage);
+            ApplyEffect(other.gameObject);
 
             if (GetComponent<NetworkObject>().IsSpawned)
             {
@@ -54,6 +75,7 @@ public class DealDamage : NetworkBehaviour
             }
             var id = GetComponent<NetworkObject>().NetworkObjectId;
             other.transform.GetComponent<EnemyHealth>().TakeDamageServerRpc(damage);
+            ApplyEffect(other.gameObject);
         }
     }
 
@@ -62,6 +84,7 @@ public class DealDamage : NetworkBehaviour
         if (other.transform.GetComponent<ShieldHealth>())
         {
             other.transform.GetComponent<ShieldHealth>().TakeDamageServerRpc(damage);
+            ApplyEffect(other.gameObject);
 
             if (GetComponent<NetworkObject>().IsSpawned)
             {
@@ -83,6 +106,7 @@ public class DealDamage : NetworkBehaviour
             }
             var id = GetComponent<NetworkObject>().NetworkObjectId;
             other.transform.GetComponent<EnemyHealth>().TakeDamageServerRpc(damage);
+            ApplyEffect(other.gameObject);
 
             if (GetComponent<NetworkObject>().IsSpawned)
             {

@@ -191,7 +191,15 @@ public class Card : NetworkBehaviour
                     buffType.buffAmount = buffScript.buffAmount;
                     buffType.count++;
                     buffType.buffName = buffScript.buffName;
+
+                    if(buffType is BurnDamageBuff burn)
+                    {
+                        burn.damage = GetComponent<BurnDamageBuff>().damage;
+                        burn.duration = GetComponent<BurnDamageBuff>().duration;
+                        burn.interval = GetComponent<BurnDamageBuff>().interval;
+                    }
                 }
+
 
 
             }

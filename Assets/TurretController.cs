@@ -326,6 +326,7 @@ public class TurretController : NetworkBehaviour
                 {
                     bullet.GetComponent<DealDamage>().damage = damage;
                 }
+                bullet.GetComponent<DealDamage>().player = this;
                 
             }
 
@@ -347,6 +348,7 @@ public class TurretController : NetworkBehaviour
                 {
                     bullet.GetComponent<DealDamage>().damage = damage;
                 }
+                bullet.GetComponent<DealDamage>().player = this;
                 CreateBulletServerRpc(OwnerClientId);
             }
         }
@@ -373,6 +375,7 @@ public class TurretController : NetworkBehaviour
                 {
                     GameObject bullet = Instantiate(projectile, playerObj.GetComponent<TurretController>().shootPointParent.GetChild(i).position, playerObj.GetComponent<TurretController>().shootPointParent.GetChild(i).rotation);
                     bullet.GetComponent<Rigidbody2D>().AddForce(playerObj.GetComponent<TurretController>().shootPointParent.GetChild(i).right * shootForce, ForceMode2D.Impulse);
+                    bullet.GetComponent<DealDamage>().player = playerObj.GetComponent<TurretController>();
                 }
 
             }
