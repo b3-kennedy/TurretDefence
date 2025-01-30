@@ -151,8 +151,9 @@ public class TurretController : NetworkBehaviour
         }
         else 
         {
+            Vector3 endPos = startPos + (Vector3)(shootPointParent.GetChild(0).right * 100f);
             lr.SetPosition(0, startPos);
-            lr.SetPosition(1, shootPointParent.GetChild(0).right * 100);
+            lr.SetPosition(1, endPos);
         }
 
         if (!IsOwner) return;

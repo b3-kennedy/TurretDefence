@@ -30,6 +30,7 @@ public class DealDamage : NetworkBehaviour
 
     void ApplyEffect(GameObject other)
     {
+
         if (player.GetComponent<BurnEffect>())
         {
             var playerBurn = player.GetComponent<BurnEffect>();
