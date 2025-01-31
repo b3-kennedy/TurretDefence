@@ -25,17 +25,21 @@ public class EnemyHealth : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float dmg)
+    public void TakeDamageServerRpc(float dmg, ulong playerId)
     {
         health.Value -= dmg;
         if(health.Value <= 0)
         {
-            DeactivateGameObjectClientRpc(gameObject.GetComponent<NetworkObject>().NetworkObjectId);
+            DeactivateGameObjectClientRpc(gameObject.GetComponent<NetworkObject>().NetworkObjectId, playerId);
+            if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(playerId, out var player))
+            {
+                player.GetComponent<TurretController>().killCount.Value++;
+            }
         }
     }
 
     [ClientRpc]
-    void DeactivateGameObjectClientRpc(ulong id)
+    void DeactivateGameObjectClientRpc(ulong id, ulong playerId)
     {
 
         if(NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(id, out var enemyObj))
@@ -47,10 +51,12 @@ public class EnemyHealth : NetworkBehaviour
             }
         }
 
+
+
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ApplyEffectServerRpc(ulong objectId, float dmg, float duration, float interval)
+    public void ApplyEffectServerRpc(ulong objectId, float dmg, float duration, float interval, ulong playerId)
     {
         Debug.Log("here");
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(objectId, out var enemyObj))
@@ -62,6 +68,7 @@ public class EnemyHealth : NetworkBehaviour
                 burn.duration = duration;
                 burn.interval = interval;
                 burn.damage = dmg;
+                burn.playerId = playerId;
             }
             else
             {

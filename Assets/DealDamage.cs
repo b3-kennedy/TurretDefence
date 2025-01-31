@@ -38,7 +38,7 @@ public class DealDamage : NetworkBehaviour
             
             var playerBurn = player.GetComponent<BurnEffect>();
             other.GetComponent<EnemyHealth>().ApplyEffectServerRpc(other.GetComponent<NetworkObject>().NetworkObjectId, playerBurn.damage,
-                playerBurn.duration, playerBurn.interval);
+                playerBurn.duration, playerBurn.interval, player.GetComponent<NetworkObject>().NetworkObjectId);
 
         }
     }
@@ -69,7 +69,7 @@ public class DealDamage : NetworkBehaviour
                 GetComponent<CheckAOE>().DealDamageAOE();
             }
             var id = GetComponent<NetworkObject>().NetworkObjectId;
-            other.transform.GetComponent<EnemyHealth>().TakeDamageServerRpc(damage);
+            other.transform.GetComponent<EnemyHealth>().TakeDamageServerRpc(damage, player.GetComponent<NetworkObject>().NetworkObjectId);
             ApplyEffect(other.gameObject);
         }
     }
@@ -100,7 +100,7 @@ public class DealDamage : NetworkBehaviour
                 GetComponent<CheckAOE>().DealDamageAOE();
             }
             var id = GetComponent<NetworkObject>().NetworkObjectId;
-            other.transform.GetComponent<EnemyHealth>().TakeDamageServerRpc(damage);
+            other.transform.GetComponent<EnemyHealth>().TakeDamageServerRpc(damage, player.GetComponent<NetworkObject>().NetworkObjectId);
             ApplyEffect(other.gameObject);
 
             if (GetComponent<NetworkObject>().IsSpawned)

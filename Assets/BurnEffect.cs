@@ -6,6 +6,7 @@ public class BurnEffect : AttackModifierEffect
     public float damage;
     public float interval;
     float timer;
+    [HideInInspector] public ulong playerId;
 
 
     private void Update()
@@ -25,7 +26,7 @@ public class BurnEffect : AttackModifierEffect
             timer += Time.deltaTime;
             if(timer >= interval)
             {
-                GetComponent<EnemyHealth>().TakeDamageServerRpc(damage);
+                GetComponent<EnemyHealth>().TakeDamageServerRpc(damage, playerId);
                 timer = 0;
             }
             

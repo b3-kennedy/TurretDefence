@@ -25,6 +25,7 @@ public class BuffAndDebuffManager : NetworkBehaviour
 
     public GameObject panel;
 
+    public TextMeshProUGUI killCountText;
     public TextMeshProUGUI damageText;
     public TextMeshProUGUI fireRateText;
     public TextMeshProUGUI reloadSpeedText;
@@ -78,6 +79,7 @@ public class BuffAndDebuffManager : NetworkBehaviour
             reloadSpeedText.text = "Reload Speed: " + reloadSpeedPercent.ToString("F1")+"%";
             turnRateText.text = "Turn Rate: " + turnRatePercent.ToString("F1") + "%";
             ammoChangeText.text = "Ammo Change: " + ammoCountChange.ToString();
+            killCountText.text = "Kills: " + GetComponent<TurretController>().killCount.Value;
             
 
             buffs.Clear();

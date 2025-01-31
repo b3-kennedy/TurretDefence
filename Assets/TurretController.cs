@@ -60,6 +60,7 @@ public class TurretController : NetworkBehaviour
     public LineRenderer lr;
     public LayerMask layer;
 
+    public NetworkVariable<int> killCount;
     private void Awake()
     {
         //Vector3(-9.39999962,-2.4,0.0841460302)
@@ -269,10 +270,16 @@ public class TurretController : NetworkBehaviour
     public void ResetAmmo()
     {
         ammoCount = maxAmmoCount;
-        ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
+        UpdateAmmotext();
         isFirstShot = true;
         reloaded.Invoke();
         
+
+    }
+
+    public void UpdateAmmotext()
+    {
+        ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
 
     }
 

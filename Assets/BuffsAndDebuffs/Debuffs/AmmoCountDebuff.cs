@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class AmmoCountDebuff : Debuff
@@ -15,6 +16,7 @@ public class AmmoCountDebuff : Debuff
         if (GetComponent<TurretController>())
         {
             GetComponent<TurretController>().maxAmmoCount -= (int)debuffAmount;
+            GetComponent<TurretController>().UpdateAmmotext();
         }
     }
 

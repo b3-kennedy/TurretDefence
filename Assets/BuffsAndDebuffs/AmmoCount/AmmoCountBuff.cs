@@ -19,6 +19,7 @@ public class AmmoCountBuff : Buff
         {
             GetComponent<TurretController>().maxAmmoCount += (int)buffAmount;
             GetComponent<TurretController>().ammoCount = GetComponent<TurretController>().maxAmmoCount;
+            GetComponent<TurretController>().UpdateAmmotext();
         }
         else
         {

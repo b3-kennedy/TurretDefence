@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class CheckAOE : MonoBehaviour
@@ -12,7 +13,8 @@ public class CheckAOE : MonoBehaviour
         {
             if (collider.GetComponent<EnemyHealth>())
             {
-                collider.GetComponent<EnemyHealth>().TakeDamageServerRpc(GetComponent<DealDamage>().damage / 2f);
+                ulong playerId = GetComponent<DealDamage>().player.GetComponent<NetworkObject>().NetworkObjectId;
+                collider.GetComponent<EnemyHealth>().TakeDamageServerRpc(GetComponent<DealDamage>().damage / 2f, playerId);
             }
         }
     }
