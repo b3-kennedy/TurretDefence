@@ -20,6 +20,7 @@ public class Card : NetworkBehaviour
     List<Buff> buffScripts = new List<Buff>();
     List<Debuff> debuffScripts = new List<Debuff>();
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -83,24 +84,41 @@ public class Card : NetworkBehaviour
     {
         // Update Buff Text
         string buffText = "";
+
         foreach (var buffScript in buffScripts)
         {
-            if (buffScript.buffAmount < 1 && buffScript.buffAmount >= 0)
+            if (!buffScript.isAttackEffect)
             {
-                buffText += "+ " + (buffScript.buffAmount * 100).ToString("F1") + "% " + buffScript.buffName + "\n";
+                if (buffScript.buffAmount < 1 && buffScript.buffAmount >= 0)
+                {
+                    buffText += "+ " + (buffScript.buffAmount * 100).ToString("F1") + "% " + buffScript.buffName + "\n";
+                }
+                else if (buffScript.buffAmount >= 1)
+                {
+                    buffText += "+ " + (buffScript.buffAmount).ToString("F1") + " " + buffScript.buffName + "\n";
+                }
+                else if (buffScript.buffAmount < 0)
+                {
+                    buffText += "- " + ((buffScript.buffAmount * -1) * 100).ToString("F1") + " " + buffScript.buffName + "\n";
+                }
+                else if (buffScript.buffAmount == 0)
+                {
+                    buffText += "+ " + buffScript.buffName + "\n";
+                }
             }
-            else if (buffScript.buffAmount >= 1)
+            else
             {
-                buffText += "+ " + (buffScript.buffAmount).ToString("F1") + " " + buffScript.buffName + "\n";
+                if(buffScript.buffAmount < 1)
+                {
+                    buffText += "Apply " + buffScript.buffAmount*100 + "% " + buffScript.buffName + " On Hit For 5 Seconds";
+                }
+                else
+                {
+                    buffText += "Apply " + buffScript.buffAmount + " " + buffScript.buffName + " On Hit For 5 Seconds";
+                }
+                
             }
-            else if (buffScript.buffAmount < 0)
-            {
-                buffText += "- " + ((buffScript.buffAmount * -1) * 100).ToString("F1") + " " + buffScript.buffName + "\n";
-            }
-            else if (buffScript.buffAmount == 0)
-            {
-                buffText += "+ " + buffScript.buffName + "\n";
-            }
+
         }
 
         //debuffs applied to self appear in top section of card

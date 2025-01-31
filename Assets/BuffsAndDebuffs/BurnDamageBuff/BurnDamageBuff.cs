@@ -8,7 +8,7 @@ public class BurnDamageBuff : Buff
     public float duration;
 
 
-    private void Start()
+    private void Awake()
     {
         Apply();
     }
@@ -17,12 +17,19 @@ public class BurnDamageBuff : Buff
     {
         if (GetComponent<TurretController>())
         {
+            if (!GetComponent<BurnEffect>())
+            {
+                var playerBurn = gameObject.AddComponent<BurnEffect>();
+                playerBurn.damage = damage;
 
-            var playerBurn = gameObject.AddComponent<BurnEffect>();
-            playerBurn.damage = damage;
-            
-            playerBurn.interval = interval;
-            playerBurn.duration = duration;
+                playerBurn.interval = interval;
+                playerBurn.duration = duration;
+            }
+            else
+            {
+                GetComponent<BurnEffect>().damage += damage;
+            }
+
         }
         else
         {
