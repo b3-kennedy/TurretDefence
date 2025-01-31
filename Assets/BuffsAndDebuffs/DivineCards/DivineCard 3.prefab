@@ -595,9 +595,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
-  canRandomlyAssignValue: 1
-  buffAmount: 100
+  canRandomlyAssignValue: 0
+  buffAmount: 1
   buffName: Damage
+  count: 0
   values: {fileID: 0}
 --- !u!1 &4673155954637054945
 GameObject:

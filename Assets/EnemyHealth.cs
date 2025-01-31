@@ -48,4 +48,25 @@ public class EnemyHealth : NetworkBehaviour
         }
 
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ApplyEffectServerRpc(ulong objectId, float dmg, float duration, float interval)
+    {
+        Debug.Log("here");
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(objectId, out var enemyObj))
+        {
+
+            if (!enemyObj.GetComponent<BurnEffect>())
+            {
+                var burn = enemyObj.gameObject.AddComponent<BurnEffect>();
+                burn.duration = duration;
+                burn.interval = interval;
+                burn.damage = dmg;
+            }
+            else
+            {
+                enemyObj.GetComponent<BurnEffect>().duration = duration;
+            }
+        }
+    }
 }

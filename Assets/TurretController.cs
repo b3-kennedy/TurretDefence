@@ -80,6 +80,7 @@ public class TurretController : NetworkBehaviour
         if (OwnerClientId == 0)
         {
             transform.position = new Vector3(-8f, 1.54f, 0f);
+            gameObject.name = "Player 1";
             if (IsOwner)
             {
                 ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, 0.9f, 0f), Quaternion.identity);
@@ -92,6 +93,7 @@ public class TurretController : NetworkBehaviour
         else if (OwnerClientId == 1)
         {
             transform.position = new Vector3(-8f, -2.4f, 0f);
+            gameObject.name = "Player 2";
             if (IsOwner)
             {
                 ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, -3.15f, 0f), Quaternion.identity);
@@ -161,7 +163,11 @@ public class TurretController : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            gameObject.AddComponent(testBuff.GetType());
+            var buff = gameObject.AddComponent(testBuff.GetType());
+            if(buff is Buff newBuff)
+            {
+                newBuff.Apply();
+            }
         }
 
         if(maxAmmoCount < 0)
@@ -384,6 +390,9 @@ public class TurretController : NetworkBehaviour
 
 
     }
+
+    
+
 
     void Rotate()
     {

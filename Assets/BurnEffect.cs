@@ -20,6 +20,8 @@ public class BurnEffect : AttackModifierEffect
 
         if (GetComponent<EnemyHealth>())
         {
+            Debug.Log("burning");
+
             timer += Time.deltaTime;
             if(timer >= interval)
             {

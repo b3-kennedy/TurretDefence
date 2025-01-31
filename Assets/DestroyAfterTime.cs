@@ -1,6 +1,5 @@
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem.Processors;
 
 public class DestroyAfterTime : NetworkBehaviour
 {
@@ -30,7 +29,8 @@ public class DestroyAfterTime : NetworkBehaviour
 
             // Spawn bullet
             GameObject bullet = Instantiate(bulletPrefab, transform.position, rotation);
-            bullet.GetComponent<DealDamage>().damage = GetComponent<DealDamage>().damage / (bulletCount/2f);
+            bullet.GetComponent<DealDamage>().damage = GetComponent<DealDamage>().damage / (bulletCount / 2f);
+            bullet.GetComponent<DealDamage>().player = GetComponent<DealDamage>().player;
             // Set bullet velocity
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
             if (rb != null)
@@ -49,7 +49,7 @@ public class DestroyAfterTime : NetworkBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if(timer >= destroyTime)
+        if (timer >= destroyTime)
         {
             SpawnBullets();
             if (GetComponent<NetworkObject>().IsSpawned)

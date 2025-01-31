@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class BurnDamageBuff : Buff
@@ -16,6 +17,7 @@ public class BurnDamageBuff : Buff
     {
         if (GetComponent<TurretController>())
         {
+
             var playerBurn = gameObject.AddComponent<BurnEffect>();
             playerBurn.damage = damage;
             
@@ -28,3 +30,5 @@ public class BurnDamageBuff : Buff
         }
     }
 }
+
+

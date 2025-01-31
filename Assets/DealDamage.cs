@@ -1,6 +1,5 @@
 using System.Collections;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DealDamage : NetworkBehaviour
@@ -28,23 +27,18 @@ public class DealDamage : NetworkBehaviour
 
     }
 
+
+
     void ApplyEffect(GameObject other)
     {
+        Debug.Log(player);
 
         if (player.GetComponent<BurnEffect>())
         {
+            
             var playerBurn = player.GetComponent<BurnEffect>();
-            if (!other.GetComponent<BurnEffect>())
-            {
-                var burn = other.AddComponent<BurnEffect>();
-                burn.damage = playerBurn.damage;
-                burn.duration = playerBurn.duration;
-                burn.interval = playerBurn.interval;
-            }
-            else
-            {
-                other.GetComponent<BurnEffect>().duration = playerBurn.duration;
-            }
+            other.GetComponent<EnemyHealth>().ApplyEffectServerRpc(other.GetComponent<NetworkObject>().NetworkObjectId, playerBurn.damage,
+                playerBurn.duration, playerBurn.interval);
 
         }
     }
