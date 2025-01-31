@@ -41,6 +41,13 @@ public class DealDamage : NetworkBehaviour
                 playerBurn.duration, playerBurn.interval, player.GetComponent<NetworkObject>().NetworkObjectId);
 
         }
+        else if (player.GetComponent<SlowEffect>())
+        {
+            var playerSlow = player.GetComponent<SlowEffect>();
+            other.GetComponent<EnemyHealth>().ApplySlowServerRpc(other.GetComponent<NetworkObject>().NetworkObjectId, 
+                playerSlow.duration, playerSlow.slowAmount);
+
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

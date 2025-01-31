@@ -198,6 +198,11 @@ public class Card : NetworkBehaviour
                         burn.duration = GetComponent<BurnDamageBuff>().duration;
                         burn.interval = GetComponent<BurnDamageBuff>().interval;
                     }
+                    else if(buffType is SlowEffectBuff slow)
+                    {
+                        slow.duration = GetComponent<SlowEffectBuff>().duration;
+                        slow.slowAmount = GetComponent<SlowEffectBuff>().slowAmount;
+                    }
                 }
 
 

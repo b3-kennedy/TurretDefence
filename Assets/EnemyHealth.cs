@@ -58,7 +58,6 @@ public class EnemyHealth : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ApplyEffectServerRpc(ulong objectId, float dmg, float duration, float interval, ulong playerId)
     {
-        Debug.Log("here");
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(objectId, out var enemyObj))
         {
 
@@ -73,6 +72,25 @@ public class EnemyHealth : NetworkBehaviour
             else
             {
                 enemyObj.GetComponent<BurnEffect>().duration = duration;
+            }
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ApplySlowServerRpc(ulong objectId, float duration, float slowAmount)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(objectId, out var enemyObj))
+        {
+
+            if (!enemyObj.GetComponent<SlowEffect>())
+            {
+                var slow = enemyObj.gameObject.AddComponent<SlowEffect>();
+                slow.duration = duration;
+                slow.slowAmount = slowAmount;
+            }
+            else
+            {
+                enemyObj.GetComponent<SlowEffect>().duration = duration;
             }
         }
     }
