@@ -76,7 +76,8 @@ public class DealDamage : NetworkBehaviour
                 GetComponent<CheckAOE>().DealDamageAOE();
             }
             var id = GetComponent<NetworkObject>().NetworkObjectId;
-            other.transform.GetComponent<EnemyHealth>().TakeDamageServerRpc(damage, player.GetComponent<NetworkObject>().NetworkObjectId);
+            Vector3 dir = (player.transform.position - other.transform.position).normalized;
+            other.transform.GetComponent<EnemyHealth>().TakeDamageServerRpc(damage, player.GetComponent<NetworkObject>().NetworkObjectId, dir);
             ApplyEffect(other.gameObject);
         }
     }
@@ -107,7 +108,8 @@ public class DealDamage : NetworkBehaviour
                 GetComponent<CheckAOE>().DealDamageAOE();
             }
             var id = GetComponent<NetworkObject>().NetworkObjectId;
-            other.transform.GetComponent<EnemyHealth>().TakeDamageServerRpc(damage, player.GetComponent<NetworkObject>().NetworkObjectId);
+            Vector3 dir = (player.transform.position - other.transform.position).normalized;
+            other.transform.GetComponent<EnemyHealth>().TakeDamageServerRpc(damage, player.GetComponent<NetworkObject>().NetworkObjectId, dir);
             ApplyEffect(other.gameObject);
 
             if (GetComponent<NetworkObject>().IsSpawned)

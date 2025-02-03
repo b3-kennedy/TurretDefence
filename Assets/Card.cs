@@ -110,11 +110,11 @@ public class Card : NetworkBehaviour
             {
                 if(buffScript.buffAmount < 1)
                 {
-                    buffText += "Apply " + buffScript.buffAmount*100 + "% " + buffScript.buffName + " On Hit For 5 Seconds";
+                    buffText += "Apply " + (buffScript.buffAmount*100).ToString("F1") + "% " + buffScript.buffName + " On Hit For 5 Seconds";
                 }
                 else
                 {
-                    buffText += "Apply " + buffScript.buffAmount + " " + buffScript.buffName + " On Hit For 5 Seconds";
+                    buffText += "Apply " + buffScript.buffAmount.ToString("F1") + " " + buffScript.buffName + " On Hit For 5 Seconds";
                 }
                 
             }

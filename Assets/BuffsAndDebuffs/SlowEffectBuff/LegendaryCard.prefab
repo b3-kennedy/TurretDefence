@@ -597,7 +597,7 @@ MonoBehaviour:
   rarity: 0
   canRandomlyAssignValue: 0
   isAttackEffect: 1
-  buffAmount: 0
+  buffAmount: 0.5
   buffName: Slow
   count: 0
   slowAmount: 0.5

@@ -14,7 +14,8 @@ public class CheckAOE : MonoBehaviour
             if (collider.GetComponent<EnemyHealth>())
             {
                 ulong playerId = GetComponent<DealDamage>().player.GetComponent<NetworkObject>().NetworkObjectId;
-                collider.GetComponent<EnemyHealth>().TakeDamageServerRpc(GetComponent<DealDamage>().damage / 2f, playerId);
+                Vector3 dir = (GetComponent<DealDamage>().player.transform.position - collider.transform.position).normalized;
+                collider.GetComponent<EnemyHealth>().TakeDamageServerRpc(GetComponent<DealDamage>().damage / 2f, playerId, dir);
             }
         }
     }

@@ -1,10 +1,13 @@
 using Unity.Netcode;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class EnemyHealth : NetworkBehaviour
 {
     public float maxHealth = 100;
     public NetworkVariable<float> health;
+    public List<GameObject> bloodSplatters = new List<GameObject>();
+    public List<GameObject> deathSplatters = new List<GameObject>();
 
 
     public override void OnNetworkSpawn()
@@ -25,16 +28,28 @@ public class EnemyHealth : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float dmg, ulong playerId)
+    public void TakeDamageServerRpc(float dmg, ulong playerId, Vector3 hitDirection)
     {
         health.Value -= dmg;
-        if(health.Value <= 0)
+        if (health.Value > 0)
+        {
+            int randomNum = Random.Range(0, bloodSplatters.Count);
+            GameObject splatter = Instantiate(bloodSplatters[randomNum], transform.position, Quaternion.identity);
+            splatter.GetComponent<NetworkObject>().Spawn();
+        }
+        else if(health.Value <= 0)
         {
             DeactivateGameObjectClientRpc(gameObject.GetComponent<NetworkObject>().NetworkObjectId, playerId);
             if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(playerId, out var player))
             {
                 player.GetComponent<TurretController>().killCount.Value++;
             }
+            //spawn a blood splatter rotation based on the angle from projectile that hit this gameobject
+            int randomNum = Random.Range(0, bloodSplatters.Count);
+            float angle = Mathf.Atan2(hitDirection.y, hitDirection.x) * Mathf.Rad2Deg;
+            Quaternion bloodRotation = Quaternion.Euler(0, 0, angle+180f);
+            GameObject splatter = Instantiate(deathSplatters[randomNum], transform.position, bloodRotation);
+            splatter.GetComponent<NetworkObject>().Spawn();
         }
     }
 

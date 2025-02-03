@@ -10,6 +10,11 @@ public class BurnDamageBuff : Buff
 
     private void Awake()
     {
+        
+    }
+
+    private void Start()
+    {
         Apply();
     }
 
@@ -19,11 +24,14 @@ public class BurnDamageBuff : Buff
         {
             if (!GetComponent<BurnEffect>())
             {
+                
                 var playerBurn = gameObject.AddComponent<BurnEffect>();
                 playerBurn.damage = damage;
 
                 playerBurn.interval = interval;
                 playerBurn.duration = duration;
+
+                Debug.Log(damage);
             }
             else
             {

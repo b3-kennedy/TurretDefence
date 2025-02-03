@@ -4,6 +4,7 @@ using Unity.Netcode;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using TMPro;
+using Unity.Networking.Transport;
 
 
 
@@ -61,11 +62,20 @@ public class TurretController : NetworkBehaviour
     public LayerMask layer;
 
     public NetworkVariable<int> killCount;
+
+    public GameObject turretStand;
+
+    public NetworkVariable<bool> shootAnimBool;
+
+    public GameObject shootParticles;
+
+    Animator anim;
+
     private void Awake()
     {
         //Vector3(-9.39999962,-2.4,0.0841460302)
         //Vector3(-9.39999962,2.4,0.0841460302)
-
+        anim = GetComponent<Animator>();
 
     }
 
@@ -80,29 +90,31 @@ public class TurretController : NetworkBehaviour
 
         if (OwnerClientId == 0)
         {
-            transform.position = new Vector3(-8f, 1.54f, 0f);
+            transform.position = new Vector3(-8f, 3.3f, 0f);
+            Instantiate(turretStand, new Vector3(transform.position.x + 0.031f, transform.position.y, transform.position.z), Quaternion.identity);
             gameObject.name = "Player 1";
             if (IsOwner)
             {
-                ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, 0.9f, 0f), Quaternion.identity);
+                ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, transform.position.y - 1f, 0f), Quaternion.identity);
                 ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
             }
-            reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 0.8f, 0f), Quaternion.identity);
+            reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 1f, 0f), Quaternion.identity);
 
 
         }
         else if (OwnerClientId == 1)
         {
             transform.position = new Vector3(-8f, -2.4f, 0f);
+            Instantiate(turretStand, new Vector3(transform.position.x + 0.031f, transform.position.y, transform.position.z), Quaternion.identity);
             gameObject.name = "Player 2";
             if (IsOwner)
             {
-                ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, -3.15f, 0f), Quaternion.identity);
+                ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, transform.position.y - 1f, 0f), Quaternion.identity);
                 ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
 
             }
 
-            reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 0.8f, 0f), Quaternion.identity);
+            reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 1f, 0f), Quaternion.identity);
        
 
         }
@@ -141,6 +153,18 @@ public class TurretController : NetworkBehaviour
         }
     }
 
+    void Animation()
+    {
+        if (shootAnimBool.Value)
+        {
+            anim.SetBool("shoot", true);
+        }
+        else
+        {
+            anim.SetBool("shoot", false);
+        }
+    }
+
     void Update()
     {
 
@@ -158,6 +182,8 @@ public class TurretController : NetworkBehaviour
             lr.SetPosition(0, startPos);
             lr.SetPosition(1, endPos);
         }
+
+        Animation();
 
         if (!IsOwner) return;
 
@@ -201,10 +227,24 @@ public class TurretController : NetworkBehaviour
         {
             stoppedFiring = false;
             Shoot();
+            GameObject particles = Instantiate(shootParticles, shootPointParent.GetChild(0).position, Quaternion.Euler(-transform.eulerAngles.z, 
+                90f, 0));
             ammoCount--;
             ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
             shot.Invoke();
             fireCooldown = fireRate;
+            anim.SetBool("shoot", true);
+            PlayShootAnimServerRpc(GetComponent<NetworkObject>().NetworkObjectId, true, NetworkManager.Singleton.LocalClientId);
+        }
+        else
+        {
+            if (shootAnimBool.Value)
+            {
+                anim.SetBool("shoot", false);
+                PlayShootAnimServerRpc(GetComponent<NetworkObject>().NetworkObjectId, false, NetworkManager.Singleton.LocalClientId);
+            }
+            
+
         }
 
         if (isReloading)
@@ -225,8 +265,62 @@ public class TurretController : NetworkBehaviour
                 reloadTimer = 0;
             }
         }
+        
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void PlayShootAnimServerRpc(ulong turretId, bool value, ulong clientId)
+    {
+        PlayShootAnimClientRpc(turretId, value, clientId);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void ChangeAnimBoolServerRpc(bool value, ulong turretId)
+    {
+        if(NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(turretId, out var turret))
+        {
+            turret.GetComponent<TurretController>().shootAnimBool.Value = value;
+        }
+        
+    }
+
+    [ClientRpc]
+    void PlayShootAnimClientRpc(ulong turretId, bool value, ulong clientId)
+    {
+        if(NetworkManager.Singleton.LocalClientId != clientId)
+        {
+            if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(turretId, out var turret))
+            {
+                ChangeAnimBoolServerRpc(value, turretId);
+                if (value)
+                {
+                    GameObject particles = Instantiate(shootParticles, turret.GetComponent<TurretController>().shootPointParent.GetChild(0).position, Quaternion.Euler(-turret.transform.eulerAngles.z,
+                        90f, 0));
+                }
+
+            }
+        }
 
     }
+
+
+
+    [ServerRpc(RequireOwnership = false)]
+    void StopShootAnimServerRpc(ulong turretId)
+    {
+        StopShootAnimClientRpc(turretId);
+    }
+
+    [ClientRpc]
+    void StopShootAnimClientRpc(ulong turretId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(turretId, out var turret))
+        {
+            Animator anim = turret.GetComponent<Animator>();
+            anim.SetBool("shoot", false);
+        }
+    }
+
 
     [ServerRpc(RequireOwnership = false)]
     void ShowReloadingTextServerRpc(ulong clientId)

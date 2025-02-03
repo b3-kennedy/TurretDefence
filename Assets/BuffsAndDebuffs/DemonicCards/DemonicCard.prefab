@@ -596,9 +596,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
-  canRandomlyAssignValue: 1
+  canRandomlyAssignValue: 0
+  isAttackEffect: 0
   buffAmount: 0.9
   buffName: Fire Rate
+  count: 0
   values: {fileID: 11400000, guid: ee475d489f774b340a58924f2985f514, type: 2}
 --- !u!114 &8027591082871302081
 MonoBehaviour:
@@ -613,11 +615,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  canRandomlyAssignValue: 1
+  canRandomlyAssignValue: 0
+  applyToSelf: 0
   debuffValues: {fileID: 0}
   rarity: 0
   debuffAmount: 0.5
   debuffName: Damage
+  count: 0
   values: {fileID: 11400000, guid: 264d5b52577e7eb42846cfef77867908, type: 2}
 --- !u!1 &4673155954637054945
 GameObject:

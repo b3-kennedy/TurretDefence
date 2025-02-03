@@ -26,7 +26,7 @@ public class BurnEffect : AttackModifierEffect
             timer += Time.deltaTime;
             if(timer >= interval)
             {
-                GetComponent<EnemyHealth>().TakeDamageServerRpc(damage, playerId);
+                GetComponent<EnemyHealth>().TakeDamageServerRpc(damage, playerId, Vector3.zero);
                 timer = 0;
             }
             

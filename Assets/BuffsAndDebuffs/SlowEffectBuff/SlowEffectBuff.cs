@@ -7,12 +7,12 @@ public class SlowEffectBuff : Buff
 
     private void Awake()
     {
-        Apply();
+        
     }
 
     private void Start()
     {
-        
+        Apply();
     }
 
     public override void Apply()
@@ -24,6 +24,8 @@ public class SlowEffectBuff : Buff
                 var slow = gameObject.AddComponent<SlowEffect>();
                 slow.slowAmount = slowAmount;
                 slow.duration = duration;
+
+                Debug.Log(slowAmount);
             }
 
         }
