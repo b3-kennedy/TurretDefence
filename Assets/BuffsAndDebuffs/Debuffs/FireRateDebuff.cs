@@ -10,7 +10,7 @@ public class FireRateDebuff : Debuff
     void Start()
     {
 
-
+        Apply();
     }
 
     public override void Apply()

@@ -214,7 +214,7 @@ MonoBehaviour:
   bloodSplatters:
   - {fileID: 8143453991058939521, guid: d2d40e5495edaec40a6903f514380140, type: 3}
   deathSplatters:
-  - {fileID: 4000372266035781965, guid: d9add44410041fb4da2861947831e215, type: 3}
+  - {fileID: 7440260946001878662, guid: 5c71e6f2651e26b4a99f228128c40687, type: 3}
 --- !u!58 &-9143999510380244104
 CircleCollider2D:
   m_ObjectHideFlags: 0

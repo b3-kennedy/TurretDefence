@@ -14,9 +14,18 @@ public class CheckAOE : MonoBehaviour
             if (collider.GetComponent<EnemyHealth>())
             {
                 ulong playerId = GetComponent<DealDamage>().player.GetComponent<NetworkObject>().NetworkObjectId;
-                Vector3 dir = (GetComponent<DealDamage>().player.transform.position - collider.transform.position).normalized;
+                Vector3 dir = (transform.position - collider.transform.position).normalized;
                 collider.GetComponent<EnemyHealth>().TakeDamageServerRpc(GetComponent<DealDamage>().damage / 2f, playerId, dir);
             }
         }
+
+        EnemySpawnManager.Instance.CreateExplosionServerRpc(transform.position);
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
+        Gizmos.DrawSphere(transform.position, radius);
+    }
+
 }

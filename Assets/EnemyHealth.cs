@@ -35,6 +35,11 @@ public class EnemyHealth : NetworkBehaviour
         {
             int randomNum = Random.Range(0, bloodSplatters.Count);
             GameObject splatter = Instantiate(bloodSplatters[randomNum], transform.position, Quaternion.identity);
+            SpriteRenderer mainRenderer = GetComponent<SpriteRenderer>();
+            SpriteRenderer splatterRenderer = splatter.GetComponentInChildren<SpriteRenderer>();
+            Color originalColor = mainRenderer.color;
+            Color darkerColor = originalColor * 0.5f;
+            splatterRenderer.color = darkerColor;
             splatter.GetComponent<NetworkObject>().Spawn();
         }
         else if(health.Value <= 0)
@@ -49,6 +54,11 @@ public class EnemyHealth : NetworkBehaviour
             float angle = Mathf.Atan2(hitDirection.y, hitDirection.x) * Mathf.Rad2Deg;
             Quaternion bloodRotation = Quaternion.Euler(0, 0, angle+180f);
             GameObject splatter = Instantiate(deathSplatters[randomNum], transform.position, bloodRotation);
+            SpriteRenderer mainRenderer = GetComponent<SpriteRenderer>();
+            SpriteRenderer splatterRenderer = splatter.GetComponentInChildren<SpriteRenderer>();
+            Color originalColor = mainRenderer.color;
+            Color darkerColor = originalColor * 0.5f;
+            splatterRenderer.color = darkerColor;
             splatter.GetComponent<NetworkObject>().Spawn();
         }
     }
@@ -69,6 +79,8 @@ public class EnemyHealth : NetworkBehaviour
 
 
     }
+
+
 
     [ServerRpc(RequireOwnership = false)]
     public void ApplyEffectServerRpc(ulong objectId, float dmg, float duration, float interval, ulong playerId)

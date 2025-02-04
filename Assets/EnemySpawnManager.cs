@@ -60,6 +60,8 @@ public class EnemySpawnManager : NetworkBehaviour
     public List<Wave> waves;
 
     public bool isGameOver = false;
+
+    public GameObject explosion;
     private void Awake()
     {
         Instance = this;
@@ -79,6 +81,13 @@ public class EnemySpawnManager : NetworkBehaviour
         {
             waves[i].total = perWaveEnemyGaph.Evaluate(i);
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void CreateExplosionServerRpc(Vector3 position)
+    {
+        GameObject e = Instantiate(explosion, position, Quaternion.Euler(0, 0, Random.Range(0f, 360f)));
+        e.GetComponent<NetworkObject>().Spawn();
     }
 
     Vector2 GetSpawnPoint()

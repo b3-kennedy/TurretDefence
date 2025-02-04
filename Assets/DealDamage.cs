@@ -31,8 +31,6 @@ public class DealDamage : NetworkBehaviour
 
     void ApplyEffect(GameObject other)
     {
-        Debug.Log(player);
-
         if (player.GetComponent<BurnEffect>())
         {
             
