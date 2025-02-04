@@ -4099,7 +4099,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6901961}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5455,8 +5455,7 @@ MonoBehaviour:
     - {fileID: 506163310617122084, guid: 2ad4b1a57be21724b91763b5a3c8d1a8, type: 3}
     - {fileID: 506163310617122084, guid: e7a612dfc78194842b32c6b7d066c4ef, type: 3}
     - {fileID: 506163310617122084, guid: d6fcad475100a6944a707c7ff40b2333, type: 3}
-    - {fileID: 506163310617122084, guid: d6fcad475100a6944a707c7ff40b2333, type: 3}
-    - {fileID: 1288794768723064984, guid: 893b37990c11b5f4080fc2c7b90ca12a, type: 3}
+    - {fileID: 2120816840640836426, guid: 63bc24a8684b3f04290aea4278347422, type: 3}
   - rarity: 1
     spawnChance: 37
     cards:
@@ -5489,6 +5488,10 @@ MonoBehaviour:
     - {fileID: 2120816840640836426, guid: b836553cd8dcecd438a52e5072baa34c, type: 3}
     - {fileID: 2120816840640836426, guid: b5c53bd73e0a66649944957a621a7858, type: 3}
     - {fileID: 2120816840640836426, guid: 63bc24a8684b3f04290aea4278347422, type: 3}
+    - {fileID: 1288794768723064984, guid: 893b37990c11b5f4080fc2c7b90ca12a, type: 3}
+    - {fileID: 2120816840640836426, guid: 41cbd247f6545944182d0bc308c957a9, type: 3}
+    - {fileID: 2120816840640836426, guid: 4d6e71309eefc4541a8b235e2fb7bfc9, type: 3}
+    - {fileID: 2120816840640836426, guid: 82d6398d8bb043740b01dd51d8dcb168, type: 3}
   - rarity: 4
     spawnChance: 0.5
     cards:
@@ -6317,6 +6320,10 @@ PrefabInstance:
       propertyPath: explosion
       value: 
       objectReference: {fileID: 2691847208599456269, guid: e719cbce7ab0c904587e90906cf4472e, type: 3}
+    - target: {fileID: 7419518432528036037, guid: b96fea0ea1b9cf54a9c005330b717c78, type: 3}
+      propertyPath: fireEffect
+      value: 
+      objectReference: {fileID: 4587377412659273196, guid: 111a60afa40dc3141902cdb07b83a0e4, type: 3}
     - target: {fileID: 7419518432528036037, guid: b96fea0ea1b9cf54a9c005330b717c78, type: 3}
       propertyPath: gameOverUI
       value: 

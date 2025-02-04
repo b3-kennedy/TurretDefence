@@ -1,4 +1,5 @@
-using Unity.Services.Matchmaker.Models;
+
+using Unity.Netcode;
 using UnityEngine;
 
 public class BurnEffect : AttackModifierEffect
@@ -7,7 +8,24 @@ public class BurnEffect : AttackModifierEffect
     public float interval;
     float timer;
     [HideInInspector] public ulong playerId;
+    GameObject spawnedFire;
 
+
+    private void Start()
+    {
+        if (GetComponent<EnemyHealth>())
+        {
+            EnemySpawnManager.Instance.CreateFireServerRpc(GetComponent<NetworkObject>().NetworkObjectId, duration);
+        }
+    }
+
+    public override void OnDestroy()
+    {
+        if(spawnedFire != null)
+        {
+            Destroy(spawnedFire);
+        }
+    }
 
     private void Update()
     {
@@ -21,7 +39,6 @@ public class BurnEffect : AttackModifierEffect
 
         if (GetComponent<EnemyHealth>())
         {
-            Debug.Log("burning");
 
             timer += Time.deltaTime;
             if(timer >= interval)

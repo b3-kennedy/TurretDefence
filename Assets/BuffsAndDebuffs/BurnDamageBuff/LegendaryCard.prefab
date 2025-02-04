@@ -603,6 +603,7 @@ MonoBehaviour:
   damage: 5
   interval: 1
   duration: 5
+  fire: {fileID: 4587377412659273196, guid: 111a60afa40dc3141902cdb07b83a0e4, type: 3}
 --- !u!1 &4673155954637054945
 GameObject:
   m_ObjectHideFlags: 0

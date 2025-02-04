@@ -6,6 +6,7 @@ public class EnemyController : NetworkBehaviour
     Rigidbody2D rb;
     public float speed;
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -14,6 +15,11 @@ public class EnemyController : NetworkBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        
+    }
+
+    private void FixedUpdate()
     {
         rb.linearVelocity = -transform.right * speed;
     }

@@ -30,8 +30,6 @@ public class BurnDamageBuff : Buff
 
                 playerBurn.interval = interval;
                 playerBurn.duration = duration;
-
-                Debug.Log(damage);
             }
             else
             {

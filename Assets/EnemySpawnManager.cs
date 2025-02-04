@@ -61,7 +61,10 @@ public class EnemySpawnManager : NetworkBehaviour
 
     public bool isGameOver = false;
 
+    [Header("Effects")]
     public GameObject explosion;
+
+    public GameObject fireEffect;
     private void Awake()
     {
         Instance = this;
@@ -88,6 +91,31 @@ public class EnemySpawnManager : NetworkBehaviour
     {
         GameObject e = Instantiate(explosion, position, Quaternion.Euler(0, 0, Random.Range(0f, 360f)));
         e.GetComponent<NetworkObject>().Spawn();
+        Destroy(e, 0.25f);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void CreateFireServerRpc(ulong parentId, float destroyTime)
+    {
+        if(NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(parentId, out var parent))
+        {
+            GameObject spawnedFire = Instantiate(fireEffect);
+            var comp = spawnedFire.AddComponent<DestroyTime>();
+            comp.destroyTime = destroyTime;
+            spawnedFire.GetComponent<NetworkObject>().Spawn();
+            spawnedFire.GetComponent<NetworkObject>().TrySetParent(parent);
+            MoveFireClientRpc(spawnedFire.GetComponent<NetworkObject>().NetworkObjectId);
+            
+        }
+    }
+
+    [ClientRpc]
+    void MoveFireClientRpc(ulong fireId)
+    {
+        if(NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(fireId, out var fire))
+        {
+            fire.transform.localPosition = Vector3.zero;
+        }
     }
 
     Vector2 GetSpawnPoint()

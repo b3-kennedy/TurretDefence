@@ -6,6 +6,7 @@ public class EnemyHealth : NetworkBehaviour
 {
     public float maxHealth = 100;
     public NetworkVariable<float> health;
+    public Vector3 fireScale;
     public List<GameObject> bloodSplatters = new List<GameObject>();
     public List<GameObject> deathSplatters = new List<GameObject>();
 
@@ -17,8 +18,6 @@ public class EnemyHealth : NetworkBehaviour
             health.Value = maxHealth;
         }
 
-        
-        
     }
 
     public void UpdateScale()
@@ -41,6 +40,7 @@ public class EnemyHealth : NetworkBehaviour
             Color darkerColor = originalColor * 0.5f;
             splatterRenderer.color = darkerColor;
             splatter.GetComponent<NetworkObject>().Spawn();
+            ChangeSplatterColourClientRpc(splatter.GetComponent<NetworkObject>().NetworkObjectId, darkerColor);
         }
         else if(health.Value <= 0)
         {
@@ -60,6 +60,16 @@ public class EnemyHealth : NetworkBehaviour
             Color darkerColor = originalColor * 0.5f;
             splatterRenderer.color = darkerColor;
             splatter.GetComponent<NetworkObject>().Spawn();
+            ChangeSplatterColourClientRpc(splatter.GetComponent<NetworkObject>().NetworkObjectId, darkerColor);
+        }
+    }
+
+    [ClientRpc]
+    void ChangeSplatterColourClientRpc(ulong splatterId, Color color)
+    {
+        if(NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(splatterId, out var splatter))
+        {
+            splatter.GetComponentInChildren<SpriteRenderer>().color = color;
         }
     }
 

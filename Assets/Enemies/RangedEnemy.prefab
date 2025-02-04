@@ -229,6 +229,7 @@ MonoBehaviour:
   maxHealth: 100
   health:
     m_InternalValue: 0
+  fireScale: {x: 0.1, y: 0.1, z: 1}
   bloodSplatters:
   - {fileID: 8143453991058939521, guid: d2d40e5495edaec40a6903f514380140, type: 3}
   deathSplatters:
