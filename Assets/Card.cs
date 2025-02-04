@@ -187,13 +187,21 @@ public class Card : NetworkBehaviour
                     {
                         buffType.buffAmount *= (1f - buffScript.buffAmount);
                         buffType.count++;
-                        
+
                         buffType.Apply();
                     }
                     else
                     {
-                        EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount += (int)buffScript.buffAmount;
-                        EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().ammoCount = EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount;
+                        if (buffType is BurnDamageBuff burn)
+                        {
+                            EnemySpawnManager.Instance.localPlayer.GetComponent<BurnEffect>().damage += burn.damage;
+                        }
+                        else if(buffType is AmmoCountBuff)
+                        {
+                            EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount += (int)buffScript.buffAmount;
+                            EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().ammoCount = EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount;
+                        }
+
                         buffType.buffAmount += buffScript.buffAmount;
                         buffType.count++;
                     }
