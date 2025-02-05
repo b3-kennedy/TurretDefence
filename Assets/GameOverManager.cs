@@ -82,7 +82,7 @@ public class GameOverManager : NetworkBehaviour
         TurretController turret = EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>();
 
         turret.fireRate = 1f;
-        turret.damage = 50f;
+        turret.damage = 60f;
         turret.rotationSpeed = 90f;
         turret.reloadTime = 3f;
         turret.projectile = defaultProjectile;

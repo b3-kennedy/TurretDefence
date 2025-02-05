@@ -61,6 +61,11 @@ public class EnemySpawnManager : NetworkBehaviour
 
     public bool isGameOver = false;
 
+    bool hasActivatedLowPass = false;
+
+    bool startTextTimer;
+    float textTimer;
+
     [Header("Effects")]
     public GameObject explosion;
 
@@ -154,7 +159,7 @@ public class EnemySpawnManager : NetworkBehaviour
     [ClientRpc]
     void HideUpgradeInterfaceClientRpc()
     {
-        
+        AudioManager.Instance.ActivateMusicLowPass();
         UpgradeManager.Instance.HideInterface();
         Cursor.visible = true;
 
@@ -177,12 +182,18 @@ public class EnemySpawnManager : NetworkBehaviour
     [ClientRpc]
     void StartGameForClientRpc()
     {
+        AudioManager.Instance.boomSource.PlayOneShot(AudioManager.Instance.boomSource.clip);
+        AudioManager.Instance.musicSource.volume = 0f;
+        AudioManager.Instance.audioSettingsButton.gameObject.SetActive(true);
+        startTextTimer = true;
         defendWallText.SetActive(true);
+        
         Destroy(defendWallText, 3f);
         startPanel.SetActive(false);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         localPlayer.GetComponent<TurretController>().canShoot = true;
+        AudioManager.Instance.ActivateMusicLowPass();
     }
 
 
@@ -207,6 +218,17 @@ public class EnemySpawnManager : NetworkBehaviour
     {
         if (isPaused.Value) return;
 
+        if (startTextTimer)
+        {
+            textTimer += Time.deltaTime;
+            if(textTimer >= 3f)
+            {
+                AudioManager.Instance.MusicSmoothToMaxVolume();
+                startTextTimer = false;
+                textTimer = 0;
+            }
+        }
+
         if (waveTimerText.gameObject.activeSelf && !isGameOver)
         {
             endOfWaveTimer += Time.deltaTime;
@@ -217,6 +239,12 @@ public class EnemySpawnManager : NetworkBehaviour
 
         if (canSpawn)
         {
+
+            if (!hasActivatedLowPass)
+            {
+                AudioManager.Instance.ActivateMusicLowPass();
+                hasActivatedLowPass = true;
+            }
 
             if (UpgradeManager.Instance.GetInterface().activeSelf)
             {
@@ -299,6 +327,7 @@ public class EnemySpawnManager : NetworkBehaviour
 
         if(dead >= perWaveEnemyGaph.Evaluate(waveCount))
         {
+            hasActivatedLowPass = false;
             ShowUpgradeInterfaceServerRpc();
             UpdateWaveCountServerRpc();
             canSpawn = false;

@@ -41,10 +41,12 @@ public class EnemyHealth : NetworkBehaviour
             splatterRenderer.color = darkerColor;
             splatter.GetComponent<NetworkObject>().Spawn();
             ChangeSplatterColourClientRpc(splatter.GetComponent<NetworkObject>().NetworkObjectId, darkerColor);
+            AudioManager.Instance.PlayHitSoundServerRpc(NetworkManager.Singleton.LocalClientId, false);
         }
         else if(health.Value <= 0)
         {
             DeactivateGameObjectClientRpc(gameObject.GetComponent<NetworkObject>().NetworkObjectId, playerId);
+            AudioManager.Instance.PlayHitSoundServerRpc(NetworkManager.Singleton.LocalClientId, true);
             if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(playerId, out var player))
             {
                 player.GetComponent<TurretController>().killCount.Value++;

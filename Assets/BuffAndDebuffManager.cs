@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
+using UnityEngine.UI;
 
 public class BuffAndDebuffManager : NetworkBehaviour
 {
@@ -38,6 +39,8 @@ public class BuffAndDebuffManager : NetworkBehaviour
     public TextMeshProUGUI contentTitle;
     public GameObject button;
 
+    public Button statsButton;
+
     public bool showBuff;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -51,6 +54,8 @@ public class BuffAndDebuffManager : NetworkBehaviour
         startAmmoCount = tc.maxAmmoCount;
 
         CalculateStats();
+
+        statsButton.onClick.AddListener(ShowPanel);
     }
 
     void CalculateStats()
@@ -97,7 +102,50 @@ public class BuffAndDebuffManager : NetworkBehaviour
             tc.canShoot = true;
             panel.SetActive(false);
         }
+
+        if (panel.activeSelf)
+        {
+            EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().canShoot = false;
+        }
     }
+
+    public void ShowPanel()
+    {
+        statsButton.onClick.RemoveAllListeners();
+        statsButton.onClick.AddListener(HidePanel);
+        tc.canShoot = false;
+        panel.SetActive(true);
+        tc.canShoot = false;
+
+        CalculateStats();
+
+        damageText.text = "Damage: " + damagePercent.ToString("F1") + "%";
+        fireRateText.text = "Fire Rate: " + fireRatePercent.ToString("F1") + "%";
+        reloadSpeedText.text = "Reload Speed: " + reloadSpeedPercent.ToString("F1") + "%";
+        turnRateText.text = "Turn Rate: " + turnRatePercent.ToString("F1") + "%";
+        ammoChangeText.text = "Ammo Change: " + ammoCountChange.ToString();
+        killCountText.text = "Kills: " + GetComponent<TurretController>().killCount.Value;
+
+
+        buffs.Clear();
+        debuffs.Clear();
+
+        buffs.AddRange(GetComponents<Buff>());
+
+        debuffs.AddRange(GetComponents<Debuff>());
+
+        ShowBuffsOrDebuffs();
+        panel.SetActive(true);
+    }
+
+    public void HidePanel()
+    {
+        statsButton.onClick.RemoveAllListeners();
+        statsButton.onClick.AddListener(ShowPanel);
+        tc.canShoot = true;
+        panel.SetActive(false);
+    }
+
 
     void ShowBuffsOrDebuffs()
     {

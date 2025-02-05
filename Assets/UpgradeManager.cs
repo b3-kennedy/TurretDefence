@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEngine.Rendering;
-using System.Linq;
+
 
 [System.Serializable]
 public class RarityAndSpawnChance
@@ -130,6 +129,7 @@ public class UpgradeManager : NetworkBehaviour
 
     public void ShowInterface() 
     {
+        AudioManager.Instance.DeactivateMusicLowPass();
         upgradeUi.SetActive(true);
         for (int i = 0; i < 3; i++)
         {
@@ -165,6 +165,18 @@ public class UpgradeManager : NetworkBehaviour
             Destroy(cardParent.GetChild(i).gameObject);
         }
         EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().canShoot = true;
+    }
+
+    private void Update()
+    {
+        if (upgradeUi != null && upgradeUi.activeSelf)
+        {
+            if(EnemySpawnManager.Instance.localPlayer != null)
+            {
+                EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().canShoot = false;
+            }
+            
+        }
     }
 
 }

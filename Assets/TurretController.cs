@@ -71,11 +71,14 @@ public class TurretController : NetworkBehaviour
 
     Animator anim;
 
+    public AudioSource shootSource;
+
     private void Awake()
     {
         //Vector3(-9.39999962,-2.4,0.0841460302)
         //Vector3(-9.39999962,2.4,0.0841460302)
         anim = GetComponent<Animator>();
+        AudioManager.Instance.effectsSources.Add(shootSource);
 
     }
 
@@ -118,6 +121,8 @@ public class TurretController : NetworkBehaviour
        
 
         }
+
+        
     }
 
     private void OnEnable()
@@ -420,6 +425,8 @@ public class TurretController : NetworkBehaviour
         //instantiate local bullet
         if (IsServer)
         {
+            shootSource.PlayOneShot(shootSource.clip);
+            PlayGunshotServerRpc(NetworkManager.Singleton.LocalClientId);
             for (int i = 0; i < shootPointCount; i++)
             {
                 GameObject bullet = Instantiate(projectile, shootPointParent.GetChild(i).position, shootPointParent.GetChild(i).rotation);
@@ -441,7 +448,7 @@ public class TurretController : NetworkBehaviour
         }
         else
         {
-
+            shootSource.PlayOneShot(shootSource.clip);
             for (int i = 0; i < shootPointCount; i++)
             {
                 GameObject bullet = Instantiate(projectile, shootPointParent.GetChild(i).position, shootPointParent.GetChild(i).rotation);
@@ -458,9 +465,29 @@ public class TurretController : NetworkBehaviour
                 }
                 bullet.GetComponent<DealDamage>().player = this;
                 CreateBulletServerRpc(OwnerClientId);
-            }
-        }
 
+            }
+            PlayGunshotServerRpc(NetworkManager.Singleton.LocalClientId);
+        }
+        
+        
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    void PlayGunshotServerRpc(ulong clientId)
+    {
+        PlayGunshotClientRpc(clientId);
+    }
+
+    [ClientRpc]
+    void PlayGunshotClientRpc(ulong clientId)
+    {
+        if(NetworkManager.Singleton.LocalClientId != clientId)
+        {
+            shootSource.pitch = 1.2f;
+            shootSource.PlayOneShot(shootSource.clip);
+        }
         
     }
 
@@ -485,9 +512,10 @@ public class TurretController : NetworkBehaviour
                     bullet.GetComponent<Rigidbody2D>().AddForce(playerObj.GetComponent<TurretController>().shootPointParent.GetChild(i).right * shootForce, ForceMode2D.Impulse);
                     bullet.GetComponent<DealDamage>().player = playerObj.GetComponent<TurretController>();
                 }
-
             }
+            
         }
+        
 
 
     }

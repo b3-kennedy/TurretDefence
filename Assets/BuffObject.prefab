@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6589438183425149471}
   - component: {fileID: -4023557041501584730}
-  - component: {fileID: 23335621032775973}
+  - component: {fileID: 10263523277902925}
   m_Layer: 0
   m_Name: BuffObject
   m_TagString: Untagged
@@ -58,7 +58,7 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &23335621032775973
+--- !u!114 &10263523277902925
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,16 +67,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4764356414918244771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd90a833811f8c548aa18d78539c417f, type: 3}
+  m_Script: {fileID: 11500000, guid: ba41e13a47e90214c8a96cd83e76af88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 1
   isAttackEffect: 0
-  buffAmount: 5
+  buffAmount: 0
   buffName: Fire Rate
   count: 0
-  damage: 5
-  interval: 1
-  duration: 5
