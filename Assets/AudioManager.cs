@@ -15,6 +15,9 @@ public class AudioManager : NetworkBehaviour
     public AudioSource normalImpactSource;
     public AudioSource explosionSource;
     public AudioSource boomSource;
+    public AudioSource demonSource;
+    public AudioSource angelSource;
+    public AudioSource wallHitSource;
 
     public List<AudioClip> musicList;
 
@@ -143,7 +146,6 @@ public class AudioManager : NetworkBehaviour
         {
             
             musicSource.volume = Mathf.MoveTowards(musicSource.volume, musicVolume, Time.deltaTime*0.1f);
-            Debug.Log(musicSource.volume);
             if(musicSource.volume >= musicVolume)
             {
                 toMax = false;
@@ -172,7 +174,7 @@ public class AudioManager : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void PlayExplosionServerRpc(ulong clientId)
     {
         PlayExposionClientRpc(clientId);
@@ -210,5 +212,44 @@ public class AudioManager : NetworkBehaviour
             normalImpactSource.PlayOneShot(normalImpactSource.clip);
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void PlayDemonServerRpc()
+    {
+        PlayDemonClientRpc();
+    }
+
+    [ClientRpc]
+    void PlayDemonClientRpc()
+    {
+        demonSource.Play();
+        Debug.Log("Player has found demonic card");
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void PlayAngelServerRpc()
+    {
+        PlayAngelClientRpc();
+    }
+
+    [ClientRpc]
+    void PlayAngelClientRpc()
+    {
+        angelSource.Play();
+        Debug.Log("Player has found divine card");
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void PlayWallHitServerRpc()
+    {
+        PlayWallHitClientRpc();
+    }
+
+    [ClientRpc]
+    void PlayWallHitClientRpc()
+    {
+        wallHitSource.Play();
+    }
+
 
 }

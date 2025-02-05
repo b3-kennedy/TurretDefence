@@ -18,6 +18,7 @@ public class CheckAOE : MonoBehaviour
                 collider.GetComponent<EnemyHealth>().TakeDamageServerRpc(GetComponent<DealDamage>().damage / 2f, playerId, dir);
             }
         }
+        AudioManager.Instance.explosionSource.PlayOneShot(AudioManager.Instance.explosionSource.clip);
         AudioManager.Instance.PlayExplosionServerRpc(NetworkManager.Singleton.LocalClientId);
         EnemySpawnManager.Instance.CreateExplosionServerRpc(transform.position);
     }

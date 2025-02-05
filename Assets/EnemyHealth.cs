@@ -32,15 +32,6 @@ public class EnemyHealth : NetworkBehaviour
         health.Value -= dmg;
         if (health.Value > 0)
         {
-            int randomNum = Random.Range(0, bloodSplatters.Count);
-            GameObject splatter = Instantiate(bloodSplatters[randomNum], transform.position, Quaternion.identity);
-            SpriteRenderer mainRenderer = GetComponent<SpriteRenderer>();
-            SpriteRenderer splatterRenderer = splatter.GetComponentInChildren<SpriteRenderer>();
-            Color originalColor = mainRenderer.color;
-            Color darkerColor = originalColor * 0.5f;
-            splatterRenderer.color = darkerColor;
-            splatter.GetComponent<NetworkObject>().Spawn();
-            ChangeSplatterColourClientRpc(splatter.GetComponent<NetworkObject>().NetworkObjectId, darkerColor);
             AudioManager.Instance.PlayHitSoundServerRpc(NetworkManager.Singleton.LocalClientId, false);
         }
         else if(health.Value <= 0)
@@ -52,18 +43,23 @@ public class EnemyHealth : NetworkBehaviour
                 player.GetComponent<TurretController>().killCount.Value++;
             }
             //spawn a blood splatter rotation based on the angle from projectile that hit this gameobject
-            int randomNum = Random.Range(0, bloodSplatters.Count);
-            float angle = Mathf.Atan2(hitDirection.y, hitDirection.x) * Mathf.Rad2Deg;
-            Quaternion bloodRotation = Quaternion.Euler(0, 0, angle+180f);
-            GameObject splatter = Instantiate(deathSplatters[randomNum], transform.position, bloodRotation);
-            SpriteRenderer mainRenderer = GetComponent<SpriteRenderer>();
-            SpriteRenderer splatterRenderer = splatter.GetComponentInChildren<SpriteRenderer>();
-            Color originalColor = mainRenderer.color;
-            Color darkerColor = originalColor * 0.5f;
-            splatterRenderer.color = darkerColor;
-            splatter.GetComponent<NetworkObject>().Spawn();
-            ChangeSplatterColourClientRpc(splatter.GetComponent<NetworkObject>().NetworkObjectId, darkerColor);
+
+            SpawnSplatterClientRpc(hitDirection);
         }
+    }
+
+    [ClientRpc]
+    void SpawnSplatterClientRpc(Vector3 hitDirection)
+    {
+        int randomNum = Random.Range(0, bloodSplatters.Count);
+        float angle = Mathf.Atan2(hitDirection.y, hitDirection.x) * Mathf.Rad2Deg;
+        Quaternion bloodRotation = Quaternion.Euler(0, 0, angle + 180f);
+        GameObject splatter = Instantiate(deathSplatters[randomNum], transform.position, bloodRotation);
+        SpriteRenderer mainRenderer = GetComponent<SpriteRenderer>();
+        SpriteRenderer splatterRenderer = splatter.GetComponentInChildren<SpriteRenderer>();
+        Color originalColor = mainRenderer.color;
+        Color darkerColor = originalColor * 0.5f;
+        splatterRenderer.color = darkerColor;
     }
 
     [ClientRpc]

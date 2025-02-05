@@ -143,7 +143,16 @@ public class UpgradeManager : NetworkBehaviour
                 if (num < cumulativeChance)
                 {
                     int cardIndex = Random.Range(0, rarityAndSpawnChances[j].cards.Count);
-                    Instantiate(rarityAndSpawnChances[j].cards[cardIndex], cardParent);
+                    Card card = Instantiate(rarityAndSpawnChances[j].cards[cardIndex], cardParent).GetComponent<Card>();
+
+                    if(card.rarity == RarityAndSpawnChance.Rarity.DEMONIC)
+                    {
+                        AudioManager.Instance.PlayDemonServerRpc();
+                    }
+                    else if(card.rarity == RarityAndSpawnChance.Rarity.DIVINE)
+                    {
+                        AudioManager.Instance.PlayAngelServerRpc();
+                    }
 
                     break;
                 }

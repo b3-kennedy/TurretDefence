@@ -202,15 +202,31 @@ public class EnemySpawnManager : NetworkBehaviour
         float num = Random.Range(0, 100f);
 
         float cumulativeChance = 0;
-        for (int i = 0; i < waves[waveCount].enemies.Count; i++)
+        if(waveCount < 50)
         {
-            cumulativeChance += waves[waveCount].enemies[i].spawnChance;
-
-            if (num < cumulativeChance)
+            for (int i = 0; i < waves[waveCount].enemies.Count; i++)
             {
-                return waves[waveCount].enemies[i].enemy;
+                cumulativeChance += waves[waveCount].enemies[i].spawnChance;
+
+                if (num < cumulativeChance)
+                {
+                    return waves[waveCount].enemies[i].enemy;
+                }
             }
         }
+        else
+        {
+            for (int i = 0; i < waves[50].enemies.Count; i++)
+            {
+                cumulativeChance += waves[50].enemies[i].spawnChance;
+
+                if (num < cumulativeChance)
+                {
+                    return waves[50].enemies[i].enemy;
+                }
+            }
+        }
+
         return enemyPrefab;
     }
 

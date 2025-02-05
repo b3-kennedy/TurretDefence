@@ -24,6 +24,7 @@ public class WallHealth : NetworkBehaviour
         if(wallHealth.Value > 0)
         {
             wallHealth.Value -= dmg;
+            AudioManager.Instance.PlayWallHitServerRpc();
             UpdateHealthBarClientRpc();
         }
         else
