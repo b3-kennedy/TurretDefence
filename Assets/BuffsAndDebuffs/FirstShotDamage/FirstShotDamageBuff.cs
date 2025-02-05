@@ -15,7 +15,7 @@ public class FirstShotDamageBuff : Buff
     {
         if (GetComponent<TurretController>())
         {
-            GetComponent<TurretController>().firstShotMultiplier *= (1f + buffAmount);
+            GetComponent<TurretController>().firstShotMultiplier += (buffAmount);
         }
         else
         {

@@ -46,8 +46,7 @@ public class TurretController : NetworkBehaviour
 
     bool isFirstShot = true;
 
-    [HideInInspector]
-    public float firstShotMultiplier = 1f;
+    public float firstShotMultiplier = 0f;
 
     bool stoppedFiring = false;
 
@@ -432,7 +431,7 @@ public class TurretController : NetworkBehaviour
                 GameObject bullet = Instantiate(projectile, shootPointParent.GetChild(i).position, shootPointParent.GetChild(i).rotation);
                 bullet.GetComponent<Rigidbody2D>().AddForce(shootPointParent.GetChild(i).right * shootForce, ForceMode2D.Impulse);
                 bullet.GetComponent<NetworkObject>().Spawn();
-                if (isFirstShot)
+                if (isFirstShot && GetComponent<FirstShotDamageBuff>())
                 {
                     bullet.GetComponent<DealDamage>().damage = damage * firstShotMultiplier;
                     isFirstShot = false;
@@ -454,7 +453,7 @@ public class TurretController : NetworkBehaviour
                 GameObject bullet = Instantiate(projectile, shootPointParent.GetChild(i).position, shootPointParent.GetChild(i).rotation);
                 bullet.GetComponent<Rigidbody2D>().AddForce(shootPointParent.GetChild(i).right * shootForce, ForceMode2D.Impulse);
                 bullet.GetComponent<DealDamage>().damage = damage;
-                if (isFirstShot)
+                if (isFirstShot && GetComponent<FirstShotDamageBuff>())
                 {
                     bullet.GetComponent<DealDamage>().damage = damage * firstShotMultiplier;
                     isFirstShot = false;

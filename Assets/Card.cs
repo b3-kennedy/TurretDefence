@@ -201,6 +201,10 @@ public class Card : NetworkBehaviour
                             EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount += (int)buffScript.buffAmount;
                             EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().ammoCount = EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().maxAmmoCount;
                         }
+                        else if(buffType is FirstShotDamageBuff)
+                        {
+                            EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().firstShotMultiplier += buffScript.buffAmount;
+                        }
 
                         buffType.buffAmount += buffScript.buffAmount;
                         buffType.count++;

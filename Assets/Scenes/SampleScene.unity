@@ -8370,6 +8370,7 @@ MonoBehaviour:
     - {fileID: 506163310617122084, guid: e7a612dfc78194842b32c6b7d066c4ef, type: 3}
     - {fileID: 506163310617122084, guid: d6fcad475100a6944a707c7ff40b2333, type: 3}
     - {fileID: 506163310617122084, guid: e7a612dfc78194842b32c6b7d066c4ef, type: 3}
+    - {fileID: 2120816840640836426, guid: 7b2918d2689601b4b9beef00a40a1af8, type: 3}
   - rarity: 1
     spawnChance: 37
     cards:

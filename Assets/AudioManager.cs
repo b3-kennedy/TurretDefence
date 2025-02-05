@@ -79,7 +79,11 @@ public class AudioManager : NetworkBehaviour
         menuSettingsButton.onClick.RemoveAllListeners();
         menuSettingsButton.onClick.AddListener(ShowSettingsPanel);
         audioSettingsPanel.SetActive(false);
-        if(EnemySpawnManager.Instance.localPlayer != null)
+        foreach (AudioSource source in effectsSources)
+        {
+            source.volume = effectsVolume;
+        }
+        if (EnemySpawnManager.Instance.localPlayer != null)
         {
             EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().canShoot = true;
         }

@@ -79,6 +79,14 @@ public class GameOverManager : NetworkBehaviour
             Destroy(debuffs[i]);
         }
 
+        AttackModifierEffect[] effects = EnemySpawnManager.Instance.localPlayer.GetComponents<AttackModifierEffect>();
+
+        for (int i = 0; i < effects.Length; i++)
+        {
+            Destroy(effects[i]);
+        }
+
+
         TurretController turret = EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>();
 
         turret.fireRate = 1f;
