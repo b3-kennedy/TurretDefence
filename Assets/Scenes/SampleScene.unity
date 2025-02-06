@@ -1929,6 +1929,7 @@ MonoBehaviour:
   inputField: {fileID: 392626428}
   playersJoinedText: {fileID: 1462123452}
   joinCodeText: {fileID: 578151662}
+  popUp: {fileID: 6216779732820989354, guid: ccb4a970434b1f04eb3e05ef129efbaf, type: 3}
   startWithRelay: 1
 --- !u!114 &505444008
 MonoBehaviour:

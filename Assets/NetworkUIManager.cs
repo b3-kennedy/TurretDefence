@@ -18,6 +18,9 @@ public class NetworkUIManager : NetworkBehaviour
     public TMP_InputField inputField;
     public TextMeshProUGUI playersJoinedText;
     public TextMeshProUGUI joinCodeText;
+    public GameObject popUp;
+    GameObject hostingPopUp;
+    GameObject joiningPopUp;
 
     public bool startWithRelay = false;
 
@@ -56,11 +59,18 @@ public class NetworkUIManager : NetworkBehaviour
             playersJoinedText.gameObject.SetActive(true);
             joinCodeText.gameObject.SetActive(true);
             joinCodeText.text = joinCode;
+            if(hostingPopUp != null)
+            {
+                Destroy(hostingPopUp);
+            }
 
             EnemySpawnManager.Instance.waveNumberText.gameObject.SetActive(true);
         }
         catch(RelayServiceException e)
         {
+            GameObject hostmsg = Instantiate(popUp, transform);
+            hostmsg.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = e.ToString();
+            Destroy(hostmsg, 3f);
             Debug.Log(e);
         }
     }
@@ -81,11 +91,22 @@ public class NetworkUIManager : NetworkBehaviour
             hostButton.SetActive(false);
             joinButton.SetActive(false);
             playersJoinedText.gameObject.SetActive(true);
+            Destroy(joiningPopUp);
             EnemySpawnManager.Instance.waveNumberText.gameObject.SetActive(true);
         }
         catch (RelayServiceException e) 
         {
-            Debug.Log(e);
+            Destroy(joiningPopUp);
+            if (e.Message.Contains("invalid") || e.Message.Contains("expired"))
+            {
+                GameObject jcmsg = Instantiate(popUp, transform);
+                jcmsg.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Invalid or Expired Join Code";
+                Destroy(jcmsg, 3f);
+            }
+            if (AuthenticationService.Instance.IsSignedIn)
+            {
+                AuthenticationService.Instance.SignOut();
+            }
         }
 
     }
@@ -94,6 +115,8 @@ public class NetworkUIManager : NetworkBehaviour
     {
         if (startWithRelay)
         {
+            hostingPopUp = Instantiate(popUp, transform);
+            hostingPopUp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Hosting...";
             StartHostWithRelay();
         }
         else
@@ -114,6 +137,8 @@ public class NetworkUIManager : NetworkBehaviour
         if (startWithRelay)
         {
             string input = inputField.text.ToUpper();
+            joiningPopUp = Instantiate(popUp, transform);
+            joiningPopUp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Joining...";
             JoinRelay(input);
         }
         else
