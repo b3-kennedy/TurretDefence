@@ -6,9 +6,13 @@ public class ShieldHealth : NetworkBehaviour
 
     public NetworkVariable<float> health;
 
+    public override void OnNetworkSpawn()
+    {
+        
+    }
+
     private void Update()
     {
-        if (!IsServer) return;
 
         transform.localPosition = new Vector2(-1.38f, 0); 
     }
@@ -23,8 +27,15 @@ public class ShieldHealth : NetworkBehaviour
         
         if(health.Value <= 0)
         {
-            Destroy(gameObject);
+            HideShieldOnClientRpc();
         }
+    }
+
+    [ClientRpc]
+    void HideShieldOnClientRpc()
+    {
+        gameObject.SetActive(false);
+
     }
 
 }

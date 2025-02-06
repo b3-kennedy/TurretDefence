@@ -114,7 +114,6 @@ public class AudioManager : NetworkBehaviour
             if (maxVolumes.ContainsKey(source))
             {
                 source.volume = maxVolumes[source] * effectSliderPercent;
-                Debug.Log(source.name + " Volume: " + source.volume);
             }
         }
     }
@@ -263,6 +262,7 @@ public class AudioManager : NetworkBehaviour
     [ClientRpc]
     void PlayWallHitClientRpc()
     {
+        wallHitSource.pitch = Random.Range(0.5f, 1f);
         wallHitSource.Play();
     }
 

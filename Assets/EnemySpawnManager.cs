@@ -216,13 +216,13 @@ public class EnemySpawnManager : NetworkBehaviour
         }
         else
         {
-            for (int i = 0; i < waves[50].enemies.Count; i++)
+            for (int j = 0; j < waves[48].enemies.Count; j++)
             {
-                cumulativeChance += waves[50].enemies[i].spawnChance;
+                cumulativeChance += waves[48].enemies[j].spawnChance;
 
                 if (num < cumulativeChance)
                 {
-                    return waves[50].enemies[i].enemy;
+                    return waves[48].enemies[j].enemy;
                 }
             }
         }
