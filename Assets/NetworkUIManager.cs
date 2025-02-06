@@ -8,6 +8,9 @@ using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
+using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
+using System.Collections.Generic;
 
 public class NetworkUIManager : NetworkBehaviour
 {
@@ -21,17 +24,28 @@ public class NetworkUIManager : NetworkBehaviour
     public GameObject popUp;
     GameObject hostingPopUp;
     GameObject joiningPopUp;
-
     public bool startWithRelay = false;
 
     void Start()
     {
         NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
         startButton.GetComponent<Button>().onClick.AddListener(EnemySpawnManager.Instance.StartGame);
+        NetworkManager.Singleton.OnClientDisconnectCallback += ClientDisconnect;
+    }
+
+    private void ClientDisconnect(ulong clientId)
+    {
+        if(clientId == NetworkManager.Singleton.LocalClientId)
+        {
+            AuthenticationService.Instance.SignOut();
+            NetworkManager.Singleton.Shutdown();
+            SceneManager.LoadScene(0);
+        }
+
     }
 
     private void Singleton_OnClientConnectedCallback(ulong obj)
-    {
+    {        
         playersJoinedText.text = NetworkManager.Singleton.ConnectedClients.Count.ToString() + "/2 Joined";
     }
 
@@ -40,6 +54,7 @@ public class NetworkUIManager : NetworkBehaviour
         await UnityServices.InitializeAsync();
         AuthenticationService.Instance.SignedIn += () => { Debug.Log(AuthenticationService.Instance.PlayerId); };
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
         CreateRelay();
     }
 
@@ -55,6 +70,7 @@ public class NetworkUIManager : NetworkBehaviour
             NetworkManager.Singleton.StartHost();
             hostButton.SetActive(false);
             joinButton.SetActive(false);
+            inputField.gameObject.SetActive(false);
             startButton.SetActive(true);
             playersJoinedText.gameObject.SetActive(true);
             joinCodeText.gameObject.SetActive(true);
@@ -75,6 +91,9 @@ public class NetworkUIManager : NetworkBehaviour
         }
     }
 
+
+
+
     async void JoinRelay(string joinCode)
     {
         try
@@ -90,6 +109,7 @@ public class NetworkUIManager : NetworkBehaviour
             NetworkManager.Singleton.StartClient();
             hostButton.SetActive(false);
             joinButton.SetActive(false);
+            inputField.gameObject.SetActive(false);
             playersJoinedText.gameObject.SetActive(true);
             Destroy(joiningPopUp);
             EnemySpawnManager.Instance.waveNumberText.gameObject.SetActive(true);
@@ -151,6 +171,19 @@ public class NetworkUIManager : NetworkBehaviour
         }
 
 
+    }
+
+
+
+    public void Disconnect()
+    {
+        NetworkManager.Singleton.Shutdown();
+        SceneManager.LoadScene(0);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 
 }

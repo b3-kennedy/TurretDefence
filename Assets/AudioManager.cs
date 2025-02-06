@@ -24,7 +24,6 @@ public class AudioManager : NetworkBehaviour
     public List<AudioSource> effectsSources;
 
     public float musicVolume;
-    public float effectsVolume;
 
     bool isMuffled;
 
@@ -58,6 +57,7 @@ public class AudioManager : NetworkBehaviour
         AddToSourceDict();
         OnEffectsSliderChange();
         audioSettingsButton.onClick.AddListener(ShowSettingsPanel);
+        LoadSettings();
     }
 
     public void AddToSourceDict()
@@ -93,13 +93,14 @@ public class AudioManager : NetworkBehaviour
         {
             EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().canShoot = true;
         }
+        SaveSettings();
         
     }
 
     public void OnMusicSliderChange()
     {
         musicVolume = musicSlider.value;
-        musicVolText.text = (musicVolume*100).ToString("F1");
+        musicVolText.text = (musicVolume*100).ToString("F1") + "%";
         musicSource.volume = musicVolume;
 
     }
@@ -116,6 +117,45 @@ public class AudioManager : NetworkBehaviour
                 source.volume = maxVolumes[source] * effectSliderPercent;
             }
         }
+    }
+
+    void SaveSettings()
+    {
+        PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+        PlayerPrefs.SetFloat("EffectsVolume", effectSliderPercent);
+    }
+
+    void LoadSettings()
+    {
+        if (PlayerPrefs.HasKey("MusicVolume"))
+        {
+            musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1);
+        }
+
+        if (PlayerPrefs.HasKey("EffectsVolume"))
+        {
+            effectSliderPercent = PlayerPrefs.GetFloat("EffectsVolume", 1);
+        }
+
+        Debug.Log(musicVolume);
+        Debug.Log(effectSliderPercent);
+        SetSettings();
+    }
+
+    void SetSettings()
+    {
+        effectsSlider.value = effectSliderPercent;
+        musicSlider.value = musicVolume;
+
+        foreach (AudioSource source in effectsSources)
+        {
+            if (maxVolumes.ContainsKey(source))
+            {
+                source.volume = maxVolumes[source] * effectSliderPercent;
+            }
+        }
+
+        musicSource.volume = musicVolume;
     }
 
     public void ActivateMusicLowPass()
