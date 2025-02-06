@@ -70,6 +70,10 @@ public class EnemySpawnManager : NetworkBehaviour
     public GameObject explosion;
 
     public GameObject fireEffect;
+
+    float enemyHealth = 0;
+    public float healthIncrease;
+    public int healthIncreaseOnRound;
     private void Awake()
     {
         Instance = this;
@@ -275,6 +279,8 @@ public class EnemySpawnManager : NetworkBehaviour
                 {
                     Vector2 spawnPos = GetSpawnPoint();
                     GameObject enemy = Instantiate(GetEnemyToSpawn(), spawnPos, Quaternion.identity);
+                    enemy.GetComponent<EnemyHealth>().maxHealth += healthIncrease;
+                    enemy.GetComponent<EnemyHealth>().health.Value = enemy.GetComponent<EnemyHealth>().maxHealth;
                     enemy.GetComponent<NetworkObject>().Spawn();
                     if (enemy.GetComponent<RangedEnemyController>())
                     {
@@ -343,9 +349,14 @@ public class EnemySpawnManager : NetworkBehaviour
 
         if(dead >= perWaveEnemyGaph.Evaluate(waveCount))
         {
+            
             hasActivatedLowPass = false;
             ShowUpgradeInterfaceServerRpc();
             UpdateWaveCountServerRpc();
+            if(waveCount % healthIncreaseOnRound == 0)
+            {
+                enemyHealth += healthIncrease;
+            }
             canSpawn = false;
             for (int i = spawnedEnemiesList.Count - 1; i >= 0; i--)
             {

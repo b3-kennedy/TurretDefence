@@ -8,7 +8,10 @@ public class ShieldHealth : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        
+        if (IsServer)
+        {
+            health.Value *= 2f;
+        }
     }
 
     private void Update()

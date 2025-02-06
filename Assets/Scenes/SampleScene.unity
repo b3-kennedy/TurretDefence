@@ -10294,6 +10294,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1021084149}
     - target: {fileID: 7419518432528036037, guid: b96fea0ea1b9cf54a9c005330b717c78, type: 3}
+      propertyPath: healthIncrease
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7419518432528036037, guid: b96fea0ea1b9cf54a9c005330b717c78, type: 3}
       propertyPath: waveNumberText
       value: 
       objectReference: {fileID: 1528300616}
@@ -10309,6 +10313,10 @@ PrefabInstance:
       propertyPath: bottomSpawnBoundary
       value: 
       objectReference: {fileID: 114890578}
+    - target: {fileID: 7419518432528036037, guid: b96fea0ea1b9cf54a9c005330b717c78, type: 3}
+      propertyPath: healthIncreaseOnRound
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7419518432528036037, guid: b96fea0ea1b9cf54a9c005330b717c78, type: 3}
       propertyPath: perWaveEnemyGaph.m_Curve.Array.size
       value: 2
