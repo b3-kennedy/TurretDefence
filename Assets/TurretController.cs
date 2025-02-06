@@ -78,6 +78,8 @@ public class TurretController : NetworkBehaviour
         //Vector3(-9.39999962,2.4,0.0841460302)
         anim = GetComponent<Animator>();
         AudioManager.Instance.effectsSources.Add(shootSource);
+        AudioManager.Instance.AddToSourceDict();
+        AudioManager.Instance.OnEffectsSliderChange();
 
     }
 

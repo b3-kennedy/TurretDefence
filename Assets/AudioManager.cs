@@ -42,6 +42,10 @@ public class AudioManager : NetworkBehaviour
     public TextMeshProUGUI musicVolText;
     public TextMeshProUGUI effectsVolText;
 
+    private Dictionary<AudioSource, float> maxVolumes = new Dictionary<AudioSource, float>();
+
+    float effectSliderPercent;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -51,11 +55,17 @@ public class AudioManager : NetworkBehaviour
         index = 0;
         musicSource.clip = musicList[index];
         musicSource.volume = musicVolume;
-        foreach (AudioSource source in effectsSources) 
-        {
-            source.volume = effectsVolume;
-        }
+        AddToSourceDict();
+        OnEffectsSliderChange();
         audioSettingsButton.onClick.AddListener(ShowSettingsPanel);
+    }
+
+    public void AddToSourceDict()
+    {
+        foreach (AudioSource source in effectsSources)
+        {
+            maxVolumes[source] = source.volume;
+        }
     }
 
     public void ShowSettingsPanel()
@@ -79,10 +89,6 @@ public class AudioManager : NetworkBehaviour
         menuSettingsButton.onClick.RemoveAllListeners();
         menuSettingsButton.onClick.AddListener(ShowSettingsPanel);
         audioSettingsPanel.SetActive(false);
-        foreach (AudioSource source in effectsSources)
-        {
-            source.volume = effectsVolume;
-        }
         if (EnemySpawnManager.Instance.localPlayer != null)
         {
             EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().canShoot = true;
@@ -100,11 +106,16 @@ public class AudioManager : NetworkBehaviour
 
     public void OnEffectsSliderChange()
     {
-        effectsVolume = effectsSlider.value;
-        effectsVolText.text = (effectsVolume*100).ToString("F1");
+        effectSliderPercent = effectsSlider.value;
+        effectsVolText.text = (effectSliderPercent * 100).ToString("F1") + "%";
+
         foreach (AudioSource source in effectsSources)
         {
-            source.volume = effectsVolume;
+            if (maxVolumes.ContainsKey(source))
+            {
+                source.volume = maxVolumes[source] * effectSliderPercent;
+                Debug.Log(source.name + " Volume: " + source.volume);
+            }
         }
     }
 
@@ -205,13 +216,13 @@ public class AudioManager : NetworkBehaviour
     {
         if (!isDeath)
         {
-            normalImpactSource.volume = 0.5f;
+            normalImpactSource.volume = effectSliderPercent * 0.5f;
             normalImpactSource.pitch = Random.Range(1.25f, 1.75f);
             normalImpactSource.PlayOneShot(normalImpactSource.clip);
         }
         else
         {
-            normalImpactSource.volume = 0.8f;
+            normalImpactSource.volume = effectSliderPercent * 0.8f;
             normalImpactSource.pitch = Random.Range(0.75f, 1.25f);
             normalImpactSource.PlayOneShot(normalImpactSource.clip);
         }
