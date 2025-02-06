@@ -99,10 +99,10 @@ public class TurretController : NetworkBehaviour
             gameObject.name = "Player 1";
             if (IsOwner)
             {
-                ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, transform.position.y - 1f, 0f), Quaternion.identity);
+                ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, transform.position.y - 1f, -1f), Quaternion.identity);
                 ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
             }
-            reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 1f, 0f), Quaternion.identity);
+            reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 1f, -1f), Quaternion.identity);
 
 
         }
@@ -113,12 +113,12 @@ public class TurretController : NetworkBehaviour
             gameObject.name = "Player 2";
             if (IsOwner)
             {
-                ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, transform.position.y - 1f, 0f), Quaternion.identity);
+                ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, transform.position.y - 1f, -1f), Quaternion.identity);
                 ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
 
             }
 
-            reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 1f, 0f), Quaternion.identity);
+            reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 1f, -1f), Quaternion.identity);
        
 
         }

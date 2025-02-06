@@ -9,6 +9,9 @@ public class AudioManager : NetworkBehaviour
 {
     public static AudioManager Instance;
 
+    
+    public TextMeshProUGUI musicText;
+
     public AudioSource musicSource;
     AudioLowPassFilter musicLowPass;
 
@@ -43,6 +46,9 @@ public class AudioManager : NetworkBehaviour
 
     private Dictionary<AudioSource, float> maxVolumes = new Dictionary<AudioSource, float>();
 
+    bool demonicFound = false;
+    bool divineFound = false;
+
     float effectSliderPercent;
 
 
@@ -58,6 +64,7 @@ public class AudioManager : NetworkBehaviour
         OnEffectsSliderChange();
         audioSettingsButton.onClick.AddListener(ShowSettingsPanel);
         LoadSettings();
+        ShowMusicText();
     }
 
     public void AddToSourceDict()
@@ -173,27 +180,57 @@ public class AudioManager : NetworkBehaviour
         toMax = true;
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void SmoothToMaxServerRpc()
+    {
+        SmoothToMaxClientRpc();
+    }
+
+    [ClientRpc]
+    void SmoothToMaxClientRpc()
+    {
+        musicSource.volume = 0;
+        toMax = true;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void MusicToZeroServerRpc()
+    {
+        MusicToZeroClientRpc();
+    }
+
+    [ClientRpc]
+    void MusicToZeroClientRpc()
+    {
+        musicSource.volume = 0;
+    }
+
     // Update is called once per frame
     void Update()
     {
 
+        if (demonicFound)
+        {
+            if(demonSource.time >= demonSource.clip.length)
+            {
+                SmoothToMaxServerRpc();
+                demonicFound = false;
+            }
+        }
+
+        if (divineFound)
+        {
+            if (angelSource.time >= angelSource.clip.length)
+            {
+                SmoothToMaxServerRpc();
+                divineFound = false;
+            }
+        }
+
+
         if (audioSettingsPanel.activeSelf && EnemySpawnManager.Instance.localPlayer != null)
         {
             EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().canShoot = false;
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            musicSource.mute = !musicSource.mute;
-        }
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            foreach (AudioSource source in effectsSources) 
-            {
-                source.mute = !source.mute;
-            }
         }
 
         if (toMax)
@@ -215,6 +252,8 @@ public class AudioManager : NetworkBehaviour
                 index = 0;
             }
             musicSource.clip = musicList[index];
+            Debug.Log("music switch");
+            ShowMusicText();
             musicSource.Play();
         }
 
@@ -226,6 +265,12 @@ public class AudioManager : NetworkBehaviour
         {
             musicLowPass.cutoffFrequency = Mathf.MoveTowards(musicLowPass.cutoffFrequency, 11000f, 5000f * Time.deltaTime);
         }
+    }
+
+    void ShowMusicText()
+    {
+        musicText.text = UnicodeHolder.MUSIC_NOTE + " Now Playing: " + musicSource.clip.name + " " + UnicodeHolder.MUSIC_NOTE;
+        musicText.GetComponent<HideAfterTime>().ShowText(true);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -276,6 +321,7 @@ public class AudioManager : NetworkBehaviour
     [ClientRpc]
     void PlayDemonClientRpc()
     {
+        demonicFound = true;
         demonSource.Play();
         Debug.Log("Player has found demonic card");
     }
@@ -289,6 +335,7 @@ public class AudioManager : NetworkBehaviour
     [ClientRpc]
     void PlayAngelClientRpc()
     {
+        divineFound = true;
         angelSource.Play();
         Debug.Log("Player has found divine card");
     }

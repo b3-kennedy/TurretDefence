@@ -147,10 +147,12 @@ public class UpgradeManager : NetworkBehaviour
 
                     if(card.rarity == RarityAndSpawnChance.Rarity.DEMONIC)
                     {
+                        AudioManager.Instance.MusicToZeroServerRpc();
                         AudioManager.Instance.PlayDemonServerRpc();
                     }
                     else if(card.rarity == RarityAndSpawnChance.Rarity.DIVINE)
                     {
+                        AudioManager.Instance.MusicToZeroServerRpc();
                         AudioManager.Instance.PlayAngelServerRpc();
                     }
 

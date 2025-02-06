@@ -28,6 +28,10 @@ public class FireRatePerShotBuff : Buff
                 turretController.fireRate -= buffAmount;
                 increasedBy += buffAmount;
             }
+            else
+            {
+                turretController.fireRate = 0.1f;
+            }
 
         }
     }
