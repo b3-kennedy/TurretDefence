@@ -280,8 +280,8 @@ public class EnemySpawnManager : NetworkBehaviour
                     Vector2 spawnPos = GetSpawnPoint();
                     GameObject enemy = Instantiate(GetEnemyToSpawn(), spawnPos, Quaternion.identity);
                     enemy.GetComponent<EnemyHealth>().maxHealth += healthIncrease;
-                    enemy.GetComponent<EnemyHealth>().health.Value = enemy.GetComponent<EnemyHealth>().maxHealth;
                     enemy.GetComponent<NetworkObject>().Spawn();
+                    enemy.GetComponent<EnemyHealth>().health.Value = enemy.GetComponent<EnemyHealth>().maxHealth;
                     if (enemy.GetComponent<RangedEnemyController>())
                     {
                         enemy.GetComponent<RangedEnemyController>().wall = wall;
