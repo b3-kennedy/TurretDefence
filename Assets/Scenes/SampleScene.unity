@@ -9371,6 +9371,12 @@ MonoBehaviour:
     - {fileID: 506163310617122084, guid: e7a612dfc78194842b32c6b7d066c4ef, type: 3}
     - {fileID: 506163310617122084, guid: d6fcad475100a6944a707c7ff40b2333, type: 3}
     - {fileID: 506163310617122084, guid: e7a612dfc78194842b32c6b7d066c4ef, type: 3}
+    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
+    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
+    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
+    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
+    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
+    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
   - rarity: 1
     spawnChance: 37
     cards:
@@ -9380,7 +9386,7 @@ MonoBehaviour:
     - {fileID: 8522023696672716559, guid: 797e440465d3f854fbc492bedbc0c0f4, type: 3}
     - {fileID: 8522023696672716559, guid: d788dc5e73ca2934d9d3534cd1780081, type: 3}
   - rarity: 2
-    spawnChance: 10
+    spawnChance: 11
     cards:
     - {fileID: 1288794768723064984, guid: 5ef1a802ca39f3848aee2de37a6af9b4, type: 3}
     - {fileID: 1288794768723064984, guid: 50f1592a0431f6641a8d9be4278c0a22, type: 3}
@@ -9390,7 +9396,7 @@ MonoBehaviour:
     - {fileID: 1288794768723064984, guid: 893b37990c11b5f4080fc2c7b90ca12a, type: 3}
     - {fileID: 1288794768723064984, guid: f91f5ff5bc992764fbe5f1ef4d084b3d, type: 3}
   - rarity: 3
-    spawnChance: 2
+    spawnChance: 1
     cards:
     - {fileID: 2120816840640836426, guid: b3ff67e8a0e79714f9594b18a2e52090, type: 3}
     - {fileID: 2120816840640836426, guid: 0268f1eb10c3fd64a935a521b2f9e49b, type: 3}
@@ -9420,6 +9426,7 @@ MonoBehaviour:
     - {fileID: 2120816840640836426, guid: b3e059b2702a7234dbddb3e14421ed96, type: 3}
     - {fileID: 2120816840640836426, guid: b6ece0853952dd84f90826d9d7dcc0b9, type: 3}
     - {fileID: 2120816840640836426, guid: a03faa7695ce11b4fbea3aa538b6b9a2, type: 3}
+    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
   upgradeUi: {fileID: 0}
   cardParent: {fileID: 0}
   debuffs:
@@ -9440,6 +9447,9 @@ MonoBehaviour:
     values: {fileID: 11400000, guid: 39fb46d83bafbb84abe28c0d3dfd12c8, type: 2}
   - debuff: {fileID: -7613664379196908180, guid: b29dca120561d8044a9a58192b914e4e, type: 3}
     debuffName: Double Debuffs
+    values: {fileID: 0}
+  - debuff: {fileID: 2150286901038154122, guid: def40b63ba309784caf9bb0385f32e10, type: 3}
+    debuffName: Half High Tier Drop Rate
     values: {fileID: 0}
   buffs: []
 --- !u!4 &1961321639

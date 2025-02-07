@@ -232,12 +232,13 @@ public class TurretController : NetworkBehaviour
         if (fire.IsPressed() && fireCooldown <= 0 && !isReloading && canShoot)
         {
             stoppedFiring = false;
+            shot.Invoke();
             Shoot();
             GameObject particles = Instantiate(shootParticles, shootPointParent.GetChild(0).position, Quaternion.Euler(-transform.eulerAngles.z, 
                 90f, 0));
             ammoCount--;
             ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
-            shot.Invoke();
+            
             fireCooldown = fireRate;
             anim.SetBool("shoot", true);
             PlayShootAnimServerRpc(GetComponent<NetworkObject>().NetworkObjectId, true, NetworkManager.Singleton.LocalClientId);
