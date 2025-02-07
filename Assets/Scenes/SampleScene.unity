@@ -9370,13 +9370,6 @@ MonoBehaviour:
     - {fileID: 506163310617122084, guid: 2ad4b1a57be21724b91763b5a3c8d1a8, type: 3}
     - {fileID: 506163310617122084, guid: e7a612dfc78194842b32c6b7d066c4ef, type: 3}
     - {fileID: 506163310617122084, guid: d6fcad475100a6944a707c7ff40b2333, type: 3}
-    - {fileID: 506163310617122084, guid: e7a612dfc78194842b32c6b7d066c4ef, type: 3}
-    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
-    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
-    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
-    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
-    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
-    - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
   - rarity: 1
     spawnChance: 37
     cards:
@@ -9393,7 +9386,6 @@ MonoBehaviour:
     - {fileID: 1288794768723064984, guid: 84867f37770f2174c82a7bc9317af750, type: 3}
     - {fileID: 1288794768723064984, guid: 81034ecb7eaf4d5459ec34e1fa17cfac, type: 3}
     - {fileID: 1288794768723064984, guid: 3d693696813331649a998cd08d36f8ea, type: 3}
-    - {fileID: 1288794768723064984, guid: 893b37990c11b5f4080fc2c7b90ca12a, type: 3}
     - {fileID: 1288794768723064984, guid: f91f5ff5bc992764fbe5f1ef4d084b3d, type: 3}
   - rarity: 3
     spawnChance: 1
@@ -9420,6 +9412,7 @@ MonoBehaviour:
     - {fileID: 2120816840640836426, guid: 8e285d4a21c332849bf40f9cd3fe1a95, type: 3}
     - {fileID: 2120816840640836426, guid: 094ac36e9df070b43b3a7f897c9f83b8, type: 3}
     - {fileID: 2120816840640836426, guid: f70f0464e37cecf479e98c20aba222fb, type: 3}
+    - {fileID: 2120816840640836426, guid: 317b7fd8052d9ad418e2b39408feff80, type: 3}
   - rarity: 5
     spawnChance: 0.5
     cards:
@@ -9427,6 +9420,8 @@ MonoBehaviour:
     - {fileID: 2120816840640836426, guid: b6ece0853952dd84f90826d9d7dcc0b9, type: 3}
     - {fileID: 2120816840640836426, guid: a03faa7695ce11b4fbea3aa538b6b9a2, type: 3}
     - {fileID: 2120816840640836426, guid: c9783e595197b874e8ff8ffdf10c4df7, type: 3}
+    - {fileID: 2120816840640836426, guid: 8c12e9b9b341b2844aa5e87e8669dbb9, type: 3}
+    - {fileID: 2120816840640836426, guid: 65148b4c4e25f7148b6da1358500e2de, type: 3}
   upgradeUi: {fileID: 0}
   cardParent: {fileID: 0}
   debuffs:

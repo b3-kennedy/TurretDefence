@@ -238,7 +238,7 @@ public class TurretController : NetworkBehaviour
 
         if (fire.IsPressed() && fireCooldown <= 0 && !isReloading && canShoot)
         {
-
+            ammoCount--;
             StartCoroutine(Burst());
             stoppedFiring = false;
             shot.Invoke();
@@ -248,7 +248,7 @@ public class TurretController : NetworkBehaviour
             fireCooldown = fireRate;
             anim.SetBool("shoot", true);
             PlayShootAnimServerRpc(GetComponent<NetworkObject>().NetworkObjectId, true, NetworkManager.Singleton.LocalClientId);
-            ammoCount--;
+            
         }
         else
         {
@@ -290,6 +290,7 @@ public class TurretController : NetworkBehaviour
             Shoot();
             yield return new WaitForSeconds(0.05f);
         }
+
     }
 
 
@@ -450,7 +451,7 @@ public class TurretController : NetworkBehaviour
             for (int i = 0; i < shootPointCount; i++)
             {
                 GameObject bullet = Instantiate(projectile, shootPointParent.GetChild(i).position, shootPointParent.GetChild(i).rotation);
-                bullet.GetComponent<Rigidbody2D>().AddForce(shootPointParent.GetChild(i).right * shootForce, ForceMode2D.Impulse);
+                bullet.GetComponent<Rigidbody2D>().AddForce(shootPointParent.GetChild(i).right * projectile.GetComponent<DealDamage>().shootForce, ForceMode2D.Impulse);
                 bullet.GetComponent<NetworkObject>().Spawn();
                 if (isFirstShot && GetComponent<FirstShotDamageBuff>())
                 {

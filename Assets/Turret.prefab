@@ -1585,7 +1585,7 @@ MonoBehaviour:
   - {fileID: 4412033616695342932, guid: c718b88e02887ae46a301e294e60f29c, type: 3}
   shootPointCount: 1
   firstShotMultiplier: 0
-  testBuff: {fileID: 10263523277902925, guid: 861e38ff8ecc6bd4db00cea8b8bd6c89, type: 3}
+  testBuff: {fileID: -3684235923847765257, guid: 861e38ff8ecc6bd4db00cea8b8bd6c89, type: 3}
   canShoot: 0
   ammoTextPrefab: {fileID: 1253385227020901284, guid: 285f476c6558b8747921b5bd51eaec89, type: 3}
   lr: {fileID: 472586162464655601}

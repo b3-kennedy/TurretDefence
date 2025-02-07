@@ -8,6 +8,7 @@ public class DealDamage : NetworkBehaviour
 
     [HideInInspector] public TurretController player;
     public float damage;
+    public float shootForce;
 
     private void Start()
     {

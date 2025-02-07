@@ -210,6 +210,10 @@ public class Card : NetworkBehaviour
                         {
                             EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().firstShotMultiplier += buffScript.buffAmount;
                         }
+                        else if(buffType is BulletsPerShotBuff)
+                        {
+                            EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().bulletsPerShot += (int)buffScript.buffAmount;
+                        }
 
                         buffType.buffAmount += buffScript.buffAmount;
                         buffType.count++;

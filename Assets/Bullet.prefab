@@ -161,6 +161,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 0}
   damage: 0
+  shootForce: 10
 --- !u!114 &-1657338320133006782
 MonoBehaviour:
   m_ObjectHideFlags: 0
