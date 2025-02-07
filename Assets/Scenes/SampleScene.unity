@@ -4476,6 +4476,7 @@ MonoBehaviour:
   - {fileID: 1647665556}
   - {fileID: 411160957}
   - {fileID: 2038403780}
+  - {fileID: 215595662}
   musicVolume: 1
   toMax: 0
   audioSettingsPanel: {fileID: 696327914}
@@ -9418,6 +9419,7 @@ MonoBehaviour:
     cards:
     - {fileID: 2120816840640836426, guid: b3e059b2702a7234dbddb3e14421ed96, type: 3}
     - {fileID: 2120816840640836426, guid: b6ece0853952dd84f90826d9d7dcc0b9, type: 3}
+    - {fileID: 2120816840640836426, guid: a03faa7695ce11b4fbea3aa538b6b9a2, type: 3}
   upgradeUi: {fileID: 0}
   cardParent: {fileID: 0}
   debuffs:
@@ -9436,6 +9438,9 @@ MonoBehaviour:
   - debuff: {fileID: 7604282678896428095, guid: c554a4d130b4d3c438676fc7e1f08ca7, type: 3}
     debuffName: Fire Rate
     values: {fileID: 11400000, guid: 39fb46d83bafbb84abe28c0d3dfd12c8, type: 2}
+  - debuff: {fileID: -7613664379196908180, guid: b29dca120561d8044a9a58192b914e4e, type: 3}
+    debuffName: Double Debuffs
+    values: {fileID: 0}
   buffs: []
 --- !u!4 &1961321639
 Transform:

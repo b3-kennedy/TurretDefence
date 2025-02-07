@@ -48,33 +48,38 @@ public class Card : NetworkBehaviour
 
         // Generate Debuffs
 
-        
 
-        int numDebuffs = Random.Range(1, debuffCount+1);
-        for (int i = 0; i < numDebuffs; i++)
+        if(debuffCount > 0)
         {
-            
-            int randomNum = Random.Range(0, UpgradeManager.Instance.debuffs.Count);
+            int numDebuffs = Random.Range(1, debuffCount + 1);
+            int addedDebuffCount = 0;
 
-            var debuffAndName = UpgradeManager.Instance.debuffs[randomNum];
-            var debuffToAdd = debuffAndName.debuff;
-            var debuffValues = debuffAndName.values;
-
-            var addedDebuff = gameObject.AddComponent(debuffToAdd.GetType());
-
-            
-
-            if (addedDebuff is Debuff debuff)
+            while (addedDebuffCount < numDebuffs && UpgradeManager.Instance.debuffs.Count > 0)
             {
-                
-                debuff.rarity = rarity;
-                debuff.debuffName = debuffAndName.debuffName;
-                debuff.debuffValues = debuffValues;
-                debuff.Setup();
-                debuffScripts.Add(debuff);
+                int randomNum = Random.Range(0, UpgradeManager.Instance.debuffs.Count);
+                var debuffAndName = UpgradeManager.Instance.debuffs[randomNum];
+
+                if (debuffAndName.debuff.canBeRandomlyChosen)
+                {
+                    var debuffToAdd = debuffAndName.debuff;
+                    var debuffValues = debuffAndName.values;
+
+                    var addedDebuff = gameObject.AddComponent(debuffToAdd.GetType());
+
+                    if (addedDebuff is Debuff debuff)
+                    {
+                        debuff.rarity = rarity;
+                        debuff.debuffName = debuffAndName.debuffName;
+                        debuff.debuffValues = debuffValues;
+                        debuff.Setup();
+                        debuffScripts.Add(debuff);
+                        addedDebuffCount++; // Only count valid debuffs
+                    }
+                }
             }
         }
-        
+
+
 
         GetComponent<Button>().onClick.AddListener(ApplyEffects);
         UpdateText();
@@ -288,6 +293,7 @@ public class Card : NetworkBehaviour
                 int index = 0;
                 foreach (var debuff in UpgradeManager.Instance.debuffs)
                 {
+                    
                     if (debuff.debuff.GetType() == debuffScript.GetType())
                     {
                         UpgradeManager.Instance.ApplyDebuffServerRpc(NetworkManager.Singleton.LocalClientId, index, debuffScript.debuffAmount);

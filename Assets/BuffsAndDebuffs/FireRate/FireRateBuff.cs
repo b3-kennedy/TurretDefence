@@ -19,6 +19,7 @@ public class FireRateBuff : Buff
     {
         if (GetComponent<TurretController>())
         {
+
             var fireRate = GetComponent<TurretController>().fireRate;
             GetComponent<TurretController>().fireRate *= (1f - buffAmount);
         }

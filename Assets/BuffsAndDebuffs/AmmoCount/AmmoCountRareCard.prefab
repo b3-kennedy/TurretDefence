@@ -804,11 +804,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 1
+  debuffCount: 1
   titleString: FIRE RATE
   title: {fileID: 7601431101720210767}
   buff: {fileID: 169480706918267697}
   debuffText: {fileID: 0}
-  debuffScript: {fileID: 0}
 --- !u!114 &-936740791646484741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,8 +867,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
+  canRandomlyAssignValue: 1
+  isAttackEffect: 0
+  increaseValue: 1
   buffAmount: 0
   buffName: Ammo Count
+  count: 0
   values: {fileID: 11400000, guid: 8e8e08ed1d4f4324d98567ca8bf54e5d, type: 2}
 --- !u!1 &8940499257014528586
 GameObject:
