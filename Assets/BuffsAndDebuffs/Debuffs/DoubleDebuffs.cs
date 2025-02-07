@@ -24,6 +24,10 @@ public class DoubleDebuffs : Debuff
                 }
 
             }
+            if (GetComponent<BurnEffect>())
+            {
+                GetComponent<BurnEffect>().damage /= 2;
+            }
         }
     }
 

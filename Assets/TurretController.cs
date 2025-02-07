@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using TMPro;
 using Unity.Networking.Transport;
+using System.Collections;
 
 
 
@@ -71,6 +72,10 @@ public class TurretController : NetworkBehaviour
     Animator anim;
 
     public AudioSource shootSource;
+
+    public int bulletsPerShot = 1;
+
+
 
     private void Awake()
     {
@@ -194,6 +199,7 @@ public class TurretController : NetworkBehaviour
         if (!IsOwner) return;
 
 
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             var buff = gameObject.AddComponent(testBuff.GetType());
@@ -229,19 +235,20 @@ public class TurretController : NetworkBehaviour
         }
 
 
+
         if (fire.IsPressed() && fireCooldown <= 0 && !isReloading && canShoot)
         {
+
+            StartCoroutine(Burst());
             stoppedFiring = false;
             shot.Invoke();
-            Shoot();
-            GameObject particles = Instantiate(shootParticles, shootPointParent.GetChild(0).position, Quaternion.Euler(-transform.eulerAngles.z, 
+            GameObject particles = Instantiate(shootParticles, shootPointParent.GetChild(0).position, Quaternion.Euler(-transform.eulerAngles.z,
                 90f, 0));
-            ammoCount--;
             ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
-            
             fireCooldown = fireRate;
             anim.SetBool("shoot", true);
             PlayShootAnimServerRpc(GetComponent<NetworkObject>().NetworkObjectId, true, NetworkManager.Singleton.LocalClientId);
+            ammoCount--;
         }
         else
         {
@@ -250,9 +257,10 @@ public class TurretController : NetworkBehaviour
                 anim.SetBool("shoot", false);
                 PlayShootAnimServerRpc(GetComponent<NetworkObject>().NetworkObjectId, false, NetworkManager.Singleton.LocalClientId);
             }
-            
+
 
         }
+
 
         if (isReloading)
         {
@@ -274,6 +282,16 @@ public class TurretController : NetworkBehaviour
         }
         
     }
+
+    IEnumerator Burst()
+    {
+        for (int i = 0; i < bulletsPerShot; i++)
+        {
+            Shoot();
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+
 
     [ServerRpc(RequireOwnership = false)]
     void PlayShootAnimServerRpc(ulong turretId, bool value, ulong clientId)

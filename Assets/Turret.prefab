@@ -1599,6 +1599,7 @@ MonoBehaviour:
     m_InternalValue: 0
   shootParticles: {fileID: 415126903127525513, guid: c04a9fe5ff83b7a4488ac69964bbc175, type: 3}
   shootSource: {fileID: 6853803404772078438}
+  bulletsPerShot: 1
 --- !u!114 &9038173693035698023
 MonoBehaviour:
   m_ObjectHideFlags: 0

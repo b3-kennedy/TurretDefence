@@ -25,6 +25,10 @@ public class DoubleBuffs : Buff
                 }
 
             }
+            if (GetComponent<BurnEffect>())
+            {
+                GetComponent<BurnEffect>().damage *= 2;
+            }
         }
     }
 }

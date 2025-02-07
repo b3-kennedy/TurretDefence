@@ -552,8 +552,10 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 1
+  isAttackEffect: 0
   buffAmount: 0
-  buffName: CLEANSE ALL DEBUFFS
+  buffName: Cleanse All Debuffs
+  count: 0
 --- !u!114 &3176493477934714333
 MonoBehaviour:
   m_ObjectHideFlags: 0
