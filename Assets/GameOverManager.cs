@@ -1,7 +1,9 @@
 using System;
 using TMPro;
 using Unity.Netcode;
+using Unity.Services.Authentication;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameOverManager : NetworkBehaviour
@@ -102,6 +104,13 @@ public class GameOverManager : NetworkBehaviour
 
         EnemySpawnManager.Instance.isGameOver = false;
         EnemySpawnManager.Instance.canSpawn = true;
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
+        NetworkManager.Singleton.Shutdown();
+        AuthenticationService.Instance.SignOut();
     }
 
     public void RestartPressed()

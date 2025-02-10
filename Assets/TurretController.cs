@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using TMPro;
 using Unity.Networking.Transport;
 using System.Collections;
+using UnityEngine.UI;
 
 
 
@@ -95,6 +96,10 @@ public class TurretController : NetworkBehaviour
             EnemySpawnManager.Instance.localPlayer = gameObject;
             UpgradeManager.Instance.upgradeUi = transform.GetChild(2).GetChild(0).gameObject;
             UpgradeManager.Instance.cardParent = transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0);
+            UpgradeManager.Instance.rerollText = transform.GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+            UpgradeManager.Instance.rerollButton = transform.GetChild(2).GetChild(0).GetChild(1).gameObject;
+
+            UpgradeManager.Instance.rerollButton.GetComponent<Button>().onClick.AddListener(UpgradeManager.Instance.Reroll);
         }
 
         if (OwnerClientId == 0)

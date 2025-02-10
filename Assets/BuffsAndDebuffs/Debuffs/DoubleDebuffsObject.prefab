@@ -73,7 +73,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   canRandomlyAssignValue: 1
   applyToSelf: 0
-  canBeRandomlyChosen: 1
+  canBeRandomlyChosen: 0
   debuffValues: {fileID: 0}
   rarity: 0
   debuffAmount: 0

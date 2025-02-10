@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEngine.UI;
+using System.Collections;
+using TMPro;
 
 
 [System.Serializable]
@@ -37,6 +40,20 @@ public class UpgradeManager : NetworkBehaviour
 
     public List<Buff> buffs = new List<Buff>();
 
+    public GameObject rerollButton;
+
+    public TextMeshProUGUI rerollText;
+
+    List<GameObject> spawnedCards = new List<GameObject>();
+
+    public int maxNumberOfRerolls = 1;
+    int numberOfRerolls;
+
+    public float escalatingValue;
+    float rarityChange;
+
+    int legendaryCount = 0;
+
 
     private void Awake()
     {
@@ -46,7 +63,8 @@ public class UpgradeManager : NetworkBehaviour
 
     private void Start()
     {
-
+        numberOfRerolls = maxNumberOfRerolls;
+        
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -129,8 +147,10 @@ public class UpgradeManager : NetworkBehaviour
 
     public void ShowInterface() 
     {
+        legendaryCount = 0;
         AudioManager.Instance.DeactivateMusicLowPass();
         upgradeUi.SetActive(true);
+        rerollText.text = "Number of Rerolls: " + numberOfRerolls;
         for (int i = 0; i < 3; i++)
         {
             float num = Random.Range(0, 100f);
@@ -144,6 +164,12 @@ public class UpgradeManager : NetworkBehaviour
                 {
                     int cardIndex = Random.Range(0, rarityAndSpawnChances[j].cards.Count);
                     Card card = Instantiate(rarityAndSpawnChances[j].cards[cardIndex], cardParent).GetComponent<Card>();
+                    spawnedCards.Add(card.gameObject);
+
+                    if(card.rarity == RarityAndSpawnChance.Rarity.LEGENDARY)
+                    {
+                        legendaryCount++;
+                    }
 
                     if(card.rarity == RarityAndSpawnChance.Rarity.DEMONIC)
                     {
@@ -160,6 +186,24 @@ public class UpgradeManager : NetworkBehaviour
                 }
             }
         }
+
+
+    }
+
+    public void Reroll()
+    {
+        for (int i = 0; i < spawnedCards.Count; i++)
+        {
+            Destroy(spawnedCards[i]);
+        }
+        spawnedCards.Clear();
+        ShowInterface();
+        numberOfRerolls--;
+        rerollText.text = "Number of Rerolls: " + numberOfRerolls.ToString();
+        if(numberOfRerolls <= 0)
+        {
+            rerollButton.GetComponent<Button>().interactable = false;
+        }
     }
 
     public GameObject GetInterface()
@@ -171,11 +215,25 @@ public class UpgradeManager : NetworkBehaviour
     {
         Cursor.visible = true;
         upgradeUi.SetActive(false);
+        numberOfRerolls = maxNumberOfRerolls;
+        rerollButton.GetComponent <Button>().interactable = true;
         for (int i = 0;i < cardParent.childCount; i++)
         {
             Destroy(cardParent.GetChild(i).gameObject);
         }
         EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().canShoot = true;
+        if (legendaryCount == 0)
+        {
+            rarityAndSpawnChances[0].spawnChance -= escalatingValue;
+            rarityAndSpawnChances[3].spawnChance += escalatingValue;
+            rarityChange += escalatingValue;
+        }
+        else
+        {
+            rarityAndSpawnChances[0].spawnChance += rarityChange;
+            rarityAndSpawnChances[3].spawnChance -= rarityChange;
+            rarityChange = 0;
+        }
     }
 
     private void Update()

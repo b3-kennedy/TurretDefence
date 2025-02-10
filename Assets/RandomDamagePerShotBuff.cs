@@ -20,7 +20,7 @@ public class RandomDamagePerShotBuff : Buff
     {
         if (GetComponent<TurretController>())
         {
-            GetComponent<TurretController>().damage = Random.Range(1f, 200f);
+            GetComponent<TurretController>().damage = Random.Range(1f, 150f);
         }
     }
 }
