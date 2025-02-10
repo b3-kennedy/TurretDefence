@@ -73,6 +73,7 @@ public class EnemySpawnManager : NetworkBehaviour
 
     float enemyHealth = 0;
     public float healthIncrease;
+    float actualHealthIncrease;
     public int healthIncreaseOnRound;
     private void Awake()
     {
@@ -279,7 +280,7 @@ public class EnemySpawnManager : NetworkBehaviour
                 {
                     Vector2 spawnPos = GetSpawnPoint();
                     GameObject enemy = Instantiate(GetEnemyToSpawn(), spawnPos, Quaternion.identity);
-                    enemy.GetComponent<EnemyHealth>().maxHealth += healthIncrease;
+                    enemy.GetComponent<EnemyHealth>().maxHealth += actualHealthIncrease;
                     enemy.GetComponent<NetworkObject>().Spawn();
                     enemy.GetComponent<EnemyHealth>().health.Value = enemy.GetComponent<EnemyHealth>().maxHealth;
                     if (enemy.GetComponent<RangedEnemyController>())
@@ -353,10 +354,6 @@ public class EnemySpawnManager : NetworkBehaviour
             hasActivatedLowPass = false;
             ShowUpgradeInterfaceServerRpc();
             UpdateWaveCountServerRpc();
-            if(waveCount % healthIncreaseOnRound == 0)
-            {
-                enemyHealth += healthIncrease;
-            }
             canSpawn = false;
             for (int i = spawnedEnemiesList.Count - 1; i >= 0; i--)
             {
@@ -370,6 +367,11 @@ public class EnemySpawnManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     void UpdateWaveCountServerRpc()
     {
+        if (waveCount % healthIncreaseOnRound == 0)
+        {
+            Debug.Log("Increase enemy health");
+            actualHealthIncrease += healthIncrease;
+        }
         UpdateWaveCountClientRpc();
     }
 

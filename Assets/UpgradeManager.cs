@@ -47,7 +47,7 @@ public class UpgradeManager : NetworkBehaviour
     List<GameObject> spawnedCards = new List<GameObject>();
 
     public int maxNumberOfRerolls = 1;
-    int numberOfRerolls;
+    [HideInInspector] public int numberOfRerolls;
 
     public float escalatingValue;
     float rarityChange;

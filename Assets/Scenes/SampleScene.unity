@@ -9417,6 +9417,7 @@ MonoBehaviour:
     - {fileID: 2120816840640836426, guid: 41cbd247f6545944182d0bc308c957a9, type: 3}
     - {fileID: 2120816840640836426, guid: 4d6e71309eefc4541a8b235e2fb7bfc9, type: 3}
     - {fileID: 2120816840640836426, guid: 82d6398d8bb043740b01dd51d8dcb168, type: 3}
+    - {fileID: 2120816840640836426, guid: 0ebb8c1e21436a64bbddbe0599f84099, type: 3}
   - rarity: 4
     spawnChance: 0.5
     cards:
@@ -9459,6 +9460,11 @@ MonoBehaviour:
     debuffName: Half High Tier Drop Rate
     values: {fileID: 0}
   buffs: []
+  rerollButton: {fileID: 1090694645065972117, guid: f19673b56090b3148a8428ba3fda7c06, type: 3}
+  rerollText: {fileID: 0}
+  maxNumberOfRerolls: 1
+  numberOfRerolls: 0
+  escalatingValue: 0.1
 --- !u!4 &1961321639
 Transform:
   m_ObjectHideFlags: 0

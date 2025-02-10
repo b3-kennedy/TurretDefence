@@ -214,6 +214,11 @@ public class Card : NetworkBehaviour
                         {
                             EnemySpawnManager.Instance.localPlayer.GetComponent<TurretController>().bulletsPerShot += (int)buffScript.buffAmount;
                         }
+                        else if(buffType is RerollCountBuff)
+                        {
+                            UpgradeManager.Instance.maxNumberOfRerolls++;
+                            UpgradeManager.Instance.numberOfRerolls = UpgradeManager.Instance.maxNumberOfRerolls;
+                        }
 
                         buffType.buffAmount += buffScript.buffAmount;
                         buffType.count++;
