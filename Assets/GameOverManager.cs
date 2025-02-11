@@ -38,6 +38,7 @@ public class GameOverManager : NetworkBehaviour
         if(readyPlayers.Value >= 2)
         {
             ResetClientRpc();
+            EnemySpawnManager.Instance.canSpawn.Value = true;
         }
     }
 
@@ -103,7 +104,7 @@ public class GameOverManager : NetworkBehaviour
         EnemySpawnManager.Instance.gameOverUI.SetActive(false);
 
         EnemySpawnManager.Instance.isGameOver = false;
-        EnemySpawnManager.Instance.canSpawn = true;
+        
     }
 
     public void MainMenu()

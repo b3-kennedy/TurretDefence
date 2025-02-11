@@ -151,6 +151,16 @@ public class UpgradeManager : NetworkBehaviour
         AudioManager.Instance.DeactivateMusicLowPass();
         upgradeUi.SetActive(true);
         rerollText.text = "Number of Rerolls: " + numberOfRerolls;
+
+        if(spawnedCards.Count > 0)
+        {
+            for (int i = 0; i < spawnedCards.Count; i++)
+            {
+                Destroy(spawnedCards[i]);
+            }
+            spawnedCards.Clear();
+        }
+
         for (int i = 0; i < 3; i++)
         {
             float num = Random.Range(0, 100f);
@@ -192,11 +202,7 @@ public class UpgradeManager : NetworkBehaviour
 
     public void Reroll()
     {
-        for (int i = 0; i < spawnedCards.Count; i++)
-        {
-            Destroy(spawnedCards[i]);
-        }
-        spawnedCards.Clear();
+
         ShowInterface();
         numberOfRerolls--;
         rerollText.text = "Number of Rerolls: " + numberOfRerolls.ToString();

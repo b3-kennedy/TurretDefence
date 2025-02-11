@@ -53,7 +53,7 @@ public class EnemySpawnManager : NetworkBehaviour
     public float spawnInterval;
     float timer;
 
-    public bool canSpawn;
+    public NetworkVariable<bool> canSpawn;
 
     public NetworkVariable<bool> isPaused = new NetworkVariable<bool>(true);
 
@@ -140,6 +140,7 @@ public class EnemySpawnManager : NetworkBehaviour
     [ServerRpc]
     void ShowUpgradeInterfaceServerRpc()
     {
+        canSpawn.Value = false;
         ShowUpgradeInterfaceClientRpc();
     }
 
@@ -154,7 +155,7 @@ public class EnemySpawnManager : NetworkBehaviour
         localPlayer.GetComponent<TurretController>().ResetAmmo();
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     void HideUpgradeInterfaceServerRpc()
     {
         
@@ -179,12 +180,13 @@ public class EnemySpawnManager : NetworkBehaviour
             localPlayer.transform.position = new Vector3(-8f, 0, 0);
             localPlayer.GetComponent<TurretController>().spawnedStand.transform.position = new Vector3(localPlayer.transform.position.x + 0.031f,
                 localPlayer.transform.position.y, localPlayer.transform.position.z);
-            localPlayer.GetComponent<TurretController>().ammoText.transform.position = new Vector3(-8f, transform.position.y - 1.5f, 0f);
-            localPlayer.GetComponent<TurretController>().reloadingText.transform.position = new Vector3(-8f, transform.position.y + 1f, 0f);
+            localPlayer.GetComponent<TurretController>().ammoText.transform.position = new Vector3(-8f, transform.position.y - 1.5f, -1f);
+            localPlayer.GetComponent<TurretController>().reloadingText.transform.position = new Vector3(-8f, transform.position.y + 1f, -1f);
 
         }
         StartGameForClientServerRpc();
-       
+        canSpawn.Value = true;
+
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -267,18 +269,13 @@ public class EnemySpawnManager : NetworkBehaviour
 
         if (!IsServer) return;
 
-        if (canSpawn)
+        if (canSpawn.Value)
         {
 
             if (!hasActivatedLowPass)
             {
                 AudioManager.Instance.ActivateMusicLowPass();
                 hasActivatedLowPass = true;
-            }
-
-            if (UpgradeManager.Instance.GetInterface().activeSelf)
-            {
-                HideUpgradeInterfaceServerRpc();
             }
 
             if(spawnedEnemiesList.Count < perWaveEnemyGaph.Evaluate(waveCount))
@@ -311,7 +308,8 @@ public class EnemySpawnManager : NetworkBehaviour
             if(endOfWaveTimer >= endOfWaveTime)
             {
                 HideWaveTimerServerRpc();
-                canSpawn = true;
+                HideUpgradeInterfaceServerRpc();
+                canSpawn.Value = true;
                 endOfWaveTimer = 0;
                 spawnInterval = 10f / perWaveEnemyGaph.Evaluate(waveCount);
             }
@@ -361,9 +359,10 @@ public class EnemySpawnManager : NetworkBehaviour
         {
             
             hasActivatedLowPass = false;
+            canSpawn.Value = false;
             ShowUpgradeInterfaceServerRpc();
             UpdateWaveCountServerRpc();
-            canSpawn = false;
+            
             for (int i = spawnedEnemiesList.Count - 1; i >= 0; i--)
             {
                 Destroy(spawnedEnemiesList[i]);
@@ -395,7 +394,7 @@ public class EnemySpawnManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void GameOverServerRpc()
     {
-        canSpawn = false;
+        canSpawn.Value = false;
         ShowGameOverUIClientRpc();
     }
 
