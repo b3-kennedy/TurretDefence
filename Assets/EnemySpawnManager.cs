@@ -174,6 +174,15 @@ public class EnemySpawnManager : NetworkBehaviour
     {
         startPanel.SetActive(false);
         isPaused.Value = false;
+        if(NetworkManager.Singleton.ConnectedClients.Count < 2)
+        {
+            localPlayer.transform.position = new Vector3(-8f, 0, 0);
+            localPlayer.GetComponent<TurretController>().spawnedStand.transform.position = new Vector3(localPlayer.transform.position.x + 0.031f,
+                localPlayer.transform.position.y, localPlayer.transform.position.z);
+            localPlayer.GetComponent<TurretController>().ammoText.transform.position = new Vector3(-8f, transform.position.y - 1.5f, 0f);
+            localPlayer.GetComponent<TurretController>().reloadingText.transform.position = new Vector3(-8f, transform.position.y + 1f, 0f);
+
+        }
         StartGameForClientServerRpc();
        
     }

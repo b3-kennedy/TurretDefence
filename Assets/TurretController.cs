@@ -40,7 +40,7 @@ public class TurretController : NetworkBehaviour
     float reloadTimer;
 
     public GameObject reloadingTextPrefab;
-    GameObject reloadingText;
+    [HideInInspector] public GameObject reloadingText;
 
     public List<GameObject> projectiles = new List<GameObject>();
 
@@ -57,7 +57,7 @@ public class TurretController : NetworkBehaviour
     public bool canShoot = true;
 
     public GameObject ammoTextPrefab;
-    GameObject ammoText;
+    [HideInInspector] public GameObject ammoText;
 
     public LineRenderer lr;
     public LayerMask layer;
@@ -73,6 +73,8 @@ public class TurretController : NetworkBehaviour
     Animator anim;
 
     public AudioSource shootSource;
+
+    [HideInInspector] public GameObject spawnedStand;
 
     public int bulletsPerShot = 1;
 
@@ -105,21 +107,21 @@ public class TurretController : NetworkBehaviour
         if (OwnerClientId == 0)
         {
             transform.position = new Vector3(-8f, 3.3f, 0f);
-            Instantiate(turretStand, new Vector3(transform.position.x + 0.031f, transform.position.y, transform.position.z), Quaternion.identity);
+            spawnedStand = Instantiate(turretStand, new Vector3(transform.position.x + 0.031f, transform.position.y, transform.position.z), Quaternion.identity);
             gameObject.name = "Player 1";
             if (IsOwner)
             {
-                ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, transform.position.y - 1f, -1f), Quaternion.identity);
+                ammoText = Instantiate(ammoTextPrefab, new Vector3(-8f, transform.position.y - 1f, 0f), Quaternion.identity);
                 ammoText.GetComponent<TextMeshPro>().text = "Ammo: " + ammoCount.ToString();
             }
-            reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 1f, -1f), Quaternion.identity);
+            reloadingText = Instantiate(reloadingTextPrefab, new Vector3(-8f, transform.position.y + 1f, 0f), Quaternion.identity);
 
 
         }
         else if (OwnerClientId == 1)
         {
             transform.position = new Vector3(-8f, -2.4f, 0f);
-            Instantiate(turretStand, new Vector3(transform.position.x + 0.031f, transform.position.y, transform.position.z), Quaternion.identity);
+            spawnedStand = Instantiate(turretStand, new Vector3(transform.position.x + 0.031f, transform.position.y, transform.position.z), Quaternion.identity);
             gameObject.name = "Player 2";
             if (IsOwner)
             {
