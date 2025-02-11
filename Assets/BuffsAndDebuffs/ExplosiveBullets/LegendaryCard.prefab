@@ -189,7 +189,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 1
+  hasValue: 0
   isAttackEffect: 0
+  isPercentage: 0
   buffAmount: 0
   buffName: Explosive Projectile
   count: 0
@@ -208,6 +210,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   canRandomlyAssignValue: 0
   applyToSelf: 1
+  canBeRandomlyChosen: 1
   debuffValues: {fileID: 0}
   rarity: 0
   debuffAmount: 0.5

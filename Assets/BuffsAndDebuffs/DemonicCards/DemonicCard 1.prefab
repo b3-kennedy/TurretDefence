@@ -597,8 +597,12 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 0
+  hasValue: 1
+  isAttackEffect: 0
+  isPercentage: 1
   buffAmount: 0.9
   buffName: Reload Speed
+  count: 0
   values: {fileID: 11400000, guid: c813d78ce1a00fd45bdb8a8ae129a4db, type: 2}
 --- !u!114 &-1146082630546651485
 MonoBehaviour:
@@ -614,10 +618,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   canRandomlyAssignValue: 0
+  applyToSelf: 0
+  canBeRandomlyChosen: 0
+  isPercentage: 0
+  hasValue: 1
   debuffValues: {fileID: 0}
   rarity: 0
   debuffAmount: 100
   debuffName: Ammo Count
+  count: 0
   values: {fileID: 11400000, guid: ecd912317fad9f54aa7b8406da07df83, type: 2}
 --- !u!1 &4673155954637054945
 GameObject:

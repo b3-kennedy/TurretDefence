@@ -65,9 +65,12 @@ public class Card : NetworkBehaviour
                     var debuffValues = debuffAndName.values;
 
                     var addedDebuff = gameObject.AddComponent(debuffToAdd.GetType());
+                    
 
                     if (addedDebuff is Debuff debuff)
                     {
+                        debuff.isPercentage = debuffAndName.debuff.isPercentage;
+                        debuff.hasValue = debuffAndName.debuff.hasValue;
                         debuff.rarity = rarity;
                         debuff.debuffName = debuffAndName.debuffName;
                         debuff.debuffValues = debuffValues;
@@ -92,26 +95,34 @@ public class Card : NetworkBehaviour
 
         foreach (var buffScript in buffScripts)
         {
-            if (!buffScript.isAttackEffect)
+            if (!buffScript.isAttackEffect && buffScript.hasValue)
             {
-                if (buffScript.buffAmount < 1 && buffScript.buffAmount >= 0)
+                if (buffScript.isPercentage)
                 {
                     buffText += "+ " + (buffScript.buffAmount * 100).ToString("F1") + "% " + buffScript.buffName + "\n";
                 }
-                else if (buffScript.buffAmount >= 1)
+                else
                 {
                     buffText += "+ " + (buffScript.buffAmount).ToString("F1") + " " + buffScript.buffName + "\n";
                 }
-                else if (buffScript.buffAmount < 0)
-                {
-                    buffText += "- " + ((buffScript.buffAmount * -1) * 100).ToString("F1") + " " + buffScript.buffName + "\n";
-                }
-                else if (buffScript.buffAmount == 0)
-                {
-                    buffText += "+ " + buffScript.buffName + "\n";
-                }
+                //if (buffScript.buffAmount < 1 && buffScript.buffAmount >= 0)
+                //{
+                //    buffText += "+ " + (buffScript.buffAmount * 100).ToString("F1") + "% " + buffScript.buffName + "\n";
+                //}
+                //else if (buffScript.buffAmount >= 1)
+                //{
+                //    buffText += "+ " + (buffScript.buffAmount).ToString("F1") + " " + buffScript.buffName + "\n";
+                //}
+                //else if (buffScript.buffAmount < 0)
+                //{
+                //    buffText += "- " + ((buffScript.buffAmount * -1) * 100).ToString("F1") + " " + buffScript.buffName + "\n";
+                //}
+                //else if (buffScript.buffAmount == 0)
+                //{
+                //    buffText += "+ " + buffScript.buffName + "\n";
+                //}
             }
-            else
+            else if(buffScript.isAttackEffect)
             {
                 if(buffScript.buffAmount < 1)
                 {
@@ -123,6 +134,10 @@ public class Card : NetworkBehaviour
                 }
                 
             }
+            else if (!buffScript.hasValue)
+            {
+                buffText += "+ " + buffScript.buffName + "\n";
+            }
 
         }
 
@@ -131,22 +146,38 @@ public class Card : NetworkBehaviour
         {
             if (debuff.applyToSelf)
             {
-                if (debuff.debuffAmount < 1 && debuff.debuffAmount >= 0)
+                if (debuff.hasValue)
                 {
-                    buffText += "- " + (debuff.debuffAmount * 100).ToString("F1") + "% " + debuff.debuffName + "\n";
+                    if (debuff.isPercentage)
+                    {
+                        buffText += "- " + (debuff.debuffAmount * 100).ToString("F1") + "% " + debuff.debuffName + "\n";
+                    }
+                    else
+                    {
+                        buffText += "- " + (debuff.debuffAmount).ToString("F1") + " " + debuff.debuffName + "\n";
+                    }
                 }
-                else if (debuff.debuffAmount >= 1)
-                {
-                    buffText += "- " + (debuff.debuffAmount).ToString("F1") + " " + debuff.debuffName + "\n";
-                }
-                else if (debuff.debuffAmount < 0)
-                {
-                    buffText += "- " + ((debuff.debuffAmount * -1) * 100).ToString("F1") + " " + debuff.debuffName + "\n";
-                }
-                else if (debuff.debuffAmount == 0)
+                else
                 {
                     buffText += "- " + debuff.debuffName + "\n";
                 }
+
+                //if (debuff.debuffAmount < 1 && debuff.debuffAmount >= 0)
+                //{
+                //    buffText += "- " + (debuff.debuffAmount * 100).ToString("F1") + "% " + debuff.debuffName + "\n";
+                //}
+                //else if (debuff.debuffAmount >= 1)
+                //{
+                //    buffText += "- " + (debuff.debuffAmount).ToString("F1") + " " + debuff.debuffName + "\n";
+                //}
+                //else if (debuff.debuffAmount < 0)
+                //{
+                //    buffText += "- " + ((debuff.debuffAmount * -1) * 100).ToString("F1") + " " + debuff.debuffName + "\n";
+                //}
+                //else if (debuff.debuffAmount == 0)
+                //{
+                //    buffText += "- " + debuff.debuffName + "\n";
+                //}
             }
         }
 
@@ -158,14 +189,30 @@ public class Card : NetworkBehaviour
         {
             if (!debuffScript.applyToSelf)
             {
-                if (debuffScript.debuffAmount < 1)
+                if (debuffScript.hasValue)
                 {
-                    deText += "- " + (debuffScript.debuffAmount * 100).ToString("F1") + "% " + debuffScript.debuffName + "\n";
+                    if (debuffScript.isPercentage)
+                    {
+                        deText += "- " + (debuffScript.debuffAmount * 100).ToString("F1") + "% " + debuffScript.debuffName + "\n";
+                    }
+                    else
+                    {
+                        deText += "- " + (debuffScript.debuffAmount).ToString("F1") + " " + debuffScript.debuffName + "\n";
+                    }
                 }
                 else
                 {
-                    deText += "- " + (debuffScript.debuffAmount).ToString("F1") + " " + debuffScript.debuffName + "\n";
+                    deText += "- " + debuffScript.debuffName + "\n";
                 }
+
+                //if (debuffScript.debuffAmount < 1)
+                //{
+                //    deText += "- " + (debuffScript.debuffAmount * 100).ToString("F1") + "% " + debuffScript.debuffName + "\n";
+                //}
+                //else
+                //{
+                //    deText += "- " + (debuffScript.debuffAmount).ToString("F1") + " " + debuffScript.debuffName + "\n";
+                //}
                 debuffText.text = deText.TrimEnd();
             }
 
@@ -190,7 +237,7 @@ public class Card : NetworkBehaviour
                 {
                     if(buffScript.buffAmount < 1)
                     {
-                        buffType.buffAmount *= (1f - buffScript.buffAmount);
+                        buffType.buffAmount = buffScript.buffAmount;
                         buffType.count++;
 
                         buffType.Apply();
@@ -219,9 +266,17 @@ public class Card : NetworkBehaviour
                             UpgradeManager.Instance.maxNumberOfRerolls++;
                             UpgradeManager.Instance.numberOfRerolls = UpgradeManager.Instance.maxNumberOfRerolls;
                         }
+                        if (buffType.isPercentage)
+                        {
+                            buffType.buffAmount *= 1-buffScript.buffAmount;
+                            buffType.count++;
+                        }
+                        else
+                        {
+                            buffType.buffAmount += buffScript.buffAmount;
+                            buffType.count++;
+                        }
 
-                        buffType.buffAmount += buffScript.buffAmount;
-                        buffType.count++;
                     }
                     
                     

@@ -597,6 +597,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 0
+  hasValue: 0
+  isAttackEffect: 0
   buffAmount: 0
   buffName: Shotgun Round
   count: 0
@@ -615,6 +617,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 0
+  hasValue: 1
+  isAttackEffect: 0
   buffAmount: 1
   buffName: Damage
   count: 0

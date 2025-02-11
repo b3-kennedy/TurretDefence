@@ -597,8 +597,11 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 0
+  hasValue: 0
+  isAttackEffect: 0
   buffAmount: 0
   buffName: Gas Bullet
+  count: 0
 --- !u!114 &8477057680322922565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,10 +617,12 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   canRandomlyAssignValue: 0
   applyToSelf: 1
+  canBeRandomlyChosen: 1
   debuffValues: {fileID: 0}
   rarity: 0
   debuffAmount: 0.5
   debuffName: Damage
+  count: 0
   values: {fileID: 11400000, guid: 264d5b52577e7eb42846cfef77867908, type: 2}
 --- !u!1 &4673155954637054945
 GameObject:

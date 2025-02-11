@@ -551,8 +551,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
-  canRandomlyAssignValue: 1
+  canRandomlyAssignValue: 0
+  hasValue: 0
   isAttackEffect: 0
+  isPercentage: 0
   buffAmount: 0
   buffName: Cleanse All Debuffs
   count: 0

@@ -596,8 +596,12 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 0
+  hasValue: 0
+  isAttackEffect: 0
+  isPercentage: 0
   buffAmount: 0
   buffName: Triple Shot
+  count: 0
 --- !u!1 &4673155954637054945
 GameObject:
   m_ObjectHideFlags: 0

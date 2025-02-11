@@ -596,7 +596,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 0
+  hasValue: 1
   isAttackEffect: 0
+  isPercentage: 0
   buffAmount: 1
   buffName: Bullets Per Shot
   count: 0

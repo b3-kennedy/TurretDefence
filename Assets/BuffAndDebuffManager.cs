@@ -62,9 +62,10 @@ public class BuffAndDebuffManager : NetworkBehaviour
     {
         damagePercent = (tc.damage / startDamage) * 100f;
         fireRatePercent = (startFireRate / tc.fireRate) * 100f;
-        reloadSpeedPercent = (tc.reloadTime / startReloadSpeed) * 100f;
+        reloadSpeedPercent = (startReloadSpeed / tc.reloadTime) * 100f;
         turnRatePercent = (tc.rotationSpeed / startTurnRate) * 100f;
         ammoCountChange = tc.maxAmmoCount - startAmmoCount;
+        Debug.Log("Turret Controller: " + tc);
     }
 
     // Update is called once per frame

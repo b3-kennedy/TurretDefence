@@ -868,8 +868,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 1
+  hasValue: 1
   isAttackEffect: 0
-  increaseValue: 1
+  isPercentage: 0
   buffAmount: 0
   buffName: Ammo Count
   count: 0

@@ -598,7 +598,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 0
+  hasValue: 0
   isAttackEffect: 0
+  isPercentage: 1
   buffAmount: 0
   buffName: Rail Gun
   count: 0
@@ -617,8 +619,10 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rarity: 0
   canRandomlyAssignValue: 0
+  hasValue: 1
   isAttackEffect: 0
-  buffAmount: 1
+  isPercentage: 1
+  buffAmount: 0.8
   buffName: Damage
   count: 0
   values: {fileID: 0}
@@ -638,6 +642,8 @@ MonoBehaviour:
   canRandomlyAssignValue: 0
   applyToSelf: 1
   canBeRandomlyChosen: 1
+  isPercentage: 0
+  hasValue: 1
   debuffValues: {fileID: 0}
   rarity: 0
   debuffAmount: 20

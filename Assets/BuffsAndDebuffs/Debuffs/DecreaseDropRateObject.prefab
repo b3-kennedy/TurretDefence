@@ -74,6 +74,8 @@ MonoBehaviour:
   canRandomlyAssignValue: 0
   applyToSelf: 0
   canBeRandomlyChosen: 0
+  isPercentage: 0
+  hasValue: 0
   debuffValues: {fileID: 0}
   rarity: 0
   debuffAmount: 0
